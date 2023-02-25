@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:11 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/24 16:59:49 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/25 17:25:00 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <fstream>
 # include <string>
 # include <algorithm>
+# include <map>
 
-void    parseConfigFile(std::string fileName);
+void    parsConfigFile(std::string fileName);
 
 #endif
