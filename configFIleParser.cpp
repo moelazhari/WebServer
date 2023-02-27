@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/25 19:12:54 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/27 14:04:03 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void PrintExit(std::string str){
     exit(1);
 }
 
+// // parse line geting key and value
 // void parsLine(std::string str){
 //     size_t      pos;
 //     std::string key;
@@ -43,21 +44,55 @@ void PrintExit(std::string str){
 //     std::cout << value << std::endl;
 // }
 
-void parsServerBlock(std::string content){
-    std::string     tmp;
-    if (content.find(';') == std::string::npos)
-        PrintExit("Error: No semicolon");
-    tmp = content.substr(0, content.find(';'));
-    // parsLine(tmp);
+// void ConfigFileParser::getLocatoins(std::string content){
+//     size_t      pos;
+//     size_t      locationB;
+//     size_t      locationE;
+//     std::string tmp;
+
+//     pos = content.find("location");
+//     while (pos != std::string::npos)
+//     {
+//         // ckecking if there is {
+//         locationB = content.find("{", pos);
+//         if (locationB == std::string::npos)
+//             PrintExit("Error: location block { not found");
+//         // geting location name
+//         tmp = content.substr(pos, locationB - pos);
+//         removeWhiteSpace(tmp);
+//         if (tmp.find("location") != std::string::npos)
+//             tmp = tmp.substr(tmp.find("location") + 9, tmp.length() - 1);
+//         // ckecking if there is }
+//         locationE = content.find("}", pos);
+//         if (locationE == std::string::npos)
+//             PrintExit("Error: location block } not found");
+//         // geting location content
+//         _location[tmp] = content.substr(locationB + 1, locationE - locationB - 1);
+//         content.erase(pos, locationE - pos + 1);
+//         pos = content.find("location", pos + 1);
+//     }
+//     // print locations
+//     for (std::map<std::string, std::string>::iterator it = _location.begin(); it != _location.end(); ++it)
+//     {
+//         std::cout << it->first << std::endl;
+//         std::cout << it->second << std::endl;
+//     }
+// }
+
+void ConfigFileParser::parsServer(std::string content){
+    (void)content;
 }
 
-void    parsConfigFile(std::string fileName)
+void ConfigFileParser::parsLocation(std::string content){
+    (void)content;
+}
+
+ConfigFileParser::ConfigFileParser(std::string fileName)
 {
     std::ifstream   file;
     std::string     line;
     std::string     content;
     std::string     tmp;
-    // bool             server = false;
 
     file.open(fileName);
     if (!file.is_open())
@@ -72,16 +107,22 @@ void    parsConfigFile(std::string fileName)
             removeWhiteSpace(line);
             continue;
         }
-        content.append(line);
+        content.append(line + '\n');
     }
     // check if file is empty
     if (content.empty())
         PrintExit("Error: File is empty");
-    // cheking if there is a server block
+    // cheking is there server block
     if (content.find("{") != std::string::npos)
         tmp = content.substr(0, content.find("{") + 1);
     removeWhiteSpace(tmp);
     if (tmp != "server{")
-        PrintExit("Error: No server block");
-    parsServerBlock(content.substr(content.find("{") + 1, content.length() - 1));
+        PrintExit("Error: server block");
+    getLocatoins(content);
+    parsServer(content.substr(content.find("{") + 1, content.length() - 1));
+    parsLocation(content);
+}
+
+ConfigFileParser::~ConfigFileParser(){
+    return ;
 }
