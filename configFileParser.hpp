@@ -6,32 +6,27 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:11 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/25 20:23:35 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/27 19:06:49 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIGFILEPARSER_HPP
 # define CONFIGFILEPARSER_HPP
 
-# include <iostream>
-# include <fstream>
-# include <string>
-# include <algorithm>
-# include <map>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <map>
 
-class ConfigFileParser
-{
-    private:
-        //Server                              _server;
-        std::map<std::string, std::string>  _location;
-    public:
-        ConfigFileParser(std::string fileName);
-        ~ConfigFileParser();
-        
-        void getLocatoins(std::string content);
-        void parsServer(std::string content);
-        void parsLocation(std::string content);
+struct parsConfig{
+    std::string                         content;
+    std::map <std::string, std::string> locations;
 };
+
+void parsFile(std::string fileName, std::vector<parsConfig> &config);
+void getServers(std::string &content, std::vector<parsConfig> &config);
+void getLocations(std::string &content, std::map <std::string, std::string> &locations);
 
 
 #endif

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 16:23:05 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/25 20:17:10 by mazhari          ###   ########.fr       */
+/*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
+/*   Updated: 2023/02/27 19:06:30 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ int main (int ac, char **av)
         std::cout << "Usage: ./configFileParser <config_file>" << std::endl;
         return (1);
     }
-    ConfigFileParser config(av[1]);
+    
+    std::vector<parsConfig> config;
+    // std::vector<server>     servers;
+
+    parsFile(av[1], config);
+    // setServers(config, servers);
+
     return (0);
 }
