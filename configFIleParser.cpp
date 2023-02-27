@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/27 14:04:03 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/27 14:05:38 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void PrintExit(std::string str){
 //     }
 // }
 
-void ConfigFileParser::parsServer(std::string content){
-    (void)content;
-}
+// void ConfigFileParser::parsServer(std::string content){
+//     (void)content;
+// }
 
-void ConfigFileParser::parsLocation(std::string content){
-    (void)content;
-}
+// void ConfigFileParser::parsLocation(std::string content){
+//     (void)content;
+// }
 
 ConfigFileParser::ConfigFileParser(std::string fileName)
 {
