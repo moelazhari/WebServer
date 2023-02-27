@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/27 14:05:38 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/27 14:07:11 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,40 +44,40 @@ void PrintExit(std::string str){
 //     std::cout << value << std::endl;
 // }
 
-// void ConfigFileParser::getLocatoins(std::string content){
-//     size_t      pos;
-//     size_t      locationB;
-//     size_t      locationE;
-//     std::string tmp;
+void ConfigFileParser::getLocatoins(std::string content){
+    size_t      pos;
+    size_t      locationB;
+    size_t      locationE;
+    std::string tmp;
 
-//     pos = content.find("location");
-//     while (pos != std::string::npos)
-//     {
-//         // ckecking if there is {
-//         locationB = content.find("{", pos);
-//         if (locationB == std::string::npos)
-//             PrintExit("Error: location block { not found");
-//         // geting location name
-//         tmp = content.substr(pos, locationB - pos);
-//         removeWhiteSpace(tmp);
-//         if (tmp.find("location") != std::string::npos)
-//             tmp = tmp.substr(tmp.find("location") + 9, tmp.length() - 1);
-//         // ckecking if there is }
-//         locationE = content.find("}", pos);
-//         if (locationE == std::string::npos)
-//             PrintExit("Error: location block } not found");
-//         // geting location content
-//         _location[tmp] = content.substr(locationB + 1, locationE - locationB - 1);
-//         content.erase(pos, locationE - pos + 1);
-//         pos = content.find("location", pos + 1);
-//     }
-//     // print locations
-//     for (std::map<std::string, std::string>::iterator it = _location.begin(); it != _location.end(); ++it)
-//     {
-//         std::cout << it->first << std::endl;
-//         std::cout << it->second << std::endl;
-//     }
-// }
+    pos = content.find("location");
+    while (pos != std::string::npos)
+    {
+        // ckecking if there is {
+        locationB = content.find("{", pos);
+        if (locationB == std::string::npos)
+            PrintExit("Error: location block { not found");
+        // geting location name
+        tmp = content.substr(pos, locationB - pos);
+        removeWhiteSpace(tmp);
+        if (tmp.find("location") != std::string::npos)
+            tmp = tmp.substr(tmp.find("location") + 9, tmp.length() - 1);
+        // ckecking if there is }
+        locationE = content.find("}", pos);
+        if (locationE == std::string::npos)
+            PrintExit("Error: location block } not found");
+        // geting location content
+        _location[tmp] = content.substr(locationB + 1, locationE - locationB - 1);
+        content.erase(pos, locationE - pos + 1);
+        pos = content.find("location", pos + 1);
+    }
+    // print locations
+    for (std::map<std::string, std::string>::iterator it = _location.begin(); it != _location.end(); ++it)
+    {
+        std::cout << it->first << std::endl;
+        std::cout << it->second << std::endl;
+    }
+}
 
 // void ConfigFileParser::parsServer(std::string content){
 //     (void)content;
