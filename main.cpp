@@ -6,11 +6,12 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/27 19:06:30 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/27 19:24:07 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "configFileParser.hpp"
+#include "server.hpp"
 
 int main (int ac, char **av)
 {
@@ -22,10 +23,12 @@ int main (int ac, char **av)
     }
     
     std::vector<parsConfig> config;
-    // std::vector<server>     servers;
+    std::vector<server>     servers;
 
     parsFile(av[1], config);
-    // setServers(config, servers);
+    for (size_t i = 0; i < config.size(); i++){
+        servers.push_back(server(config[i]));
+    }
 
     return (0);
 }

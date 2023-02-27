@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:11 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/27 19:06:49 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/27 19:33:18 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@ void parsFile(std::string fileName, std::vector<parsConfig> &config);
 void getServers(std::string &content, std::vector<parsConfig> &config);
 void getLocations(std::string &content, std::map <std::string, std::string> &locations);
 
+void removeWhiteSpace(std::string &str);
+bool isAllWhiteSpace(std::string const& str);
+void PrintExit(std::string str);
 
 #endif

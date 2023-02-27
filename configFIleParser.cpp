@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/27 19:05:00 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/27 19:33:47 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void PrintExit(std::string str){
 	     exit(1);
 }
 
-void ConfigFileParser(std::string fileName, std::vector<parsConfig> &config)
+void parsFile(std::string fileName, std::vector<parsConfig> &config)
 {
 	std::ifstream   			file;
 	std::string     			line;
@@ -91,14 +91,14 @@ void		getServers(std::string &content, std::vector<parsConfig> &config){
 		content.erase(pos, serverE - pos + 1);
 		pos = content.find("server", pos + 1);
 	}
-	// print config
-	for (size_t i = 0; i < config.size(); i++)
-	{
-		std::cout << "server: " << i << std::endl;
-		std::cout << config[i].content << std::endl;
-		for (std::map<std::string, std::string>::iterator it = config[i].locations.begin(); it != config[i].locations.end(); ++it)
-			std::cout << it->first << " => " << it->second << std::endl;
-	}
+	// // print config
+	// for (size_t i = 0; i < config.size(); i++)
+	// {
+	// 	std::cout << "server: " << i << std::endl;
+	// 	std::cout << config[i].content << std::endl;
+	// 	for (std::map<std::string, std::string>::iterator it = config[i].locations.begin(); it != config[i].locations.end(); ++it)
+	// 		std::cout << it->first << " => " << it->second << std::endl;
+	// }
 }
 
 void getLocations(std::string &content, std::map <std::string, std::string> &locations){
@@ -133,48 +133,3 @@ void getLocations(std::string &content, std::map <std::string, std::string> &loc
 		pos = content.find("location", pos + 1);
 	}
 }
-
-// void parsServers(std::vector<parsConfig> &config){
-// 	size_t      			pos;
-// 	std::string				content;     
-// 	std::string             tmp;
-// 	std::string             key;
-// 	std::string             value;
-
-// 	for (size_t i = 0; i < config.size(); i++)
-// 	{
-// 		content = config[i].content;
-// 		pos = 0;
-
-// 		if (content.empty())
-// 			PrintExit("Error config file Server block: is empty");
-// 		while (isspace(content[pos]))
-// 			pos++;
-// 		while (content[pos] != '}')
-// 		{
-// 			tmp = content.substr(pos, content.find_first_of("\n", pos) - pos + 1);
-// 			parsLine(tmp, key, value);
-// 			// this->setServerAttribute(key, value);
-// 			pos = content.find_first_of("\n", pos) + 1;
-// 			if (pos == std::string::npos)
-// 				PrintExit("Error config file Server bloc: } not found");
-// 		}
-// 	}
-
-// }
-
-// void	parsLine(std::string str, std::string &key, std::string &value){
-//     size_t      pos;
-	
-// 	if (!isAllWhiteSpace(str))
-// 	{
-// 		if (str[str.length() - 2] != ';')
-// 			PrintExit("Error config file server block: missing ;");
-// 		else
-// 			str.erase(str.length() - 2, 2);
-// 		for (pos = 0; isspace(str[pos]); pos++);
-// 		key = str.substr(pos, str.find_first_of(" \t", pos));
-// 		pos = str.find_first_of(" \t", pos);
-// 		value = str.substr(str.find_first_not_of(" \t", pos), str.length() - 1);
-// 	}
-// }
