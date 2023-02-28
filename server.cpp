@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/28 19:19:00 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/28 19:54:04 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void server::setValues(std::string &key, std::string &value){
 		this->_values[key] = value;
 	}
 	else if (key == "index"){
-		// to do
+		this->_values[key] = value;
 	}
 	else if (key == "error_page"){
 		std::vector<std::string>    tmp = split(value, " ");
