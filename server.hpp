@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/27 19:22:10 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/28 16:29:53 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,19 @@
 
 #include "configFileParser.hpp"
 
+
+
 class server
 {
-    private:
-        /* data */
-    public:
-        server(parsConfig &config);
-        ~server();
+	private:
+		std::map<std::string, std::string>	_values;
+		std::map<std::string, std::string>	_errorPages;
+	public:
+		server(parsConfig &config);
+		~server();
+
+		void	parsLine(std::string &str, std::string &key, std::string &value);
+		void    setValues(std::string &key, std::string &value);
 };
 
 void parsServers(std::vector<parsConfig> &config);
