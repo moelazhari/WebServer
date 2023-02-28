@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/28 16:29:53 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/28 17:16:11 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define SERVER_HPP
 
 #include "configFileParser.hpp"
-
-
+#include "utils.hpp"
 
 class server
 {

@@ -1,34 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   configFIleParser.cpp                               :+:      :+:    :+:   */
+/*   configFileParser.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/27 19:33:47 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/28 17:16:48 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "configFileParser.hpp"
-
-bool isAllWhiteSpace(std::string const& str){
-	for (std::string::const_iterator it = str.begin(); it != str.end(); ++it)
-	{
-		if (!isspace(*it))
-			return false;
-	}
-	return true;
-}
-
-void removeWhiteSpace(std::string &str){
-	str.erase(std::remove_if(str.begin(), str.end(), isspace), str.end());
-}
-
-void PrintExit(std::string str){
-	std::cerr << str << std::endl;
-	     exit(1);
-}
+#include "utils.hpp"
 
 void parsFile(std::string fileName, std::vector<parsConfig> &config)
 {
