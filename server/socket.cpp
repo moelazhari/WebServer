@@ -6,14 +6,15 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:57:31 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/02/28 18:55:09 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:10:22 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "socket.hpp"
 
-#define PORT 80
+#define PORT 8000
 
+using namespace std;
 int main()
 {
     // Create a TCP socket
@@ -27,9 +28,12 @@ int main()
     sockaddr_in server_address;
     server_address.sin_family = AF_INET;
     server_address.sin_addr.s_addr = INADDR_ANY;
-    server_address.sin_port = htons(80);
+    server_address.sin_port = htons(PORT);
+	if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, (sockaddr*)&server_address, sizeof(server_address)) < 0)
+    	cerr << "setsockopt(SO_REUSEADDR) failed" << "\n";
     if (bind(server_socket, (sockaddr*)&server_address, sizeof(server_address)) < 0) {
-        std::cerr << "Failed to bind socket to port 80" << std::endl;
+        std::cerr << "Failed to bind socket to port " << PORT << std::endl;
+		perror("Error: ");
         return 1;
     }
 
@@ -39,8 +43,9 @@ int main()
         return 1;
     }
 
-    std::cout << "Server started on port 80" << std::endl;
+    std::cout << "Server started on port " << PORT << std::endl;
 
+	int request = 0;
     while (true) {
         // Accept a new connection
         sockaddr_in client_address;
@@ -54,15 +59,19 @@ int main()
         // Read the client's request
         char buffer[1024] = {0};
         int bytes_read = read(client_socket, buffer, sizeof(buffer));
-        if (bytes_read < 0) {
+		if (bytes_read > 0) {
+			cout << "Request: " << ++request << endl;
+		}
+        else{
             std::cerr << "Failed to read from socket" << std::endl;
             close(client_socket);
             continue;
         }
 
         // Send a response back to the client
-        const char* response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\nHello, world!";
+        const char* response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n socket is working\r\n";
         int bytes_written = write(client_socket, response, strlen(response));
+		bytes_written *= write(client_socket, buffer, strlen(buffer));
         if (bytes_written < 0) {
             std::cerr << "Failed to write to socket" << std::endl;
         }

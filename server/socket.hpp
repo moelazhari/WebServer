@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:39:41 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/02/28 18:54:00 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/02/28 20:01:55 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,3 +17,6 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <iostream>
+#include <cerrno>
+#include <cstring>
