@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/28 16:01:42 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/02/28 17:31:24 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ int main (int ac, char **av)
     parsFile(av[1], config);
     for (size_t i = 0; i < config.size(); i++){
         servers.push_back(server(config[i]));
+    }
+
+    //print Servers
+    for (size_t i = 0; i < servers.size(); i++){
+        std::cout << "      Server " << i << ": " << std::endl;
+        servers[i].printValues();
     }
 
     return (0);

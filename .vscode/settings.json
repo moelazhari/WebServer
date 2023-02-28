@@ -1,6 +1,5 @@
 {
     "files.associations": {
-        "istream": "cpp",
         "iosfwd": "cpp",
         "__bit_reference": "cpp",
         "__config": "cpp",
@@ -43,6 +42,7 @@
         "iomanip": "cpp",
         "ios": "cpp",
         "iostream": "cpp",
+        "istream": "cpp",
         "iterator": "cpp",
         "limits": "cpp",
         "locale": "cpp",
