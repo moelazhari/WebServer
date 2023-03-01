@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/28 17:16:48 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/01 16:16:16 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,22 @@ void parsFile(std::string fileName, std::vector<parsConfig> &config)
 	getServers(content, config);
 }
 
+size_t getEndofBlock(std::string str, size_t pos){
+	size_t      count = 0;
+
+	while (pos < str.length())
+	{
+		if (str[pos] == '{')
+			count++;
+		else if (str[pos] == '}')
+			count--;
+		if (count == 0)
+			return (pos);
+		pos++;
+	}
+	return (std::string::npos);
+}
+
 void		getServers(std::string &content, std::vector<parsConfig> &config){
 	size_t      pos;
 	size_t      serverB;
@@ -56,32 +72,28 @@ void		getServers(std::string &content, std::vector<parsConfig> &config){
 		serverB = content.find("{", pos);
 		if (serverB == std::string::npos)
 			PrintExit("Error config file server block: { not found");
-		// cheking server name
+		// cheking server
 		tmp = content.substr(pos, serverB - pos);
 		removeWhiteSpace(tmp);
 		if (tmp != "server")
 			PrintExit("Error config file server: server block not found");
-		// get location blocks
-		getLocations(content, server.locations);
-		// ckecking if there is }
-		serverE = content.find("}", serverB);
+		// get the end of server block
+		serverE = getEndofBlock(content, serverB);
 		if (serverE == std::string::npos)
 			PrintExit("Error config file server block: } not found");
-		// geting server block
+		// get location blocks
 		tmp = content.substr(serverB + 1, serverE - serverB - 1);
+		getLocations(tmp, server.locations);
 		server.content = tmp;
 		config.push_back(server);
+		// remove server block from content
 		content.erase(pos, serverE - pos + 1);
 		pos = content.find("server", pos + 1);
 	}
-	// // print config
-	// for (size_t i = 0; i < config.size(); i++)
-	// {
-	// 	std::cout << "server: " << i << std::endl;
-	// 	std::cout << config[i].content << std::endl;
-	// 	for (std::map<std::string, std::string>::iterator it = config[i].locations.begin(); it != config[i].locations.end(); ++it)
-	// 		std::cout << it->first << " => " << it->second << std::endl;
-	// }
+	// check if there somting outside server block
+	removeWhiteSpace(content);
+	if (!content.empty())
+		PrintExit("Error config file: everything mustbe server block");
 }
 
 void getLocations(std::string &content, std::map <std::string, std::string> &locations){
