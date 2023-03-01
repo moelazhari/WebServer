@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:39:41 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/02/28 20:01:55 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/01 15:13:14 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,3 +20,4 @@
 #include <iostream>
 #include <cerrno>
 #include <cstring>
+#include <fcntl.h>
