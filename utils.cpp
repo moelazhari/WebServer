@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:14:41 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/28 18:38:01 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/03 14:14:22 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,19 @@ int toInt(std::string str){
     ss >> num;
 
     return num;
+}
+
+void    parsLine(std::string &str, std::string &key, std::string &value){
+    size_t      pos;
+
+	if (str[str.length() - 1] != ';')
+		PrintExit("Error config file: missing ; in line: " + str);
+	else
+		str.erase(str.length() - 1, 1);
+	for (pos = 0; isspace(str[pos]); pos++);
+	key = str.substr(pos, str.find_first_of(" \t", pos) - pos);
+	pos = str.find_first_of(" \t", pos);
+	if (pos == std::string::npos || str.find_first_not_of(" \t", pos) == std::string::npos)
+		PrintExit("Error config file in key " + key + " has no value");
+	value = str.substr(str.find_first_not_of(" \t", pos), str.length() - 1);
 }

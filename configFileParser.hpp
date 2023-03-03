@@ -6,18 +6,14 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:11 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/27 19:33:18 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/01 19:01:15 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONFIGFILEPARSER_HPP
 # define CONFIGFILEPARSER_HPP
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <map>
+#include "utils.hpp"
 
 struct parsConfig{
     std::string                         content;

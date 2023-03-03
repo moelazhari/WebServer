@@ -6,12 +6,11 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/01 16:16:16 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/01 19:01:33 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "configFileParser.hpp"
-#include "utils.hpp"
 
 void parsFile(std::string fileName, std::vector<parsConfig> &config)
 {
@@ -41,7 +40,7 @@ void parsFile(std::string fileName, std::vector<parsConfig> &config)
 	getServers(content, config);
 }
 
-size_t getEndofBlock(std::string str, size_t pos){
+size_t	getEndofBlock(std::string str, size_t pos){
 	size_t      count = 0;
 
 	while (pos < str.length())

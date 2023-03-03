@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/01 15:09:39 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/03 14:57:53 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ int main (int ac, char **av)
     }
 
     //print Servers
-    for (size_t i = 0; i < servers.size(); i++){
-        std::cout << "      Server " << i << ": " << std::endl;
-        servers[i].printValues();
-    }
+    // for (size_t i = 0; i < servers.size(); i++){
+    //     std::cout << "      Server " << i << ": " << std::endl;
+    //     servers[i].printValues();
+    // }
 
     return (0);
 }

@@ -6,26 +6,12 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/01 16:20:14 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/03 15:19:41 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
-
-void	server::parsLine(std::string &str, std::string &key, std::string &value){
-    size_t      pos;
-
-	if (str[str.length() - 1] != ';')
-		PrintExit("Error config file: missing ; in line: " + str);
-	else
-		str.erase(str.length() - 1, 1);
-	for (pos = 0; isspace(str[pos]); pos++);
-	key = str.substr(pos, str.find_first_of(" \t", pos) - pos);
-	pos = str.find_first_of(" \t", pos);
-	if (pos == std::string::npos || str.find_first_not_of(" \t", pos) == std::string::npos)
-		PrintExit("Error config file in key " + key + " has no value");
-	value = str.substr(str.find_first_not_of(" \t", pos), str.length() - 1);
-}
+#include "configFileParser.hpp"
 
 server::server(parsConfig &config){
 	size_t      			pos = 0;
@@ -37,15 +23,26 @@ server::server(parsConfig &config){
         PrintExit("Error config file Server block: is empty");
     while (isspace(config.content[pos]))
         pos++;
-	while (pos < config.content.length() - 5){
+	while (pos < config.content.length()){
 		tmp = config.content.substr(pos, config.content.find('\n', pos) - pos);
 		if (!isAllWhiteSpace(tmp)){
-			this->parsLine(tmp, key, value);
+			parsLine(tmp, key, value);
 			this->setValues(key, value);
 		}
 		pos = config.content.find('\n', pos) + 1;
 	}
 	this->checkValues();
+	// set locations and cgis
+		// std::map<std::string, std::string>::iterator it = config.cgis.begin();
+		// std::map<std::string, std::string>::iterator ite = config.cgis.end();
+
+		// while (it != ite){
+		// 	if (it->first[0] == '/')
+		// 		this->_cgis[it->first] = cgi(it->second);
+		// 	else 
+		// 		this->_locations[it->first] = location(it->second);
+		// 	it++;
+		// }
 }
 
 void server::setValues(std::string &key, std::string &value){
@@ -106,9 +103,9 @@ void server::setValues(std::string &key, std::string &value){
 }
 
 void server::checkValues(){
-	if (this->_values.find("autoindex") != this->_values.end() && this->_values["autoindex"] == "on"
-		&& this->_values.find("index") == this->_values.end())
-		this->_values["index"] = "index.html";
+	// if (this->_values.find("autoindex") != this->_values.end() && this->_values["autoindex"] == "on"
+	// 	&& this->_values.find("index") == this->_values.end())
+	// 	this->_values["index"] = "index.html";
 	if (this->_values.find("listen") == this->_values.end())
 		PrintExit("Error config file: missing port to listen");
 	if (this->_values.find("host") == this->_values.end())
@@ -116,15 +113,15 @@ void server::checkValues(){
 	if (this->_values.find("root") == this->_values.end())
 		PrintExit("Error config file: missing root");
 	// geting index file
-	if (this->_values.find("index") == this->_values.end()) {
-		PrintExit("Error config file: missing index");
-	}
-	else {
-		std::string			tmp = this->_values["root"] + this->_values["index"];
-		std::ifstream		file(tmp);
-		if (!file.is_open())
-			PrintExit("Error config file: index " + tmp + " file not found");
-	}
+	// if (this->_values.find("index") == this->_values.end()) {
+	// 	PrintExit("Error config file: missing index");
+	// }
+	// else {
+	// 	std::string			tmp = this->_values["root"] + this->_values["index"];
+	// 	std::ifstream		file(tmp);
+	// 	if (!file.is_open())
+	// 		PrintExit("Error config file: index " + tmp + " file not found");
+	// }
 	if (this->_values.find("client_max_body_size") == this->_values.end())
 		PrintExit("Error config file: missing client_max_body_size");
 }
