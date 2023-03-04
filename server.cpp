@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 17:05:42 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/04 18:05:58 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ void server::setValues(std::string &key, std::string &value){
 	else if (key == "server_name")
 		this->_values[key] = value;
 	else if (key == "root"){
-		if (value[value.length() - 1] != '/')
-			value += '/';
 		this->_values[key] = value;
 	}
 	else if (key == "index"){

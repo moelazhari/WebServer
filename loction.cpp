@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 17:06:28 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/04 18:16:02 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,25 @@ location::location(std::string &content) {
             break;
         pos++; 
     }
+    if (this->_values.empty())
+        PrintExit("Error config file Location block: is empty");
 }
 
-void location::setValues(std::string &key, std::string &value){
+void    location::setValues(std::string &key, std::string &value){
     if (this->_values.find(key) != this->_values.end())
 		PrintExit("Error config file in key " + key + ": is duplicated");
     if (key == "allow_methods"){
-        //to do
+        if (!this->_allow_methods.empty())
+            PrintExit("Error config file in key " + key + ": is duplicated");
+        std::vector<std::string>    tmp = split(value, " ");
+
+        if (tmp.size() == 0 || tmp.size() > 3)
+            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+        for (size_t i = 0; i < tmp.size(); i++){
+            if (tmp[i] != "GET" && tmp[i] != "POST" && tmp[i] != "DELETE")
+                PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+            this->_allow_methods.push_back(tmp[i]);
+        }
     }
     else if (key == "return"){
         this->_values[key] = value;
@@ -58,16 +70,12 @@ void location::setValues(std::string &key, std::string &value){
             PrintExit("Error config file in key " + key + ": " + value + " invalid value");
         this->_values[key] = value;
     }
-    else if (key == ""){
-        
+    else if (key == "index"){
+        this->_values[key] = value;
     }
-    else if (key == ""){
-        
+    else if (key == "path_info"){
+        this->_values[key] = value;
     }
-    else if (key == ""){
-        
-    }
-
 }
 
 location::~location(){
