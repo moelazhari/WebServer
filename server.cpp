@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 18:05:58 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/04 18:19:51 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,15 @@ void server::printValues(){
 	while (it2 != ite2){
 		std::cout << it2->first << " : " << it2->second << std::endl;
 		it2++;
+	}
+
+	std::map<std::string, location>::iterator it3 = this->_locations.begin();
+	std::map<std::string, location>::iterator ite3 = this->_locations.end();
+
+	while (it3 != ite3){
+		std::cout << it3->first << " : " << std::endl;
+		it3->second.printValues();
+		it3++;
 	}
 }
 

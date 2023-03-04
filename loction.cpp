@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 18:16:02 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/04 18:20:22 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,12 @@ location::location(std::string &content) {
     std::string             key;
     std::string             value;
 
-    std::cout << "content: " << content << std::endl;
     if (content.empty())
         PrintExit("Error config file Location block: is empty");
     while (isspace(content[pos]))
         pos++;
     while (1){
         tmp = content.substr(pos, content.find('\n', pos) - pos);
-        std::cout << "tmp: " << tmp << std::endl;
         if (!isAllWhiteSpace(tmp)){
             parsLine(tmp, key, value);
             this->setValues(key, value);
@@ -75,6 +73,21 @@ void    location::setValues(std::string &key, std::string &value){
     }
     else if (key == "path_info"){
         this->_values[key] = value;
+    }
+}
+
+void location::printValues(){
+    std::map<std::string, std::string>::iterator it = this->_values.begin();
+    std::map<std::string, std::string>::iterator ite = this->_values.end();
+
+    std::cout << "Location values:" << std::endl;
+    while (it != ite){
+        std::cout << it->first << " : " << it->second << std::endl;
+        it++;
+    }
+    std::cout << "Allow methods:" << std::endl;
+    for (size_t i = 0; i < this->_allow_methods.size(); i++){
+        std::cout << this->_allow_methods[i] << std::endl;
     }
 }
 
