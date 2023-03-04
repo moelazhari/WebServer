@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/03 15:09:56 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/04 17:01:32 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,13 @@ class server
 	private:
 		std::map<std::string, std::string>	_values;
 		std::map<int, std::string>			_errorPages;
-		std::map<std::string, location>		_locations;	
-		std::map<std::string, std::string>	_cgis;
+		std::map<std::string, location>		_locations;
 	public:
 		server(parsConfig &config);
 		~server();
 
 		void	setValues(std::string &key, std::string &value);
 		void	checkValues();
-
 		void	printValues();
 };
 

@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/03 15:19:41 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/04 17:05:42 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,25 @@ server::server(parsConfig &config){
         PrintExit("Error config file Server block: is empty");
     while (isspace(config.content[pos]))
         pos++;
-	while (pos < config.content.length()){
+	while (1){
 		tmp = config.content.substr(pos, config.content.find('\n', pos) - pos);
 		if (!isAllWhiteSpace(tmp)){
 			parsLine(tmp, key, value);
 			this->setValues(key, value);
 		}
-		pos = config.content.find('\n', pos) + 1;
+		pos = config.content.find('\n', pos);
+		if (pos == std::string::npos)
+			break;
+		pos++;
 	}
 	this->checkValues();
-	// set locations and cgis
-		// std::map<std::string, std::string>::iterator it = config.cgis.begin();
-		// std::map<std::string, std::string>::iterator ite = config.cgis.end();
 
-		// while (it != ite){
-		// 	if (it->first[0] == '/')
-		// 		this->_cgis[it->first] = cgi(it->second);
-		// 	else 
-		// 		this->_locations[it->first] = location(it->second);
-		// 	it++;
-		// }
+	std::map<std::string, std::string>::iterator it = config.locations.begin();
+	std::map<std::string, std::string>::iterator ite = config.locations.end();
+	while (it != ite){
+				this->_locations[it->first] = location(it->second);
+			it++;
+	}
 }
 
 void server::setValues(std::string &key, std::string &value){
@@ -50,9 +49,7 @@ void server::setValues(std::string &key, std::string &value){
 		PrintExit("Error config file in key " + key + ": is duplicated");
 	if (key == "listen")
 	{
-		if (!isAllNumber(value))
-			PrintExit("Error config file in key " + key + ": " + value + "	must be a number"); 
-		if (toInt(value) > 65535)
+		if (toInt(value) > 65535 || toInt(value) < 0)
 			PrintExit("Error config file in key " + key + ": " + value + "	out of range");
 		this->_values[key] = value;
 	}
@@ -103,25 +100,12 @@ void server::setValues(std::string &key, std::string &value){
 }
 
 void server::checkValues(){
-	// if (this->_values.find("autoindex") != this->_values.end() && this->_values["autoindex"] == "on"
-	// 	&& this->_values.find("index") == this->_values.end())
-	// 	this->_values["index"] = "index.html";
 	if (this->_values.find("listen") == this->_values.end())
 		PrintExit("Error config file: missing port to listen");
 	if (this->_values.find("host") == this->_values.end())
 		PrintExit("Error config file: missing host");
 	if (this->_values.find("root") == this->_values.end())
 		PrintExit("Error config file: missing root");
-	// geting index file
-	// if (this->_values.find("index") == this->_values.end()) {
-	// 	PrintExit("Error config file: missing index");
-	// }
-	// else {
-	// 	std::string			tmp = this->_values["root"] + this->_values["index"];
-	// 	std::ifstream		file(tmp);
-	// 	if (!file.is_open())
-	// 		PrintExit("Error config file: index " + tmp + " file not found");
-	// }
 	if (this->_values.find("client_max_body_size") == this->_values.end())
 		PrintExit("Error config file: missing client_max_body_size");
 }

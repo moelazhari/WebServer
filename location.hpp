@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:01:39 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/03 14:48:09 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/04 16:53:53 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ class location
 {
     private:
         std::map<std::string, std::string>    _values;
+        std::vector<std::string>              _allow_methods;
     public:
         location();
         location(std::string &content);
