@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 18:00:07 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 19:05:27 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ server::server(parsConfig &config){
 	std::map<std::string, std::string>::iterator it = config.locations.begin();
 	std::map<std::string, std::string>::iterator ite = config.locations.end();
 	while (it != ite){
-				this->_locations[it->first] = location(it->second, this->_values, this->_errorPages, this->_allowMethods);
+				this->_locations[it->first] = location(it->second, this->_values, this->_errorPages, this->_allowMethods, this->_index);
 		it++;
 	}
 }
@@ -63,9 +63,6 @@ void	server::setValues(std::string &key, std::string &value){
 	else if (key == "server_name")
 		this->_values[key] = value;
 	else if (key == "root"){
-		this->_values[key] = value;
-	}
-	else if (key == "index"){
 		this->_values[key] = value;
 	}
 	else if (key == "client_max_body_size"){
@@ -100,6 +97,14 @@ void	server::setValues(std::string &key, std::string &value){
                 PrintExit("Error config file in key " + key + ": " + value + " invalid value");
             this->_allowMethods.push_back(tmp[i]);
         }
+	}
+	else if (key == "index"){
+		this->_index.clear();
+		std::vector<std::string>    tmp = split(value, " ");
+		
+		for (size_t i = 0; i < tmp.size(); i++){
+			this->_index.push_back(tmp[i]);
+		}
 	}
 	else
 		PrintExit("Error config file in key " + key + " is not valid");

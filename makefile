@@ -6,12 +6,12 @@
 #    By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/04 20:21:22 by mazhari           #+#    #+#              #
-#    Updated: 2023/03/05 16:48:41 by mazhari          ###   ########.fr        #
+#    Updated: 2023/03/05 19:21:04 by mazhari          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC= c++
-FLAGS = -Wall -Werror -Wextra -g  
+FLAGS = -Wall -Werror -Wextra 
 NAME= webserver
 
 INCLUDES= ./includes

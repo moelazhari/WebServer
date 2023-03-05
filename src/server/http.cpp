@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 20:36:08 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 16:50:50 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:56:15 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ http::http(){
     this->_allowMethods.push_back("GET");
     this->_allowMethods.push_back("POST");
     this->_allowMethods.push_back("DELETE");
+    // set default index
+    this->_index.push_back("index.html");
 }
 
 http::~http(){

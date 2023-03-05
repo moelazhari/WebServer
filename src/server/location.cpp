@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 18:23:29 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 19:16:48 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ location::location() {
 }
 
 location::location (std::string &content, std::map<std::string, std::string> values, 
-std::map<int, std::string> errorPages, std::vector<std::string> allowMethods) {
+std::map<int, std::string> errorPages, std::vector<std::string> allowMethods, std::vector<std::string>  index) {
     size_t      			pos = 0;
     std::string             tmp;
     std::string             key;
@@ -26,7 +26,7 @@ std::map<int, std::string> errorPages, std::vector<std::string> allowMethods) {
     this->_values = values;
     this->_errorPages = errorPages;
     this->_allowMethods = allowMethods;
-
+    this->_index = index;
 
     while (isspace(content[pos]))
         pos++;
@@ -45,7 +45,18 @@ std::map<int, std::string> errorPages, std::vector<std::string> allowMethods) {
 }
 
 void    location::setValues(std::string &key, std::string &value){
-    if (key == "allow_methods"){
+    if (key == "root"){
+        this->_values[key] = value;
+    }
+    else if (key == "autoindex"){
+        if (value != "on" && value != "off")
+            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+        this->_values[key] = value;
+    }
+    else if (key == "path_info"){
+        this->_values[key] = value;
+    }
+    else if (key == "allow_methods"){
         this->_allowMethods.clear();
         std::vector<std::string>    tmp = split(value, " ");
 
@@ -58,7 +69,7 @@ void    location::setValues(std::string &key, std::string &value){
         }
     }
     else if (key == "error_page"){
-		this->_errorPages.clear();
+        this->_errorPages.clear();
 		std::vector<std::string>    tmp = split(value, " ");
 
 		if (tmp.size() != 2 || !isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
@@ -67,29 +78,16 @@ void    location::setValues(std::string &key, std::string &value){
 		if (!file.is_open())
 			PrintExit("Error config file in key " + key + ": " + tmp[1] + " file not found");
 		this->_errorPages[toInt(tmp[0])] = tmp[1];
-	}
-    else if (key == "return"){
-        std::vector<std::string>    tmp = split(value, " ");
-
-        if (tmp.size() != 2 || !isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
-            PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
-        std::ifstream			   	file(tmp[1]);
-        if (!file.is_open())
-            PrintExit("Error config file in key " + key + ": " + tmp[1] + " file not found");
-        this->_return = std::make_pair(toInt(tmp[0]), tmp[1]);
-    }
-    else if (key == "root"){
-        this->_values[key] = value;
-    }
-    else if (key == "autoindex"){
-        if (value != "on" && value != "off")
-            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
-        this->_values[key] = value;
     }
     else if (key == "index"){
-        this->_values[key] = value;
+        this->_index.clear();
+		std::vector<std::string>    tmp = split(value, " ");
+		
+		for (size_t i = 0; i < tmp.size(); i++){
+			this->_index.push_back(tmp[i]);
+		}
     }
-    else if (key == "path_info"){
+    else if (key == "return"){
         this->_values[key] = value;
     }
     else
