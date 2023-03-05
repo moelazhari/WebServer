@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 15:22:32 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:23:29 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ location::location() {
     return ;
 }
 
-location::location(std::string &content) {
+location::location (std::string &content, std::map<std::string, std::string> values, 
+std::map<int, std::string> errorPages, std::vector<std::string> allowMethods) {
     size_t      			pos = 0;
     std::string             tmp;
     std::string             key;
     std::string             value;
+
+    this->_values = values;
+    this->_errorPages = errorPages;
+    this->_allowMethods = allowMethods;
+
 
     while (isspace(content[pos]))
         pos++;
@@ -35,14 +41,12 @@ location::location(std::string &content) {
             break;
         pos++; 
     }
+
 }
 
 void    location::setValues(std::string &key, std::string &value){
-    if (this->_values.find(key) != this->_values.end())
-		PrintExit("Error config file in key " + key + ": is duplicated");
     if (key == "allow_methods"){
-        if (!this->_allow_methods.empty())
-            PrintExit("Error config file in key " + key + ": is duplicated");
+        this->_allowMethods.clear();
         std::vector<std::string>    tmp = split(value, " ");
 
         if (tmp.size() == 0 || tmp.size() > 3)
@@ -50,11 +54,29 @@ void    location::setValues(std::string &key, std::string &value){
         for (size_t i = 0; i < tmp.size(); i++){
             if (tmp[i] != "GET" && tmp[i] != "POST" && tmp[i] != "DELETE")
                 PrintExit("Error config file in key " + key + ": " + value + " invalid value");
-            this->_allow_methods.push_back(tmp[i]);
+            this->_allowMethods.push_back(tmp[i]);
         }
     }
+    else if (key == "error_page"){
+		this->_errorPages.clear();
+		std::vector<std::string>    tmp = split(value, " ");
+
+		if (tmp.size() != 2 || !isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
+			PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
+		std::ifstream			   	file(tmp[1]);
+		if (!file.is_open())
+			PrintExit("Error config file in key " + key + ": " + tmp[1] + " file not found");
+		this->_errorPages[toInt(tmp[0])] = tmp[1];
+	}
     else if (key == "return"){
-        this->_values[key] = value;
+        std::vector<std::string>    tmp = split(value, " ");
+
+        if (tmp.size() != 2 || !isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
+            PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
+        std::ifstream			   	file(tmp[1]);
+        if (!file.is_open())
+            PrintExit("Error config file in key " + key + ": " + tmp[1] + " file not found");
+        this->_return = std::make_pair(toInt(tmp[0]), tmp[1]);
     }
     else if (key == "root"){
         this->_values[key] = value;
@@ -84,8 +106,8 @@ void location::printValues(){
         it++;
     }
     std::cout << "Allow methods:" << std::endl;
-    for (size_t i = 0; i < this->_allow_methods.size(); i++){
-        std::cout << this->_allow_methods[i] << std::endl;
+    for (size_t i = 0; i < this->_allowMethods.size(); i++){
+        std::cout << this->_allowMethods[i] << std::endl;
     }
 }
 

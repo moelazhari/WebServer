@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 20:36:08 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 15:28:15 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 16:50:50 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ http::http(){
     this->_errorPages[414] = "414.html";
     this->_errorPages[501] = "501.html";
     // set default allowed methods
-    this->_allow_methods.push_back("GET");
-    this->_allow_methods.push_back("HEAD");
-    this->_allow_methods.push_back("POST");
+    this->_allowMethods.push_back("GET");
+    this->_allowMethods.push_back("POST");
+    this->_allowMethods.push_back("DELETE");
 }
 
 http::~http(){

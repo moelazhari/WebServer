@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 15:21:08 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:00:07 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ server::server(parsConfig &config){
 	std::map<std::string, std::string>::iterator it = config.locations.begin();
 	std::map<std::string, std::string>::iterator ite = config.locations.end();
 	while (it != ite){
-				this->_locations[it->first] = location(it->second);
-			it++;
+				this->_locations[it->first] = location(it->second, this->_values, this->_errorPages, this->_allowMethods);
+		it++;
 	}
 }
 
-void server::setValues(std::string &key, std::string &value){
-	if (this->_values.find(key) != this->_values.end())
-		PrintExit("Error config file in key " + key + ": is duplicated");
+void	server::setValues(std::string &key, std::string &value){
 	if (key == "listen")
 	{
 		if (toInt(value) > 65535 || toInt(value) < 0)
@@ -81,6 +79,7 @@ void server::setValues(std::string &key, std::string &value){
 		this->_values[key] = value;
 	}
 	else if (key == "error_page"){
+		this->_errorPages.clear();
 		std::vector<std::string>    tmp = split(value, " ");
 
 		if (tmp.size() != 2 || !isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
@@ -89,6 +88,18 @@ void server::setValues(std::string &key, std::string &value){
 		if (!file.is_open())
 			PrintExit("Error config file in key " + key + ": " + tmp[1] + " file not found");
 		this->_errorPages[toInt(tmp[0])] = tmp[1];
+	}
+	else if (key == "allow_methods"){
+		this->_allowMethods.clear();
+        std::vector<std::string>    tmp = split(value, " ");
+
+        if (tmp.size() == 0 || tmp.size() > 3)
+            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+        for (size_t i = 0; i < tmp.size(); i++){
+            if (tmp[i] != "GET" && tmp[i] != "POST" && tmp[i] != "DELETE")
+                PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+            this->_allowMethods.push_back(tmp[i]);
+        }
 	}
 	else
 		PrintExit("Error config file in key " + key + " is not valid");

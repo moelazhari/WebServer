@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:01:39 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 20:40:34 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:32:35 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@ class location
 {
     private:
         std::map<std::string, std::string>    _values;
-        std::vector<std::string>              _allow_methods;
+        std::map<int, std::string>            _errorPages;
+        std::vector<std::string>              _allowMethods;
+        std::pair<int, std::string>           _return;
     public:
         location();
-        location(std::string &content);
-        
+        location(std::string &content, std::map<std::string, std::string> values, 
+        std::map<int, std::string> errorPages, std::vector<std::string> allowMethods);
+
         ~location();
         void    printValues();
     private:
