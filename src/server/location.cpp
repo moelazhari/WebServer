@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 19:16:48 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 19:28:52 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,13 @@ void    location::setValues(std::string &key, std::string &value){
 		}
     }
     else if (key == "return"){
-        this->_values[key] = value;
+        std::vector<std::string>    tmp = split(value, " ");
+
+        if (tmp.size() != 2)
+            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+        if (!isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
+            PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
+        this->_errorPages[toInt(tmp[0])] = tmp[1];
     }
     else
         PrintExit("Error config file in key " + key + ": invalid key");
