@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 16:57:31 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/01 16:03:34 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/05 14:55:39 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main()
         return 1;
     }
 
-    // Bind the socket to port
+    // Bind the socket to port 8000
     sockaddr_in server_address;
     server_address.sin_family = AF_INET;
     server_address.sin_addr.s_addr = INADDR_ANY;
@@ -69,12 +69,13 @@ int main()
         }
 
         // Send a response back to the client
-        const char* response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n socket is working\r\n";
+        const char* response = "HTTP/1.1 200 OK\r\nDate: Sat, 09 Oct 2010 14:28:02 GMT\r\nLast-Modified: Tue, 01 Dec 2009 20:18:22 GMT\r\nETag: 51142bc1-7449-479b075b2891b\r\nAccept-Ranges: bytes\r\nContent-Length: 29769\r\nContent-Type: text/html\r\n\r\n <h1>socket is working</h1>\r\n";
 		int bytes_written;
         bytes_written = write(client_socket, response, strlen(response));
-        bytes_written = write(client_socket, buffer, strlen(buffer));
-        int fd = open("index.html", O_RDWR, 0666);
-		write(fd, buffer, strlen(buffer));
+        // bytes_written = write(client_socket, buffer, strlen(buffer));
+        ofstream out;
+        out.open("request.html");
+        out << buffer << endl;
         if (bytes_written < 0) {
             std::cerr << "Failed to write to socket" << std::endl;
         }
