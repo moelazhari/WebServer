@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 18:19:51 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 15:21:08 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ server::server(parsConfig &config){
 	std::string             key;
 	std::string             value;
 
-    if (config.content.empty())
-        PrintExit("Error config file Server block: is empty");
     while (isspace(config.content[pos]))
         pos++;
 	while (1){
@@ -34,7 +32,6 @@ server::server(parsConfig &config){
 			break;
 		pos++;
 	}
-	this->checkValues();
 
 	std::map<std::string, std::string>::iterator it = config.locations.begin();
 	std::map<std::string, std::string>::iterator ite = config.locations.end();
@@ -95,17 +92,6 @@ void server::setValues(std::string &key, std::string &value){
 	}
 	else
 		PrintExit("Error config file in key " + key + " is not valid");
-}
-
-void server::checkValues(){
-	if (this->_values.find("listen") == this->_values.end())
-		PrintExit("Error config file: missing port to listen");
-	if (this->_values.find("host") == this->_values.end())
-		PrintExit("Error config file: missing host");
-	if (this->_values.find("root") == this->_values.end())
-		PrintExit("Error config file: missing root");
-	if (this->_values.find("client_max_body_size") == this->_values.end())
-		PrintExit("Error config file: missing client_max_body_size");
 }
 
 void server::printValues(){

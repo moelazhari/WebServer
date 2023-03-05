@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/01 19:01:33 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 15:22:03 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void		getServers(std::string &content, std::vector<parsConfig> &config){
 	// check if there somting outside server block
 	removeWhiteSpace(content);
 	if (!content.empty())
-		PrintExit("Error config file: everything mustbe server block");
+		PrintExit("Error config file: everything must be in server block");
 }
 
 void getLocations(std::string &content, std::map <std::string, std::string> &locations){

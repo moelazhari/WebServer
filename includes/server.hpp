@@ -1,33 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   location.hpp                                       :+:      :+:    :+:   */
+/*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 17:01:39 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 18:15:12 by mazhari          ###   ########.fr       */
+/*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
+/*   Updated: 2023/03/04 20:38:00 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOCATIONS_HPP
-# define LOCATIONS_HPP
+#ifndef SERVER_HPP
+# define SERVER_HPP
 
 #include "configFileParser.hpp"
+#include "location.hpp"
+#include "http.hpp"
 
-class location
+class server : public http
 {
-    private:
-        std::map<std::string, std::string>    _values;
-        std::vector<std::string>              _allow_methods;
-    public:
-        location();
-        location(std::string &content);
-        
-        ~location();
+	private:
+		std::map<std::string, location>		_locations;
+	public:
+		server(parsConfig &config);
+		~server();
 
-        void    setValues(std::string &key, std::string &value);
-        void    printValues();
+		void	printValues();
+	private:
+		void	setValues(std::string &key, std::string &value);
 };
+
+void parsServers(std::vector<parsConfig> &config);
 
 #endif

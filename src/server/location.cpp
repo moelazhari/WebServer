@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loction.cpp                                        :+:      :+:    :+:   */
+/*   location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 18:20:22 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/05 15:22:32 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ location::location(std::string &content) {
     std::string             key;
     std::string             value;
 
-    if (content.empty())
-        PrintExit("Error config file Location block: is empty");
     while (isspace(content[pos]))
         pos++;
     while (1){
@@ -37,8 +35,6 @@ location::location(std::string &content) {
             break;
         pos++; 
     }
-    if (this->_values.empty())
-        PrintExit("Error config file Location block: is empty");
 }
 
 void    location::setValues(std::string &key, std::string &value){
@@ -74,6 +70,8 @@ void    location::setValues(std::string &key, std::string &value){
     else if (key == "path_info"){
         this->_values[key] = value;
     }
+    else
+        PrintExit("Error config file in key " + key + ": invalid key");
 }
 
 void location::printValues(){
