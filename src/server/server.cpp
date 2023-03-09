@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 19:05:27 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/09 17:49:12 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,103 +32,93 @@ server::server(parsConfig &config){
 			break;
 		pos++;
 	}
-
+	this->setDefaultValues();
+	// set locations
 	std::map<std::string, std::string>::iterator it = config.locations.begin();
 	std::map<std::string, std::string>::iterator ite = config.locations.end();
 	while (it != ite){
-				this->_locations[it->first] = location(it->second, this->_values, this->_errorPages, this->_allowMethods, this->_index);
+				this->_locations[it->first] = location(it->second);
 		it++;
 	}
 }
 
 void	server::setValues(std::string &key, std::string &value){
-	if (key == "listen")
-	{
-		if (toInt(value) > 65535 || toInt(value) < 0)
-			PrintExit("Error config file in key " + key + ": " + value + "	out of range");
-		this->_values[key] = value;
-	}
-	else if (key == "host"){
-		std::vector<std::string>    tmp = split(value, ".");
-		if (tmp.size() != 4)
-			PrintExit("Error config file in key " + key + ": " + value + " invalid ip address");
-		for (size_t i = 0; i < tmp.size(); i++){
-			if (!isAllNumber(tmp[i]))
-				PrintExit("Error config file in key " + key + ": " + value + " invalid ip address");
-			if (toInt(tmp[i]) > 255)
-				PrintExit("Error config file in key " + key + ": " + value + " ip address out of range");
-		}
-		this->_values[key] = value;
-	}
-	else if (key == "server_name")
-		this->_values[key] = value;
-	else if (key == "root"){
-		this->_values[key] = value;
-	}
-	else if (key == "client_max_body_size"){
-		if (!isAllNumber(value))
-			PrintExit("Error config file in key" + key + ": " + value + " must be a number");
-		this->_values[key] = value;
-	}
-	else if (key == "autoindex"){
-		if (value != "on" && value != "off")
-			PrintExit("Error config file in  key" + key + ": " + value + " must be on or off");
-		this->_values[key] = value;
-	}
-	else if (key == "error_page"){
-		this->_errorPages.clear();
-		std::vector<std::string>    tmp = split(value, " ");
+	std::string values[9] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "listen", "error_page", "allow_methods", "index"};
+	
+	void (server::*f[9])(std::string key, std::string &value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
+	 &server::setRoot, &server::setServerName, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs};
 
-		if (tmp.size() != 2 || !isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
-			PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
-		std::ifstream			   	file(tmp[1]);
-		if (!file.is_open())
-			PrintExit("Error config file in key " + key + ": " + tmp[1] + " file not found");
-		this->_errorPages[toInt(tmp[0])] = tmp[1];
-	}
-	else if (key == "allow_methods"){
-		this->_allowMethods.clear();
-        std::vector<std::string>    tmp = split(value, " ");
-
-        if (tmp.size() == 0 || tmp.size() > 3)
-            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
-        for (size_t i = 0; i < tmp.size(); i++){
-            if (tmp[i] != "GET" && tmp[i] != "POST" && tmp[i] != "DELETE")
-                PrintExit("Error config file in key " + key + ": " + value + " invalid value");
-            this->_allowMethods.push_back(tmp[i]);
-        }
-	}
-	else if (key == "index"){
-		this->_index.clear();
-		std::vector<std::string>    tmp = split(value, " ");
-		
-		for (size_t i = 0; i < tmp.size(); i++){
-			this->_index.push_back(tmp[i]);
+	for (int i = 0; i < 9; i++){
+		if (key == values[i]){
+			(this->*f[i])(key, value);
+			return ;
 		}
 	}
-	else
-		PrintExit("Error config file in key " + key + " is not valid");
+	PrintExit("Error config file in key " + key + ": invalid key");
+}
+
+void	server::setDefaultValues(){
+	if (this->_clientMaxBodySize == 0)
+		this->_clientMaxBodySize = 1000000;
+	if (this->_autoIndex == "")
+		this->_autoIndex = "off";
+	if (this->_host == "")
+		this->_host = "web_pages";
+	if (this->_root == "")
+		this->_root = "web_pages";
+	if (this->_ports.size() == 0)
+		this->_ports.push_back(80);
+	if (this->_errorPages.size() == 0){
+		this->_errorPages[404] = "400.html";
+		this->_errorPages[500] = "500.html";
+	}
+	if (this->_allowMethods.size() == 0){
+		this->_allowMethods.push_back("GET");
+		this->_allowMethods.push_back("HEAD");
+		this->_allowMethods.push_back("POST");
+	}
+	if (this->_indexs.size() == 0){
+		this->_indexs.push_back("index.html");
+	}
 }
 
 void server::printValues(){
-	std::map<std::string, std::string>::iterator it = this->_values.begin();
-	std::map<std::string, std::string>::iterator ite = this->_values.end();
-
+	std::cout << "client_max_body_size: " << this->_clientMaxBodySize << std::endl;
+	std::cout << "autoindex: " << this->_autoIndex << std::endl;
+	std::cout << "host: " << this->_host << std::endl;
+	std::cout << "root: " << this->_root << std::endl;
+	std::cout << "server_name: " << this->_serverName << std::endl;
+	// print ports
+	std::cout << "ports: ";
+	for (size_t i = 0; i < this->_ports.size(); i++){
+		std::cout << this->_ports[i] << " ";
+	}
+	std::cout << std::endl;
+	// print error pages
+	std::cout << "error_pages: ";
+	std::map<int, std::string>::iterator it = this->_errorPages.begin();
+	std::map<int, std::string>::iterator ite = this->_errorPages.end();
 	while (it != ite){
-		std::cout << it->first << " : " << it->second << std::endl;
+		std::cout << it->first << " : " << it->second << " ";
 		it++;
 	}
-	
-	std::map<int, std::string>::iterator it2 = this->_errorPages.begin();
-	std::map<int, std::string>::iterator ite2 = this->_errorPages.end();
-
-	while (it2 != ite2){
-		std::cout << it2->first << " : " << it2->second << std::endl;
-		it2++;
+	std::cout << std::endl;
+	// print allow methods
+	std::cout << "allow_methods: ";
+	for (size_t i = 0; i < this->_allowMethods.size(); i++){
+		std::cout << this->_allowMethods[i] << " ";
 	}
-
+	std::cout << std::endl;
+	// print indexs
+	std::cout << "indexs: ";
+	for (size_t i = 0; i < this->_indexs.size(); i++){
+		std::cout << this->_indexs[i] << " ";
+	}
+	// print locations
 	std::map<std::string, location>::iterator it3 = this->_locations.begin();
 	std::map<std::string, location>::iterator ite3 = this->_locations.end();
+
+	std::cout << "locations:" << std::endl;	
 
 	while (it3 != ite3){
 		std::cout << it3->first << " : " << std::endl;
