@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getMethod.cpp                                      :+:      :+:    :+:   */
+/*   configFileParser.hpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/10 16:49:07 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/10 16:48:40 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,3 +25,5 @@ void getLocations(std::string &content, std::map <std::string, std::string> &loc
 void removeWhiteSpace(std::string &str);
 bool isAllWhiteSpace(std::string const& str);
 void PrintExit(std::string str);
+
+#endif
