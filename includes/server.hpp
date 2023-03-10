@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/04 20:38:00 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/10 16:07:49 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,27 @@
 
 #include "configFileParser.hpp"
 #include "location.hpp"
-#include "http.hpp"
+#include "Values.hpp"
 
-class server : public http
+class server: public Values
 {
 	private:
 		std::map<std::string, location>		_locations;
+		// request								_request;
+		// response							_response;
+		// client
 	public:
 		server(parsConfig &config);
 		~server();
 
-		void	printValues();
-	private:
-		void	setValues(std::string &key, std::string &value);
-};
+		void setValues(std::string &key, std::string &value);
+		void setDefaultValues();
+		// execPost();
+		// execGET();
+		// execDELEt();
+		// startserver();
 
-void parsServers(std::vector<parsConfig> &config);
+		void printValues();
+};
 
 #endif
