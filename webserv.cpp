@@ -70,10 +70,11 @@ int main(int argc, char *argv[]) {
         }
 
         // Print request information
-        ParseRequest parseRequest;
-        parseRequest.parseRequest(request);
+        // ParseRequest parseRequest;
+        // parseRequest.parseRequest(request);
         cout << "Request from client " << inet_ntoa(clientAddr.sin_addr) << ":" << ntohs(clientAddr.sin_port) << endl;
-        parseRequest.affiche();
+        // parseRequest.affiche();
+        std:cout << request << std::endl;
 
         // Send response back to client
         const char* response = "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\nHello World";

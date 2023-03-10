@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/09 17:50:49 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/09 19:24:43 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,19 @@ void response::setHeader(std::string key, std::string value)
 void response::setBody(std::string body)
 {
    this->_body = body;
+}
+
+std::string response::getStatus()
+{
+    return this->_status;
+}
+
+std::string response::getHeader(std::string key)
+{
+    return this->_header[key];
+}
+
+std::string response::getBody()
+{
+    return this->_body;
 }
