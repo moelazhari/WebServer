@@ -3,30 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 19:28:52 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/10 18:46:42 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "location.hpp"
 
-location::location() {
+location::location(){
     return ;
 }
 
-location::location (std::string &content, std::map<std::string, std::string> values, 
-std::map<int, std::string> errorPages, std::vector<std::string> allowMethods, std::vector<std::string>  index) {
+location::location (std::string &content): _cgiPath(""), _return(std::pair<int, std::string>(0, "")){
     size_t      			pos = 0;
     std::string             tmp;
     std::string             key;
     std::string             value;
-
-    this->_values = values;
-    this->_errorPages = errorPages;
-    this->_allowMethods = allowMethods;
-    this->_index = index;
 
     while (isspace(content[pos]))
         pos++;
@@ -41,78 +35,53 @@ std::map<int, std::string> errorPages, std::vector<std::string> allowMethods, st
             break;
         pos++; 
     }
-
 }
 
 void    location::setValues(std::string &key, std::string &value){
-    if (key == "root"){
-        this->_values[key] = value;
-    }
-    else if (key == "autoindex"){
-        if (value != "on" && value != "off")
-            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
-        this->_values[key] = value;
-    }
-    else if (key == "path_info"){
-        this->_values[key] = value;
-    }
-    else if (key == "allow_methods"){
-        this->_allowMethods.clear();
-        std::vector<std::string>    tmp = split(value, " ");
+    std::string values[9] = {"client_max_body_size",  "autoindex", "host", "root", "error_page", "allow_methods", "index", "path_info", "return"};
 
-        if (tmp.size() == 0 || tmp.size() > 3)
-            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
-        for (size_t i = 0; i < tmp.size(); i++){
-            if (tmp[i] != "GET" && tmp[i] != "POST" && tmp[i] != "DELETE")
-                PrintExit("Error config file in key " + key + ": " + value + " invalid value");
-            this->_allowMethods.push_back(tmp[i]);
+    void (location::*f[9])(std::string key, std::string &value) = {&location::setClientMaxBodySize, &location::setAutoIndex, &location::setHost,\
+    &location::setRoot, &location::setErrorPages, &location::setAllowMethods, &location::setIndexs, &location::setCgiPath, &location::setReturn};
+    
+    for (int i = 0; i < 9; i++){
+        if (key == values[i]){
+            (this->*f[i])(key, value);
+            return ;
         }
     }
-    else if (key == "error_page"){
-        this->_errorPages.clear();
-		std::vector<std::string>    tmp = split(value, " ");
-
-		if (tmp.size() != 2 || !isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
-			PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
-		std::ifstream			   	file(tmp[1]);
-		if (!file.is_open())
-			PrintExit("Error config file in key " + key + ": " + tmp[1] + " file not found");
-		this->_errorPages[toInt(tmp[0])] = tmp[1];
-    }
-    else if (key == "index"){
-        this->_index.clear();
-		std::vector<std::string>    tmp = split(value, " ");
-		
-		for (size_t i = 0; i < tmp.size(); i++){
-			this->_index.push_back(tmp[i]);
-		}
-    }
-    else if (key == "return"){
-        std::vector<std::string>    tmp = split(value, " ");
-
-        if (tmp.size() != 2)
-            PrintExit("Error config file in key " + key + ": " + value + " invalid value");
-        if (!isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
-            PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
-        this->_errorPages[toInt(tmp[0])] = tmp[1];
-    }
-    else
-        PrintExit("Error config file in key " + key + ": invalid key");
+    PrintExit("Error config file in key " + key + ": invalid key");
 }
 
-void location::printValues(){
-    std::map<std::string, std::string>::iterator it = this->_values.begin();
-    std::map<std::string, std::string>::iterator ite = this->_values.end();
+void  location::setCgiPath(std::string key, std::string &value){
+    if (_cgiPath != "")
+        PrintExit("Error config file in key " + key + ": " + value + " already set");
+    this->_cgiPath = value;
+}
 
-    std::cout << "Location values:" << std::endl;
-    while (it != ite){
-        std::cout << it->first << " : " << it->second << std::endl;
-        it++;
-    }
-    std::cout << "Allow methods:" << std::endl;
-    for (size_t i = 0; i < this->_allowMethods.size(); i++){
-        std::cout << this->_allowMethods[i] << std::endl;
-    }
+void location::setReturn(std::string key, std::string &value){
+    std::vector<std::string>    tmp = split(value, " ");
+
+    if (tmp.size() != 2)
+        PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+    if (!isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
+        PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
+    this->_return = std::pair<int, std::string>(toInt(tmp[0]), tmp[1]);
+}
+void location::printValues(){
+    std::cout << "client_max_body_size: " << this->_clientMaxBodySize << std::endl;
+    std::cout << "autoindex: " << this->_autoIndex << std::endl;
+    std::cout << "host: " << this->_host << std::endl;
+    std::cout << "root: " << this->_root << std::endl;
+    //prtint error pages
+    std::cout << "allow_methods: ";
+    for (size_t i = 0; i < this->_allowMethods.size(); i++)
+        std::cout << this->_allowMethods[i] << " ";
+    std::cout << std::endl;
+    //print indexs
+    std::cout << "index: ";
+    for (size_t i = 0; i < this->_indexs.size(); i++)
+        std::cout << this->_indexs[i] << " ";
+    std::cout << std::endl;
 }
 
 location::~location(){
