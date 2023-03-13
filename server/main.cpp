@@ -2,7 +2,7 @@
 
 int main()
 {
-    Connection conn;
-    conn._socket();
+    Connection conn(8004);
+    conn.createsocket();
     return 0;
 }

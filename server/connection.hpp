@@ -8,23 +8,21 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <poll.h>
 using namespace std;
-#define port 8003
+// #define port 8003
+#define MAX_CONNECTIONS 10
 #define MAX_REQUEST_SIZE  1024
 class Connection 
 {
     private:
         int serverSocket;
         int clientSocket;
+        int port;
         struct sockaddr_in serverAddr;
         struct sockaddr_in clientAddr;
     public:
-        void _socket();
-        void _bind();
-        void _accept();
-        void _listen();
-        void _recv();
-        void print();
-        void _send();
+        Connection(int port);
+        void createsocket();
         void start();
 };
