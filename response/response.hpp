@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/09 19:23:40 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:32:22 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ class response
         void setStatus(std::string status, int code);
         void setHeader(std::string key, std::string value);
         void setBody(std::string body);
+        
 };

@@ -5,7 +5,7 @@ class ParseRequest
 {
 private:
     std::string method;
-    std::string url;
+    std::string url;ii
     std::string httpVersion;
     std::map<std::string, std::string> header;
     std::map<std::string, std::string> body;

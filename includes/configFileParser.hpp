@@ -6,10 +6,11 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:11 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/11 14:19:59 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:27:47 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "response.hpp"
 #include "utils.hpp"
 
 struct parsConfig{
@@ -24,6 +25,3 @@ void getLocations(std::string &content, std::map <std::string, std::string> &loc
 void removeWhiteSpace(std::string &str);
 bool isAllWhiteSpace(std::string const& str);
 void PrintExit(std::string str);
-
-#endif
-
