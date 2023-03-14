@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/10 16:06:50 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/13 19:02:02 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	server::setValues(std::string &key, std::string &value){
 
 void	server::setDefaultValues(){
 	if (this->_clientMaxBodySize == 0)
-		this->_clientMaxBodySize = 1000000;
+		this->_clientMaxBodySize = 10000;
 	if (this->_autoIndex == "")
 		this->_autoIndex = "off";
 	if (this->_host == "")

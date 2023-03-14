@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/11 16:32:22 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:28:38 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <fstream>
 #include <fcntl.h>
 #include <map>
+#include"../includes/server.hpp"
 
 class response
 {
@@ -30,7 +31,7 @@ class response
         std::string _status;
         std::map<std::string, std::string> _header; // key, value
         std::string _body;
-
+        location&    _location;
     public:
         response();
         ~response();
