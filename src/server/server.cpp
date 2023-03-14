@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/10 16:06:50 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:14:21 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,14 @@ void server::printValues(){
 		it3->second.printValues();
 		it3++;
 	}
+}
+
+std::string server::getHost(){
+	return (this->_host);
+}
+
+std::vector<int> server::getPorts(){
+	return (this->_ports);
 }
 
 server::~server(){

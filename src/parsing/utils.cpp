@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:14:41 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/03 14:14:22 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:11:37 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,21 @@ void    parsLine(std::string &str, std::string &key, std::string &value){
 	if (pos == std::string::npos || str.find_first_not_of(" \t", pos) == std::string::npos)
 		PrintExit("Error config file in key " + key + " has no value");
 	value = str.substr(str.find_first_not_of(" \t", pos), str.length() - 1);
+}
+
+void removeHostPortDuplicates(std::multimap<std::string, int> &hostPort){
+	std::multimap<std::string, int>::iterator it = hostPort.begin();
+	std::multimap<std::string, int>::iterator it2 = hostPort.begin();
+	while (it != hostPort.end()){
+		it2 = it;
+		it2++;
+		while (it2 != hostPort.end()){
+			if (it->first == it2->first && it->second == it2->second){
+				hostPort.erase(it2++);
+			}
+			else
+				it2++;
+		}
+		it++;
+	}
 }
