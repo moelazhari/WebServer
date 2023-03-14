@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/09 17:47:06 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:37:52 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ location::location(){
     return ;
 }
 
-location::location (std::string &content): _cgiPath(""), _return(std::pair<int, std::string>(0, "")){
+location::location (std::string &content): _cgiPath(std::map<std::string, std::string>()), _return(std::pair<int, std::string>(0, "")){
     size_t      			pos = 0;
     std::string             tmp;
     std::string             key;
@@ -53,9 +53,17 @@ void    location::setValues(std::string &key, std::string &value){
 }
 
 void  location::setCgiPath(std::string key, std::string &value){
-    if (_cgiPath != "")
-        PrintExit("Error config file in key " + key + ": " + value + " already set");
-    this->_cgiPath = value;
+    std::vector<std::string>    tmp = split(value, " ");
+
+    if (tmp.size() != 2)
+        PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+    if (tmp[0][0] != '.')
+        PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid extension");
+    if (tmp[0] != ".py" && tmp[0] != ".php")
+        PrintExit("Error config file in key " + key + ": " + tmp[0] + " extension is not supported yet");
+    if (_cgiPath.find(tmp[0]) != _cgiPath.end())
+        PrintExit("Error config file in key " + key + ": " + tmp[0] + " extension is already set");
+    this->_cgiPath[tmp[0]] = tmp[1];
 }
 
 void location::setReturn(std::string key, std::string &value){
@@ -82,6 +90,10 @@ void location::printValues(){
     for (size_t i = 0; i < this->_indexs.size(); i++)
         std::cout << this->_indexs[i] << " ";
     std::cout << std::endl;
+    //print cgi path
+    std::cout << "cgi path: ";
+    for (std::map<std::string, std::string>::iterator it = this->_cgiPath.begin(); it != this->_cgiPath.end(); it++)
+        std::cout << it->first << " " << it->second << " ";
 }
 
 location::~location(){

@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:01:39 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/13 17:12:54 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:26:00 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class location : public Values
 {
 	private:
-		std::string							_cgiPath;
+		std::map<std::string, std::string>	_cgiPath;
 		std::pair<int, std::string>			_return;
 	public:
 		location();

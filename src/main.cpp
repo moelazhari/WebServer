@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/14 19:15:33 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:38:11 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,18 @@ int main (int ac, char **av)
 		}
 	}
 	removeHostPortDuplicates(hostPort);
-	//print hostPort
-	std::multimap<std::string, int>::iterator it;
-	 for (it = hostPort.begin(); it != hostPort.end(); it++){
-		std::cout << "      " << it->first << ":" << it->second << std::endl;
-	}
-
-	//print Servers
-	// for (size_t i = 0; i < servers.size(); i++){
-	// 	std::cout << "      Server " << i << ": " << std::endl;
-	// 	servers[i].printValues();
+	
+	// //print hostPort
+	// std::multimap<std::string, int>::iterator it;
+	//  for (it = hostPort.begin(); it != hostPort.end(); it++){
+	// 	std::cout << "      " << it->first << ":" << it->second << std::endl;
 	// }
+
+	// print Servers
+	for (size_t i = 0; i < servers.size(); i++){
+		std::cout << "      Server " << i << ": " << std::endl;
+		servers[i].printValues();
+	}
 
 	return (0);
 }
