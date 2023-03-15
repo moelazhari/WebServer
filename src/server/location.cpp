@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
 /*   Updated: 2023/03/15 17:09:50 by mazhari          ###   ########.fr       */
@@ -38,12 +38,12 @@ location::location (std::string &content): _cgiPaths(std::map<std::string, std::
 }
 
 void    location::setValues(std::string &key, std::string &value){
-    std::string values[11] = {"client_max_body_size",  "autoindex", "host", "root", "error_page", "allow_methods", "index", "path_info", "return"};
-
+    std::string values[9] = {"client_max_body_size",  "autoindex", "host", "root", "error_page", "allow_methods", "index", "path_info", "return"};
+  
     void (location::*f[11])(std::string key, std::string &value) = {&location::setClientMaxBodySize, &location::setAutoIndex, &location::setHost,\
     &location::setRoot, &location::setErrorPages, &location::setAllowMethods, &location::setIndexs, &location::setCgiPaths, &location::setReturn};
     
-    for (int i = 0; i < 11; i++){
+    for (int i = 0; i < 9; i++){
         if (key == values[i]){
             (this->*f[i])(key, value);
             return ;
