@@ -6,11 +6,12 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:11 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/11 16:27:47 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 22:39:00 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "response.hpp"
+#pragma once
+
 #include "utils.hpp"
 
 struct parsConfig{

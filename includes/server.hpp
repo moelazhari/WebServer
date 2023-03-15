@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/15 19:06:54 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 22:39:27 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class server: public Values
 {
 	private:
 		std::map<std::string, location>		_locations;
-		response							_response;
+		// response							_response;
 		// client
 	public:
 		server(parsConfig &config);

@@ -6,12 +6,13 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/15 19:12:27 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 22:34:12 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "configFileParser.hpp"
 #include "server.hpp"
+#include "connection.hpp"
 
 int main (int ac, char **av)
 {
@@ -35,6 +36,8 @@ int main (int ac, char **av)
 		}
 	}
 	removeHostPortDuplicates(hostPort);
+	Connection connection(hostPort.begin()->second);
+	connection.createsocket();
 	
 	// //print hostPort
 	// std::multimap<std::string, int>::iterator it;
