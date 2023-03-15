@@ -17,6 +17,7 @@ void Connection::start()
             cerr << "Failed to accept incoming connection" << endl;
             exit(1);
         }
+        /****************************************************************************/
         char request[MAX_REQUEST_SIZE]; // normalement  object request parser
         int numBytes = recv(clientSocket, request, MAX_REQUEST_SIZE, 0);
         if (numBytes == -1)
@@ -32,8 +33,8 @@ void Connection::start()
             cerr << "Failed to send response to client" << endl;
             exit(1);
         }
-        // cout << "\n"
-        //      << response << endl;
+        cout << response << endl;
+        /****************************************************************************/
         close(clientSocket);
     }
     close(serverSocket);

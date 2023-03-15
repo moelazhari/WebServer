@@ -25,4 +25,6 @@ class Connection
         Connection(int port);
         void createsocket();
         void start();
+        bool isReadyRead();
+        bool isReadyWrite();
 };
