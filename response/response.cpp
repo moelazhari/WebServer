@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/15 14:22:19 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 15:13:56 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ bool response::getIsLocation()
     return this->_isLocation;
 }
 
-void response::setIsLocation(bool isLocation)
+void response::setIsLocation(bool value)
 {
-    this->_isLocation = isLocation;
+    this->_isLocation = value;
 }
 
 std::string response::getStatus()

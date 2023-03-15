@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getMethod.cpp                                      :+:      :+:    :+:   */
+/*   postMethod.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/15 15:38:14 by aboudoun         ###   ########.fr       */
+/*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
+/*   Updated: 2023/03/15 15:38:25 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "response.hpp"
 
-void Get(server& serv)
+void Post(server& serv)
 {
     return;
 }
-
