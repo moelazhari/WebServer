@@ -1,0 +1,13 @@
+abderrazahk
+add getters to the request class
+
+simo 
+add getters to values class
+add getMethodes to location class
+add getReturnRedirection to location class
+
+how can you know if location have redirection
+
+abderrahim 
+add a function to set the non change headers
+add a function to set 
