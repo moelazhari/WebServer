@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/15 15:13:56 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 17:45:38 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,52 +14,62 @@
 
 response::response()
 {
-    _isLocation = false;
-    
-    return ;
+	_isLocation = false;
+	return ;
 }
 
 response::~response()
 {
-    return ;
+	return ;
+}
+// --------------------------------- SETTER --------------------------------- //
+void	response::setStatus(std::string status, int code)
+{
+	this->_status = "HTTP/1.1 " + std::to_string(code) + " " + status;
 }
 
-void response::setStatus(std::string status, int code)
+void	response::setHeader(std::string key, std::string value)
 {
-    this->_status = "HTTP/1.1 " + std::to_string(code) + " " + status;
+	this->_header[key] = value;
 }
 
-void response::setHeader(std::string key, std::string value)
+void	response::setBody(std::string body)
 {
-    this->_header[key] = value;
+	this->_body = body;
 }
 
-void response::setBody(std::string body)
+void	response::setIsLocation(bool value)
 {
-   this->_body = body;
+	this->_isLocation = value;
 }
 
-bool response::getIsLocation()
+void	response::setRootPath(std::string rootPath)
 {
-    return this->_isLocation;
+	this->_rootPath = rootPath;
 }
 
-void response::setIsLocation(bool value)
+// --------------------------------- GETTER --------------------------------- //
+bool	response::getIsLocation()
 {
-    this->_isLocation = value;
+	return this->_isLocation;
 }
 
-std::string response::getStatus()
+std::string	response::getRootPath()
 {
-    return this->_status;
+	return this->_rootPath;
 }
 
-std::string response::getHeader(std::string key)
+std::string	response::getStatus()
 {
-    return this->_header[key];
+	return this->_status;
 }
 
-std::string response::getBody()
+std::string	response::getHeader(std::string key)
 {
-    return this->_body;
+	return this->_header[key];
+}
+
+std::string	response::getBody()
+{
+	return this->_body;
 }
