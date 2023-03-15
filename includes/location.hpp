@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:01:39 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/15 19:05:10 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:49:20 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class location : public Values
 {
 	private:
-		std::map<std::string, std::string>	_cgiPath;
+		std::map<std::string, std::string>	_cgiPaths;
 		std::pair<int, std::string>			_return;
 	public:
 		location();
@@ -27,10 +27,12 @@ class location : public Values
 		~location();
 
 		void    setValues(std::string &key, std::string &value);
-		void    checkValues();
 		
-		void setCgiPath(std::string key, std::string &value);
+		void setCgiPaths(std::string key, std::string &value);
 		void setReturn(std::string key, std::string &value);
+
+		std::map<std::string, std::string>	getCgiPaths();
+		std::pair<int, std::string>			getReturn();
 
 		void printValues();
 };

@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:55:41 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/09 17:38:21 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:05:52 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,40 @@ void Values::setIndexs(std::string key, std::string &value){
 	for (size_t i = 0; i < tmp.size(); i++){
 		this->_indexs.push_back(tmp[i]);
 	}
+}
+
+int Values::getClientMaxBodySize(){
+	return this->_clientMaxBodySize;
+}
+
+std::string Values::getAutoIndex(){
+	return this->_autoIndex;
+}
+
+std::string Values::getHost(){
+	return this->_host;
+}
+
+std::string Values::getRoot(){
+	return this->_root;
+}
+
+std::string Values::getServerName(){
+	return this->_serverName;
+}
+
+std::vector<int> Values::getPorts(){
+	return this->_ports;
+}
+
+std::map<int, std::string> Values::getErrorPages(){
+	return this->_errorPages;
+}
+
+std::vector<std::string> Values::getAllowMethods(){
+	return this->_allowMethods;
+}
+
+std::vector<std::string> Values::getIndexs(){
+	return this->_indexs;
 }

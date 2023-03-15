@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:44:48 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/09 17:28:51 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:00:59 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class Values{
 		virtual ~Values();
 		virtual void    setValues(std::string &key, std::string &value) = 0;
 
+		// setters
 		void setClientMaxBodySize(std::string key, std::string &value);
 		void setAutoIndex(std::string key, std::string &value);
 		void setHost(std::string key, std::string &value);
@@ -41,6 +42,16 @@ class Values{
 		void setErrorPages(std::string key, std::string &value);
 		void setAllowMethods(std::string key, std::string &value);
 		void setIndexs(std::string key, std::string &value);
+		// getters
+		std::string					getAutoIndex();
+		int							getClientMaxBodySize();
+		std::string					getHost();
+		std::string					getRoot();
+		std::string					getServerName();
+		std::vector<int>			getPorts();
+		std::map<int, std::string>	getErrorPages();
+		std::vector<std::string>	getAllowMethods();
+		std::vector<std::string>	getIndexs();
 };
 
 #endif
