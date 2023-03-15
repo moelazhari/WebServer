@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/15 17:45:38 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:31:55 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,14 @@ void	response::setIsLocation(bool value)
 	this->_isLocation = value;
 }
 
-void	response::setRootPath(std::string rootPath)
+// void	response::setRootPath(std::string rootPath)
+// {
+// 	this->_rootPath = rootPath;
+// }
+
+void	response::setLocation(location& location)
 {
-	this->_rootPath = rootPath;
+	this->_location = location;
 }
 
 // --------------------------------- GETTER --------------------------------- //
@@ -54,10 +59,10 @@ bool	response::getIsLocation()
 	return this->_isLocation;
 }
 
-std::string	response::getRootPath()
-{
-	return this->_rootPath;
-}
+// std::string	response::getRootPath()
+// {
+// 	return this->_rootPath;
+// }
 
 std::string	response::getStatus()
 {
