@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/13 19:02:02 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:07:11 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,14 @@ void server::printValues(){
 		it3->second.printValues();
 		it3++;
 	}
+}
+
+std::string server::getHost(){
+	return (this->_host);
+}
+
+std::vector<int> server::getPorts(){
+	return (this->_ports);
 }
 
 server::~server(){

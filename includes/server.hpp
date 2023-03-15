@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/13 16:12:15 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:06:54 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,8 @@ class server: public Values
 
 		void setValues(std::string &key, std::string &value);
 		void setDefaultValues();
-		// execPost();
-		// execGET();
-		// execDELEt();
-		// startserver();
-
+		std::string			getHost();
+		std::vector<int>	getPorts();
 		void printValues();
 };
 
