@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/13 18:28:38 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/15 13:30:48 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class response
         std::map<std::string, std::string> _header; // key, value
         std::string _body;
         location&    _location;
+        bool        _isLocation;
     public:
         response();
         ~response();
@@ -39,9 +40,11 @@ class response
         std::string getStatus();
         std::string getHeader(std::string key);
         std::string getBody();
+        bool        getIsLocation();
         
         void setStatus(std::string status, int code);
         void setHeader(std::string key, std::string value);
         void setBody(std::string body);
+        void setIsLocation(bool isLocation);
         
 };
