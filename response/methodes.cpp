@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/15 19:42:52 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/16 22:01:02 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	check_for_location(server& serv)
 		if (it != serv._locations.end())
 		{
 			serv._response.setLocation(it->second);
+			serv._response.setLocationPath(it->first)
 			serv._response.setIsLocation(true);
 			return ;
 		}
@@ -36,6 +37,7 @@ void	check_for_location(server& serv)
 	if (it != serv._locations.end())
 	{
 		serv._response.setLocation(it->second);
+		serv._response.setLocationPath(it->first)
 		serv._response.setIsLocation(true);
 		return ;
 	}

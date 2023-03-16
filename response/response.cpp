@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/15 19:31:55 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/16 21:16:10 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ void	response::setLocation(location& location)
 	this->_location = location;
 }
 
+void	response::setLocationPath(std::string path)
+{
+	this->_locationPath = path;
+}
+
 // --------------------------------- GETTER --------------------------------- //
 bool	response::getIsLocation()
 {
@@ -77,4 +82,9 @@ std::string	response::getHeader(std::string key)
 std::string	response::getBody()
 {
 	return this->_body;
+}
+
+std::string	response::getLocationPath()
+{
+	return this->_locationPath;
 }
