@@ -6,13 +6,13 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/15 22:55:09 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/16 18:01:00 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "configFileParser.hpp"
 #include "server.hpp"
-#include "cgi.hpp"
+#include "connection.hpp"
 
 int main (int ac, char **av)
 {
@@ -36,6 +36,9 @@ int main (int ac, char **av)
 		}
 	}
 	removeHostPortDuplicates(hostPort);
+	Connection connection(hostPort.begin()->second);
+	connection.createsocket();
+	
 	// //print hostPort
 	// std::multimap<std::string, int>::iterator it;
 	//  for (it = hostPort.begin(); it != hostPort.end(); it++){
@@ -47,6 +50,5 @@ int main (int ac, char **av)
 		std::cout << "      Server " << i << ": " << std::endl;
 		servers[i].printValues();
 	}
-
-	return (0);
+    return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+         #
+#    By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/04 20:21:22 by mazhari           #+#    #+#              #
-#    Updated: 2023/03/09 16:32:12 by mazhari          ###   ########.fr        #
+#    Updated: 2023/03/15 22:33:06 by aboudoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ INCLUDES= ./includes
 B_DIR = ./build
 
 PARSING= $(addprefix parsing/, configFileParser utils)
-SERVER= $(addprefix server/, server location Values)
+SERVER= $(addprefix server/, server location Values connection)
 
 
 FILES= $(addprefix src/, main $(PARSING) $(SERVER))
