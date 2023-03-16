@@ -11,3 +11,4 @@ abderrahim
 add a function to set the non change headers
 add a function to join the responce 
 change the server... geters prototype
+write a method setBody to read the file and set the body with its contet
