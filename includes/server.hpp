@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/14 15:12:22 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:41:09 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ class server: public Values
 {
 	private:
 		std::map<std::string, location>		_locations;
-		// request								_request;
+		// request							_request;
 		// response							_response;
 		// client
 	public:
