@@ -6,25 +6,17 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 18:03:03 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:45:42 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <iostream>
-#include <cstring>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <iostream>
-#include <cerrno>
-#include <cstring>
-#include <fstream>
-#include <fcntl.h>
-#include <map>
-#include<dirent.h>
-#include"../includes/server.hpp"
+#include <dirent.h>
+#include "server.hpp"
+#include "ParseRequest.hpp"
+
 
 class response
 {
@@ -32,7 +24,7 @@ class response
 		std::string							_status;
 		std::map<std::string, std::string>	_header; // key, value
 		std::string							_body;
-		location&							_location;
+		location							_location;
 		std::string							_locationPath;
 		bool								_isLocation;
 	public:
@@ -51,7 +43,7 @@ class response
 		void		setIsLocation(bool value);
 		void		setLocation(location& location);
 		void		setLocationPath(std::string path);
-		//TODO generate_response(server& server, request& request)
+		void		generateResponse(server& server, ParseRequest& request);
 		//TODO std::string send_request();
 		//TODO std::string send_error(int status);
 };

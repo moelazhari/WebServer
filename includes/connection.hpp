@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <sstream>
 #include <cstring>
 #include <cstdlib>
 #include <cstdio>
@@ -11,9 +9,8 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <poll.h>
-#include <map>
-#include <vector>
 #include "server.hpp"
+#include "ParseRequest.hpp"
 using namespace std;
 // #define port 8003
 #define MAX_SERVER 10

@@ -6,7 +6,7 @@
 #    By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/04 20:21:22 by mazhari           #+#    #+#              #
-#    Updated: 2023/03/15 22:33:06 by aboudoun         ###   ########.fr        #
+#    Updated: 2023/03/17 18:38:08 by aboudoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,10 @@ B_DIR = ./build
 
 PARSING= $(addprefix parsing/, configFileParser utils)
 SERVER= $(addprefix server/, server location Values connection ParseRequest)
+RESPONSE= $(addprefix response/, response methodes getMethod)
 
 
-FILES= $(addprefix src/, main $(PARSING) $(SERVER))
+FILES= $(addprefix src/, main $(PARSING) $(SERVER) $(RESPONSE))
 OBJS= $(addprefix $(B_DIR)/, $(FILES:=.o))
 
 all: $(NAME)
