@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Values.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:44:48 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/15 19:11:43 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 20:09:25 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ class Values{
 		virtual void    setValues(std::string &key, std::string &value) = 0;
 
 		// setters
-		void setClientMaxBodySize(std::string key, std::string &value);
-		void setAutoIndex(std::string key, std::string &value);
-		void setHost(std::string key, std::string &value);
-		void setRoot(std::string key, std::string &value);
-		void setServerName(std::string key, std::string &value);
-		void setPorts(std::string key, std::string &value);
-		void setErrorPages(std::string key, std::string &value);
-		void setAllowMethods(std::string key, std::string &value);
-		void setIndexs(std::string key, std::string &value);
+		void setClientMaxBodySize(std::string &value);
+		void setAutoIndex(std::string &value);
+		void setHost(std::string &value);
+		void setRoot(std::string &value);
+		void setServerName(std::string &value);
+		void setPorts(std::string &value);
+		void setErrorPages(std::string &value);
+		void setAllowMethods(std::string &value);
+		void setIndexs(std::string &value);
 		// getters
 		std::string					getAutoIndex();
 		int							getClientMaxBodySize();

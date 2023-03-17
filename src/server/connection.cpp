@@ -17,7 +17,7 @@ void Connection::receiveRequest(int clientSocket)
     // 
     response _response;
     _response.generateResponse(this->servers[0] ,_request);
-    const char *response =  "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nHello World"; //_response.sendResponse(clientSocket);
+    const char *response =  "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nyouns l3zii"; //_response.sendResponse(clientSocket);
     _request.affiche();
 
     /*---------------response------------------------------------------------*/

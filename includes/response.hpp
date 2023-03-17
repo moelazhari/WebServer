@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   response.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 18:45:42 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 20:00:57 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ class response
 		location							_location;
 		std::string							_locationPath;
 		bool								_isLocation;
+		// cgi
+		char								*_env[8];
+		char								*cmd[2];
 	public:
 		response();
 		~response();
@@ -46,4 +49,8 @@ class response
 		void		generateResponse(server& server, ParseRequest& request);
 		//TODO std::string send_request();
 		//TODO std::string send_error(int status);
+		//cgi
+		void		cgi(server& server, ParseRequest& request);
+		void		cgiSetEnv(server& server, ParseRequest& request);
+		char		*getCGIPaths(std::string fileName);
 };
