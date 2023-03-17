@@ -50,3 +50,13 @@ void ParseRequest::affiche()
     }
     std::cout << "-------------------body------------------------" << std::endl;
 }
+
+std::string ParseRequest::getMethod()
+{
+    return (this->method);
+}
+
+std::string ParseRequest::getHeadr(std::string key)
+{
+    return (this->header[key]);
+}

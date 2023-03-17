@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/17 19:10:32 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 21:47:54 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ server::server(parsConfig &config){
 void	server::setValues(std::string &key, std::string &value){
 	std::string values[9] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "listen", "error_page", "allow_methods", "index"};
 	
-	void (server::*f[9])(std::string key, std::string &value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
+	void (server::*f[9])(std::string value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
 	 &server::setRoot, &server::setServerName, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs};
 
 	for (int i = 0; i < 9; i++){
 		if (key == values[i]){
-			(this->*f[i])(key, value);
+			(this->*f[i])(value);
 			return ;
 		}
 	}

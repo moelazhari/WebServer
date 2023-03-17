@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/17 18:35:10 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 21:48:17 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,39 +40,39 @@ location::location (std::string &content): _cgiPaths(std::map<std::string, std::
 void    location::setValues(std::string &key, std::string &value){
     std::string values[9] = {"client_max_body_size",  "autoindex", "host", "root", "error_page", "allow_methods", "index", "path_info", "return"};
   
-    void (location::*f[11])(std::string key, std::string &value) = {&location::setClientMaxBodySize, &location::setAutoIndex, &location::setHost,\
+    void (location::*f[9])(std::string value) = {&location::setClientMaxBodySize, &location::setAutoIndex, &location::setHost,\
     &location::setRoot, &location::setErrorPages, &location::setAllowMethods, &location::setIndexs, &location::setCgiPaths, &location::setReturn};
     
     for (int i = 0; i < 9; i++){
         if (key == values[i]){
-            (this->*f[i])(key, value);
+            (this->*f[i])(value);
             return ;
         }
     }
     PrintExit("Error config file in key " + key + ": invalid key");
 }
 
-void  location::setCgiPaths(std::string key, std::string &value){
+void  location::setCgiPaths(std::string value){
     std::vector<std::string>    tmp = split(value, " ");
 
     if (tmp.size() != 2)
-        PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+        PrintExit("Error config file: cgiPath: " + value + " invalid value");
     if (tmp[0][0] != '.')
-        PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid extension");
+        PrintExit("Error config file: cgiPath: " + tmp[0] + " is not valid extension");
     if (tmp[0] != ".py" && tmp[0] != ".php")
-        PrintExit("Error config file in key " + key + ": " + tmp[0] + " extension is not supported yet");
+        PrintExit("Error config file: cgiPath: " + tmp[0] + " extension is not supported yet");
     if (_cgiPaths.find(tmp[0]) != _cgiPaths.end())
-        PrintExit("Error config file in key " + key + ": " + tmp[0] + " extension is already set");
+        PrintExit("Error config file: cgiPath: " + tmp[0] + " extension is already set");
     this->_cgiPaths[tmp[0]] = tmp[1];
 }
 
-void location::setReturn(std::string key, std::string &value){
+void location::setReturn(std::string value){
     std::vector<std::string>    tmp = split(value, " ");
 
     if (tmp.size() != 2)
-        PrintExit("Error config file in key " + key + ": " + value + " invalid value");
+        PrintExit("Error config file: return:" + value + " invalid value");
     if (!isAllNumber(tmp[0]) || toInt(tmp[0]) < 100 || toInt(tmp[0]) > 504)
-        PrintExit("Error config file in key " + key + ": " + tmp[0] + " is not valid error code");
+        PrintExit("Error config file: return:" + tmp[0] + " is not valid error code");
     this->_return = std::pair<int, std::string>(toInt(tmp[0]), tmp[1]);
 }
 

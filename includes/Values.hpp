@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:44:48 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/17 20:24:38 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 21:47:01 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ class Values{
 		virtual void    setValues(std::string &key, std::string &value) = 0;
 
 		// setters
-		void setClientMaxBodySize(std::string key, std::string &value);
-		void setAutoIndex(std::string key, std::string &value);
-		void setHost(std::string key, std::string &value);
-		void setRoot(std::string key, std::string &value);
-		void setServerName(std::string key, std::string &value);
-		void setPorts(std::string key, std::string &value);
-		void setErrorPages(std::string key, std::string &value);
-		void setAllowMethods(std::string key, std::string &value);
-		void setIndexs(std::string key, std::string &value);
+		void setClientMaxBodySize(std::string value);
+		void setAutoIndex(std::string value);
+		void setHost(std::string value);
+		void setRoot(std::string value);
+		void setServerName(std::string value);
+		void setPorts(std::string value);
+		void setErrorPages(std::string value);
+		void setAllowMethods(std::string value);
+		void setIndexs(std::string value);
 		// getters
 		std::string					getAutoIndex();
 		int							getClientMaxBodySize();
