@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   configFileParser.hpp                               :+:      :+:    :+:   */
+/*   DeleteMethod.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 15:02:11 by mazhari           #+#    #+#             */
-/*   Updated: 2023/02/24 16:59:49 by mazhari          ###   ########.fr       */
+/*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
+/*   Updated: 2023/03/15 18:55:29 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONFIGFILEPARSER_HPP
-# define CONFIGFILEPARSER_HPP
+#include "response.hpp"
 
-# include <iostream>
-# include <fstream>
-# include <string>
-# include <algorithm>
-
-void    parseConfigFile(std::string fileName);
-
-#endif
+void	Delete(server& serv)
+{
+	return;
+}

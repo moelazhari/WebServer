@@ -1,2 +1,0 @@
-git pull --allow-unrelated-histories upstream master
-git config alias.pushall '!git push origin && git push upstream'

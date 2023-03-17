@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 #include <sstream>
 #include <cstring>
@@ -9,22 +11,30 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <poll.h>
+#include <map>
+#include <vector>
+#include "server.hpp"
 using namespace std;
 // #define port 8003
+#define MAX_SERVER 10
 #define MAX_CONNECTIONS 10
 #define MAX_REQUEST_SIZE  1024
 class Connection 
 {
     private:
         int serverSocket;
+        vector<int> serverSocketList;
         int clientSocket;
-        int port;
+        ParseRequest _request;
         struct sockaddr_in serverAddr;
         struct sockaddr_in clientAddr;
+        vector<struct pollfd> fds;
     public:
-        Connection(int port);
-        void createsocket();
+        Connection(multimap<string, int> hostPort);
+        int createsocket(int port);
+        // server getServer(std::vector servers);
+        void handelRequest(vector<server> servers);
+        void generate_respoonse(server& serv);
         void start();
-        bool isReadyRead();
-        bool isReadyWrite();
+        void receiveRequest(int clientSocket);
 };
