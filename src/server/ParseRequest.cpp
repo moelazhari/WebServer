@@ -32,9 +32,10 @@ void ParseRequest::parseRequest(const std::string &request)
         pos = end + 2;
     }
 }
-void ParseRequest::getURL()
+
+std::string ParseRequest::getLink()
 {
-    std::cout << "URL: " << this->url << std::endl;
+    return (this->url);
 }
 void ParseRequest::affiche()
 {

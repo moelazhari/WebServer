@@ -1,6 +1,17 @@
 #include "connection.hpp"
 #include "response.hpp"
 
+// void Connection::sendErrorPage(ParseRequest &request)
+// {
+//     // if (request.getURL().length() > 2048)
+//     // {
+//     // }
+//     // else if ()//content-lenght > max body size
+//     // {
+
+//     // }
+// }
+
 void Connection::receiveRequest(int clientSocket)
 {
     // std::cout << "clientSocket => " << clientSocket << std::endl;
@@ -8,22 +19,23 @@ void Connection::receiveRequest(int clientSocket)
     int numBytes = recv(clientSocket, request, MAX_REQUEST_SIZE, 0);
     if (numBytes == -1)
     {
-        cerr << "Failed to read request from client" << endl;
+        std::cerr << "Failed to read request from client" << std::endl;
         close(clientSocket);
         exit(1);
     }
     _request.parseRequest(request);
-
-    // 
+    //
     response _response;
-    _response.generateResponse(this->servers[0] ,_request);
-    const char *response =  "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nHello World"; //_response.sendResponse(clientSocket);
+    // chech_request(_request, _response);
+
+    _response.generateResponse(this->servers[0], _request);
+    const char *response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nHello World"; //_response.sendResponse(clientSocket);
     _request.affiche();
 
     /*---------------response------------------------------------------------*/
     if (send(clientSocket, response, strlen(response), 0) == -1)
     {
-        cerr << "Failed to send response to client" << endl;
+        std::cerr << "Failed to send response to client" << std::endl;
         close(clientSocket);
         exit(1);
     }
@@ -33,9 +45,9 @@ void Connection::receiveRequest(int clientSocket)
     close(clientSocket);
 }
 
-Connection::Connection(multimap<string, int> hostPort, std::vector<server> servers): servers(servers)
+Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers) : servers(servers)
 {
-    multimap<string, int>::iterator it;
+    std::multimap<std::string, int>::iterator it;
     int i = 0;
     for (it = hostPort.begin(); it != hostPort.end(); it++)
     {
@@ -51,11 +63,11 @@ void Connection::start()
 {
     while (true)
     {
-        cout << "Waiting for incoming connections port => " << endl;
+        std::cout << "Waiting for incoming connections port => " << std::endl;
         socklen_t addrLen = sizeof(struct sockaddr_in);
         if (poll(&fds[0], fds.size(), -1) < 0)
         {
-            cerr << "Failed to poll" << endl;
+            std::cerr << "Failed to poll" << std::endl;
             exit(1);
         }
         for (size_t i = 0; i < fds.size(); i++)
@@ -68,10 +80,10 @@ void Connection::start()
                     clientSocket = accept(serverSocketList[i], (struct sockaddr *)&clientAddr, &addrLen);
                     if (clientSocket == -1)
                     {
-                        cerr << "Failed to accept incoming connection" << endl;
+                        std::cerr << "Failed to accept incoming connection" << std::endl;
                         exit(1);
                     }
-                     receiveRequest(clientSocket);
+                    receiveRequest(clientSocket);
                 }
             }
         }
@@ -85,7 +97,7 @@ int Connection::createsocket(int port)
     int opt = 1;
     if (serverSocket == -1)
     {
-        cerr << "Failed to create server socket" << endl;
+        std::cerr << "Failed to create server socket" << std::endl;
         exit(1);
     }
     if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
@@ -93,19 +105,20 @@ int Connection::createsocket(int port)
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }
-    memset(&serverAddr, 0, sizeof(serverAddr)); // clears the serverAddr struct variable to all zeros.
-    serverAddr.sin_family = AF_INET;            // AF_INET is the address family for IPv4
-    // htons() converts the unsigned short integerfrom host byte order to network byte order.
+    // bind socket to port
+    memset(&serverAddr, 0, sizeof(serverAddr));
+    serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(port);
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
     {
-        cerr << "Failed to bind server socket to port " << port << endl;
+        std::cerr << "Failed to bind server socket to port " << port << std::endl;
         exit(1);
     }
+
     if (listen(serverSocket, 5) == -1)
     {
-        cerr << "Failed to listen for incoming connections" << endl;
+        std::cerr << "Failed to listen for incoming connections" << std::endl;
         exit(1);
     }
     return serverSocket;
