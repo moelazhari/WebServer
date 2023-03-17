@@ -11,28 +11,30 @@
 #include <poll.h>
 #include "server.hpp"
 #include "ParseRequest.hpp"
-using namespace std;
+// using namespace std;
 // #define port 8003
 #define MAX_SERVER 10
 #define MAX_CONNECTIONS 10
-#define MAX_REQUEST_SIZE  1024
-class Connection 
+#define MAX_REQUEST_SIZE 1024
+class Connection
 {
-    private:
-        int                 serverSocket;
-        std::vector<server> servers;   
-        vector<int>         serverSocketList;
-        int                 clientSocket;
-        ParseRequest        _request;
-        struct sockaddr_in serverAddr;
-        struct sockaddr_in clientAddr;
-        vector<struct pollfd> fds;
-    public:
-        Connection(std::multimap<string, int> hostPort,  std::vector<server> servers);
+private:
+        int                     serverSocket;
+        std::vector<server>     servers;
+        std::vector<int>        serverSocketList;
+        int                     clientSocket;
+        ParseRequest            _request;
+        struct sockaddr_in      serverAddr;
+        struct sockaddr_in      clientAddr;
+        std::vector<struct pollfd> fds;
+
+public:
+        Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers);
         int createsocket(int port);
         // server getServer(std::vector servers);
-        void handelRequest(vector<server> servers);
-        void generate_respoonse(server& serv);
+        void handelRequest(std::vector<server> servers);
+        void generate_respoonse(server &serv);
         void start();
         void receiveRequest(int clientSocket);
+        void sendErrorPage(ParseRequest &request);
 };
