@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/15 22:39:27 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:42:00 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@
 #include "configFileParser.hpp"
 #include "location.hpp"
 #include "Values.hpp"
-#include "../response/response.hpp"
 
 class server: public Values
 {
 	private:
 		std::map<std::string, location>		_locations;
-		// response							_response;
-		// client
 	public:
 		server(parsConfig &config);
 		~server();
