@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/15 17:53:49 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/16 22:01:02 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	check_for_location(server& serv)
 		it = serv._locations.find(link);
 		if (it != serv._locations.end())
 		{
-			serv._location = it->second;
+			serv._response.setLocation(it->second);
+			serv._response.setLocationPath(it->first)
 			serv._response.setIsLocation(true);
 			return ;
 		}
@@ -35,7 +36,8 @@ void	check_for_location(server& serv)
 	it = serv._locations.find("/");
 	if (it != serv._locations.end())
 	{
-		serv._location = it->second;
+		serv._response.setLocation(it->second);
+		serv._response.setLocationPath(it->first)
 		serv._response.setIsLocation(true);
 		return ;
 	}
@@ -67,16 +69,16 @@ void	cone::generate_respoonse(server& serv)
 	else
 	{
 		//check for return redirection
-		if (serv._response._location.getReturnRedirection().size())
+		if (serv._response._location.getReturn().size())
 		{
-			serv._response.setStatus("Moved Temporarily", serv._response._location.getReturnRedirection().first);
+			serv._response.setStatus("Moved Temporarily", serv._response._location.getReturn().first);
 			serv._response.setHeader("Content-Type", "text/html");
 			//return link
-			serv._response.setHeader("Location", serv._response._location.getReturnRedirection().second);
+			serv._response.setHeader("Location", serv._response._location.getReturn().second);
 		}
-	}
+		
 		//check if method allowed
-		else if (check_method(serv._request.getMethode(), serv._location.getMethodes()))
+		else if (check_method(serv._request.getMethode(), serv._response._location.getAllowMethods()) == false)
 		{
 			serv._response.setStatus("Method Not Allowed", 405);
 			serv._response.setHeader("Content-Type", "text/html");
@@ -84,11 +86,9 @@ void	cone::generate_respoonse(server& serv)
 		}
 		else
 		{
-			// set the root path
-			if (serv._location.getRoot().size())
-				serv._response.setRootPath(serv._location.getRoot());
-			else
-				serv._response.setRootPath(serv.getRoot());
+			// set the root in location to the root in server if the root in location is empty
+			if (serv._response._location.getRoot().size() == 0)
+				serv._response._location.setRoot(serv.getRoot());
 			//check which method to call
 			for (int i = 0; i < 3; i++)
 			{
@@ -96,4 +96,5 @@ void	cone::generate_respoonse(server& serv)
 					f[i](serv);
 			}
 		}
+	}
 }
