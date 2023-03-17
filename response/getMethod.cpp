@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 13:50:04 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 14:49:32 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	Get(server& serv)
 
 	path = serv._response._location.getRoot();
 	path = joinPaths(path, serv._request.getLink());
+	// TODO make this a funcion to work with it inside the dir loop
 	if (is_file(path))
 	{
 		if (serv._response._location.getCgiPaths.size())
@@ -91,10 +92,17 @@ void	Get(server& serv)
 			it = serv._response._location.getIndexs().begin();
 			while(it < serv._response._location.getIndexs().end() && !is_file(joinPaths(path, *it)))
 				it++;
-			if (it < serv._response._location.getIndexs().end())
+			if (it < serv._response._location.getIndexs().end() && is_file(joinPaths(path, *it)))
 			{
-				serv._response.setStatus("OK", 200);
-				serv._response.setBody(readFileContent(joinPaths(path, *it)));
+				if (serv._response._location.getCgiPaths.size())
+				{
+					// TODO run cgi if file format is in cgiPaths
+				}
+				else
+				{
+					serv._response.setStatus("OK", 200);
+					serv._response.setBody(readFileContent(joinPaths(path, *it)));
+				}
 			}
 			else
 				serv._response.setStatus("Forbidden", 403);
