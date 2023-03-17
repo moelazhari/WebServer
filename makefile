@@ -6,7 +6,7 @@
 #    By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/04 20:21:22 by mazhari           #+#    #+#              #
-#    Updated: 2023/03/17 20:36:13 by aboudoun         ###   ########.fr        #
+#    Updated: 2023/03/17 21:08:15 by aboudoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ B_DIR = ./build
 
 PARSING= $(addprefix parsing/, configFileParser utils)
 SERVER= $(addprefix server/, server location Values connection ParseRequest)
-RESPONSE= $(addprefix response/, response generateRes getMethod joinRes)
+RESPONSE= $(addprefix response/, response generateRes getMethode joinRes)
 
 
 FILES= $(addprefix src/, main $(PARSING) $(SERVER) $(RESPONSE))

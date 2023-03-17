@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   methodes.cpp                                       :+:      :+:    :+:   */
+/*   generateRes.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 20:24:00 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 21:04:23 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 		}
 		
 		//check if method allowed
-		else if (check_method(request.getMethode(), this->getLocation().getAllowMethods()) == false)
+		else if (check_method(request.getMethod(), this->getLocation().getAllowMethods()) == false)
 		{
 			this->setStatus("Method Not Allowed", 405);
 			this->setHeader("Content-Type", "text/html");
@@ -86,12 +86,12 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 		else
 		{
 			// set the root in location to the root in server if the root in location is empty
-			if (this->getLocation().getRoot().size() == 0)
-				this->getLocation().setRoot(serv.getRoot());
+			// if (this->getLocation().getRoot().size() == 0)
+			// 	this->getLocation().setRoot("root", serv.getRoot());
 			//check which method to call
 			for (int i = 0; i < 3; i++)
 			{
-				if (request.getMethode() == methods[i])
+				if (request.getMethod() == methods[i])
 					(this->*f[i])(serv, request);
 			}
 		}

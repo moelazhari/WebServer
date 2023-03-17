@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 20:17:34 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 21:05:18 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ std::string	readFileContent(std::string path)
 
 void	response::Get(server& serv, ParseRequest& request)
 {
+	(void)	serv;
 	std::string		path;
 	std::vector<std::string>::iterator it;
 
