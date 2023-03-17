@@ -36,19 +36,21 @@ int main (int ac, char **av)
 		}
 	}
 	removeHostPortDuplicates(hostPort);
-	Connection connection(hostPort.begin()->second);
-	connection.createsocket();
+	Connection connection(hostPort);
 	
-	// //print hostPort
+
+	// connection.createsocket();
+	
+	//print hostPort
 	// std::multimap<std::string, int>::iterator it;
 	//  for (it = hostPort.begin(); it != hostPort.end(); it++){
 	// 	std::cout << "      " << it->first << ":" << it->second << std::endl;
 	// }
 
 	// print Servers
-	for (size_t i = 0; i < servers.size(); i++){
-		std::cout << "      Server " << i << ": " << std::endl;
-		servers[i].printValues();
-	}
+	// for (size_t i = 0; i < servers.size(); i++){
+	// 	std::cout << "      Server " << i << ": " << std::endl;
+	// 	servers[i].printValues();
+	// }
     return (0);
 }

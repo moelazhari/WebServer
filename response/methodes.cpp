@@ -51,8 +51,9 @@ bool	check_method(std::string method, std::vector<std::string> methods)
 	return false;
 }
 
-void	generate_respoonse(server& serv)
+void	cone::generate_respoonse(server& serv)
 {
+	
 	void (*f[3])(server& serv) = {&Get, &Post, &Delete};
 	std::string methods[] = {"GET", "POST", "DELETE"};
 	

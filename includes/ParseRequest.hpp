@@ -8,10 +8,10 @@ private:
     std::string url;
     std::string httpVersion;
     std::map<std::string, std::string> header;
-    std::map<std::string, std::string> body;
-
+    // std::map<std::string, std::string> body;
 public:
     ParseRequest();
     void parseRequest(const std::string& request);
+    void getURL();
     void affiche();
 };

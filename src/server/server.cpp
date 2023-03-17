@@ -82,6 +82,8 @@ void	server::setDefaultValues(){
 	}
 }
 
+
+
 void server::printValues(){
 	std::cout << "client_max_body_size: " << this->_clientMaxBodySize << std::endl;
 	std::cout << "autoindex: " << this->_autoIndex << std::endl;

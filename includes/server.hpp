@@ -16,12 +16,14 @@
 #include "configFileParser.hpp"
 #include "location.hpp"
 #include "Values.hpp"
-#include "../response/response.hpp"
+// #include "response.hpp"
+#include "ParseRequest.hpp"
 
 class server: public Values
 {
 	private:
 		std::map<std::string, location>		_locations;
+		ParseRequest						_request;
 		// response							_response;
 		// client
 	public:
@@ -33,6 +35,9 @@ class server: public Values
 		std::string			getHost();
 		std::vector<int>	getPorts();
 		void printValues();
+
+		// void generateResponse(ParseRequest request);
+
 };
 
 #endif

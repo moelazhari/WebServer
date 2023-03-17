@@ -19,7 +19,7 @@ INCLUDES= ./includes
 B_DIR = ./build
 
 PARSING= $(addprefix parsing/, configFileParser utils)
-SERVER= $(addprefix server/, server location Values connection)
+SERVER= $(addprefix server/, server location Values connection ParseRequest)
 
 
 FILES= $(addprefix src/, main $(PARSING) $(SERVER))
