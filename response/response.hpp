@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/16 21:15:27 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:26:39 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <fstream>
 #include <fcntl.h>
 #include <map>
-#include <sys/stat.h>
+#include<dirent.h>
 #include"../includes/server.hpp"
 
 class response

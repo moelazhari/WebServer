@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/16 21:54:36 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:50:04 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,24 +32,33 @@ bool	is_dir(std::string path)
 	return is_dir;
 }
 
-void joinPaths(std::stirng& path, std::string add)
+std::string joinPaths(std::string path, std::string add)
 {
 	if (path[path.size() - 1] != '/')
 		path += '/';
 	if (add[0] == '/')
 		add = add.substr(1);
 	path += add;
+	return path;
 }
 
 std::string	readFileContent(std::string path)
 {
 	std::string content;
+	std::string line;
 
 	content = "";
 	std::ifstream file(path.c_str());
 	if (file.good())
 	{
-		getline(file, content, '\0');
+		// read line by line and remove \n
+		line = "";
+		while (getline(file, line))
+		{
+			if (line[line.size() - 1] == '\n')
+				line = line.substr(0, line.size() - 1);
+			content += line;
+		}
 	}
 	file.close();
 	return content;
@@ -58,36 +67,42 @@ std::string	readFileContent(std::string path)
 void	Get(server& serv)
 {
 	std::string		path;
-	// TODO add location path to root
-	//TODO check if root or location have / at the end or not and add it if needed
+	std::vector<std::string>::iterator it;
+
 	path = serv._response._location.getRoot();
-	joinPaths(path, serv._request.getLink());
+	path = joinPaths(path, serv._request.getLink());
 	if (is_file(path))
 	{
 		if (serv._response._location.getCgiPaths.size())
 		{
-			// TODO run cgi
+			// TODO run cgi if file format is in cgiPaths
 		}
 		else
 		{
-			serv._response.setStatusCode(200);
-			serv._response.setReasonPhrase("OK");
+			serv._response.setStatus("OK", 200);
 			serv._response.setBody(readFileContent(path));
 		}
 	}
 	else if (is_dir(path))
 	{
-		//TODO loop on indexs
 		if (serv._response._location.getIndexs().size())
 		{
-			// get the index file
-			//look for the index file if not found return 403
+			// loop on indexs and check if file exist
+			it = serv._response._location.getIndexs().begin();
+			while(it < serv._response._location.getIndexs().end() && !is_file(joinPaths(path, *it)))
+				it++;
+			if (it < serv._response._location.getIndexs().end())
+			{
+				serv._response.setStatus("OK", 200);
+				serv._response.setBody(readFileContent(joinPaths(path, *it)));
+			}
+			else
+				serv._response.setStatus("Forbidden", 403);
 		}
-		else if (is_file(path + "index.html"))
+		// check if index.html exist
+		else if (is_file(joinPaths(path, "index.html")))
 		{
-			serv._response.setStatusCode(200);
-			serv._response.setReasonPhrase("OK");
-			//TODO readFileContent
+			serv._response.setStatus("OK", 200);
 			serv._response.setBody(readFileContent(path + "/index.html"));
 		}
 		else if (serv._response._location.getAutoIndex())
@@ -96,14 +111,12 @@ void	Get(server& serv)
 		}
 		else
 		{
-			serv._response.setStatusCode(403);
-			serv._response.setReasonPhrase("Forbidden");
+			serv._response.setStatus("Forbidden", 403);
 		}
 	}
 	else
 	{
-		serv._response.setStatusCode(404);
-		serv._response.setReasonPhrase("Not Found");
+		serv._response.setStatus("Not Found", 404);
 	}
 }
 
