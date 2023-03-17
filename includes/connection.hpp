@@ -22,15 +22,16 @@ using namespace std;
 class Connection 
 {
     private:
-        int serverSocket;
-        vector<int> serverSocketList;
-        int clientSocket;
-        ParseRequest _request;
+        int                 serverSocket;
+        std::vector<server> servers;   
+        vector<int>         serverSocketList;
+        int                 clientSocket;
+        ParseRequest        _request;
         struct sockaddr_in serverAddr;
         struct sockaddr_in clientAddr;
         vector<struct pollfd> fds;
     public:
-        Connection(multimap<string, int> hostPort);
+        Connection(std::multimap<string, int> hostPort,  std::vector<server> servers);
         int createsocket(int port);
         // server getServer(std::vector servers);
         void handelRequest(vector<server> servers);

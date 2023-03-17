@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/15 22:34:12 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 18:24:20 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int main (int ac, char **av)
 		}
 	}
 	removeHostPortDuplicates(hostPort);
-	Connection connection(hostPort);
+	Connection connection(hostPort, servers);
 	
 
 	// connection.createsocket();

@@ -1,4 +1,5 @@
 #include "connection.hpp"
+#include "response.hpp"
 
 void Connection::receiveRequest(int clientSocket)
 {
@@ -12,11 +13,14 @@ void Connection::receiveRequest(int clientSocket)
         exit(1);
     }
     _request.parseRequest(request);
-  
+
+    // 
+    response _response;
+    _response.generateResponse(this->servers[0] ,_request);
+    const char *response =  "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nHello World"; //_response.sendResponse(clientSocket);
     _request.affiche();
 
     /*---------------response------------------------------------------------*/
-    const char *response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nHello World";
     if (send(clientSocket, response, strlen(response), 0) == -1)
     {
         cerr << "Failed to send response to client" << endl;
@@ -29,7 +33,7 @@ void Connection::receiveRequest(int clientSocket)
     close(clientSocket);
 }
 
-Connection::Connection(multimap<string, int> hostPort)
+Connection::Connection(multimap<string, int> hostPort, std::vector<server> servers): servers(servers)
 {
     multimap<string, int>::iterator it;
     int i = 0;
