@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 18:45:42 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 20:28:01 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ class response
 		std::string	getStatus();
 		std::string	getHeader(std::string key);
 		std::string	getBody();
+		location&	getLocation();
 		bool		getIsLocation();
 		std::string	getLocationPath();
 		
@@ -43,7 +44,19 @@ class response
 		void		setIsLocation(bool value);
 		void		setLocation(location& location);
 		void		setLocationPath(std::string path);
+		
 		void		generateResponse(server& server, ParseRequest& request);
-		//TODO std::string send_request();
+		std::string	joinResponse();
+		void 		checkForLocation(server& server, ParseRequest& request);
+
+		void		Get(server& server, ParseRequest& request);
+		void		Post(server& server, ParseRequest& request);
+		void		Delete(server& server, ParseRequest& request);
 		//TODO std::string send_error(int status);
 };
+
+bool		is_dir(std::string path);
+bool		is_file(std::string path);
+std::string	joinPaths(std::string path, std::string add);
+std::string	readFileContent(std::string path);
+bool		check_method(std::string method, std::vector<std::string> methods);

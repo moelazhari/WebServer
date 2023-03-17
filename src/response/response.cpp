@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 18:46:16 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/17 19:20:01 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,9 @@ std::string	response::getLocationPath()
 	return this->_locationPath;
 }
 
-// --------------------------------- GENERATE RESPONSE --------------------------------- //	
-
-void	response::generateResponse(server& server, ParseRequest& request)
+location&	response::getLocation()
 {
-	(void)server;
-	(void)request;
-
-	return ;
-	//TODO
+	return this->_location;
 }
+
+// --------------------------------- GENERATE RESPONSE --------------------------------- //	
