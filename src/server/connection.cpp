@@ -1,7 +1,5 @@
 #include "connection.hpp"
 
-
-
 void Connection::receiveRequest(int clientSocket)
 {
     // std::cout << "clientSocket => " << clientSocket << std::endl;
