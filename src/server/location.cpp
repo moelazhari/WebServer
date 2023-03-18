@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/17 21:48:17 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/18 16:51:21 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,19 @@ void location::printValues(){
 
 location::~location(){
 
+}
+
+location &location::operator=(location &rhs){
+    this->_clientMaxBodySize = rhs.getClientMaxBodySize();
+    this->_autoIndex = rhs.getAutoIndex();
+    this->_host = rhs.getHost();
+    this->_root = rhs.getRoot();
+    this->_serverName = rhs.getServerName();
+    this->_ports = rhs.getPorts();
+    this->_errorPages = rhs.getErrorPages();
+    this->_allowMethods = rhs.getAllowMethods();
+    this->_indexs = rhs.getIndexs();
+    this->_cgiPaths = rhs.getCgiPaths();
+    this->_return = rhs.getReturn();
+    return *this;
 }

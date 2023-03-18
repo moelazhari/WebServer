@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:01:39 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/17 21:48:49 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/18 16:37:45 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ class location : public Values
 		location();
 		location(std::string &content);
 		~location();
+		
+		location &operator=(location &rhs);
 
 		void    setValues(std::string &key, std::string &value);
 		

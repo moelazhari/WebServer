@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/17 21:47:54 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/18 16:47:10 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ server::server(parsConfig &config){
 	std::map<std::string, std::string>::iterator it = config.locations.begin();
 	std::map<std::string, std::string>::iterator ite = config.locations.end();
 	while (it != ite){
-				this->_locations[it->first] = location(it->second);
+			this->_locations.insert(std::pair<std::string, location>(it->first, location(it->second)));
 		it++;
 	}
 }

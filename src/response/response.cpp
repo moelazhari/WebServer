@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 19:20:01 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/18 18:33:14 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 response::response()
 {
 	_isLocation = false;
+	this->_location = new location();
 	return ;
 }
 
@@ -43,7 +44,7 @@ void	response::setIsLocation(bool value)
 	this->_isLocation = value;
 }
 
-void	response::setLocation(location& location)
+void	response::setLocation(location *location)
 {
 	this->_location = location;
 }
@@ -79,7 +80,7 @@ std::string	response::getLocationPath()
 	return this->_locationPath;
 }
 
-location&	response::getLocation()
+location	*response::getLocation()
 {
 	return this->_location;
 }

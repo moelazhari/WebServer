@@ -29,9 +29,12 @@ void Connection::receiveRequest(int clientSocket)
     // chech_request(_request, _response);
 
     _response.generateResponse(this->servers[0], _request);
-    const char *response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\nHello World"; //_response.sendResponse(clientSocket);
-    _request.affiche();
-
+    std::string tmp = _response.joinResponse();
+    const char *response = tmp.c_str(); //_response.sendResponse(clientSocket);
+    // std::cout << "response => " << _response.joinResponse() << std::endl;
+    // _request.affiche();
+    //const char *response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Document</title>\n</head>\n<body>\n    <h1>VAR TEST ROOT</h1>\n</body>\n</html>";
+   std::cout << "response => " << response << std::endl;
     /*---------------response------------------------------------------------*/
     if (send(clientSocket, response, strlen(response), 0) == -1)
     {

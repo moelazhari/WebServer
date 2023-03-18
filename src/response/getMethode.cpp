@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getMethod.cpp                                      :+:      :+:    :+:   */
+/*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 21:05:18 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/18 18:57:03 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,21 @@ std::string joinPaths(std::string path, std::string add)
 std::string	readFileContent(std::string path)
 {
 	std::string content;
-	std::string line;
+	// std::string line;
 
 	content = "";
 	std::ifstream file(path.c_str());
 	if (file.good())
 	{
-		// read line by line and remove \n
-		line = "";
-		while (getline(file, line))
-		{
-			if (line[line.size() - 1] == '\n')
-				line = line.substr(0, line.size() - 1);
-			content += line;
-		}
+		// // read line by line and remove \n
+		// line = "";
+		// while (getline(file, line))
+		// {
+		// 	// if (line[line.size() - 1] == '\n')
+		// 	// 	line = line.substr(0, line.size() - 1);
+		// 	content += line + "\n";
+		// }
+		getline(file, content, '\0');
 	}
 	file.close();
 	return content;
@@ -70,12 +71,12 @@ void	response::Get(server& serv, ParseRequest& request)
 	std::string		path;
 	std::vector<std::string>::iterator it;
 
-	path = this->getLocation().getRoot();
+	path = this->getLocation()->getRoot();
 	path = joinPaths(path, request.getLink());
 	// TODO make this a funcion to work with it inside the dir loop
 	if (is_file(path))
 	{
-		if (this->getLocation().getCgiPaths().size())// TODO && file format is in cgiPaths
+		if (this->getLocation()->getCgiPaths().size())// TODO && file format is in cgiPaths
 		{
 			// TODO run cgi if file format is in cgiPaths
 		}
@@ -87,15 +88,15 @@ void	response::Get(server& serv, ParseRequest& request)
 	}
 	else if (is_dir(path))
 	{
-		if (this->getLocation().getIndexs().size())
+		if (this->getLocation()->getIndexs().size())
 		{
 			// loop on indexs and check if file exist
-			it = this->getLocation().getIndexs().begin();
-			while(it < this->getLocation().getIndexs().end() && !is_file(joinPaths(path, *it)))
+			it = this->getLocation()->getIndexs().begin();
+			while(it < this->getLocation()->getIndexs().end() && !is_file(joinPaths(path, *it)))
 				it++;
-			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, *it)))
+			if (it < this->getLocation()->getIndexs().end() && is_file(joinPaths(path, *it)))
 			{
-				if (this->getLocation().getCgiPaths().size())
+				if (this->getLocation()->getCgiPaths().size())
 				{
 					// TODO run cgi if file format is in cgiPaths
 				}
@@ -114,7 +115,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			this->setStatus("OK", 200);
 			this->setBody(readFileContent(path + "/index.html"));
 		}
-		else if (this->getLocation().getAutoIndex().size())
+		else if (this->getLocation()->getAutoIndex().size())
 		{
 			//TODO generate autoindex page
 		}

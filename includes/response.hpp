@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 21:44:44 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/18 19:45:41 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class response
 		std::string							_status;
 		std::map<std::string, std::string>	_header; // key, value
 		std::string							_body;
-		location							_location;
+		location							*_location;
 		std::string							_locationPath;
 		bool								_isLocation;
 		// cgi
@@ -37,7 +37,7 @@ class response
 		std::string	getStatus();
 		std::string	getHeader(std::string key);
 		std::string	getBody();
-		location&	getLocation();
+		location	*getLocation();
 		bool		getIsLocation();
 		std::string	getLocationPath();
 		
@@ -45,7 +45,7 @@ class response
 		void		setHeader(std::string key, std::string value);
 		void		setBody(std::string body);
 		void		setIsLocation(bool value);
-		void		setLocation(location& location);
+		void		setLocation(location *location);
 		void		setLocationPath(std::string path);
 		
 		void		generateResponse(server& server, ParseRequest& request);
