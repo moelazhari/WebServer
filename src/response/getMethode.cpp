@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/18 18:57:03 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/18 22:45:28 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,18 @@ std::string joinPaths(std::string path, std::string add)
 std::string	readFileContent(std::string path)
 {
 	std::string content;
-	// std::string line;
+	std::string	line;
 
-	content = "";
 	std::ifstream file(path.c_str());
 	if (file.good())
 	{
-		// // read line by line and remove \n
-		// line = "";
-		// while (getline(file, line))
-		// {
-		// 	// if (line[line.size() - 1] == '\n')
-		// 	// 	line = line.substr(0, line.size() - 1);
-		// 	content += line + "\n";
-		// }
-		getline(file, content, '\0');
+		// read line by line and remove \n
+		while (getline(file, line)){
+			content += line + "\n";
+		}
 	}
 	file.close();
-	return content;
+	return content.substr(0, content.size() - 1);
 }
 
 void	response::Get(server& serv, ParseRequest& request)

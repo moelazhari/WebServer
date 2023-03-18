@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   response.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/18 19:45:41 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/18 23:22:27 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ class response
 		location	*getLocation();
 		bool		getIsLocation();
 		std::string	getLocationPath();
+		std::map<std::string, std::string>	&getHeaderMap();
 		
 		void		setStatus(std::string status, int code);
 		void		setHeader(std::string key, std::string value);

@@ -11,6 +11,7 @@
 #include <poll.h>
 #include "server.hpp"
 #include "ParseRequest.hpp"
+#include "response.hpp"
 // using namespace std;
 // #define port 8003
 #define MAX_SERVER 10
@@ -37,4 +38,5 @@ public:
         void start();
         void receiveRequest(int clientSocket);
         void sendErrorPage(ParseRequest &request);
+        void sendResponse(int clientSocket, response &res);
 };

@@ -1,5 +1,4 @@
 #include "connection.hpp"
-#include "response.hpp"
 
 // void Connection::sendErrorPage(ParseRequest &request)
 // {
@@ -23,30 +22,40 @@ void Connection::receiveRequest(int clientSocket)
         close(clientSocket);
         exit(1);
     }
-    _request.parseRequest(request);
-    //
-    response _response;
-    // chech_request(_request, _response);
-
-    _response.generateResponse(this->servers[0], _request);
-    std::string tmp = _response.joinResponse();
-    const char *response = tmp.c_str(); //_response.sendResponse(clientSocket);
-    // std::cout << "response => " << _response.joinResponse() << std::endl;
-    // _request.affiche();
-    //const char *response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Document</title>\n</head>\n<body>\n    <h1>VAR TEST ROOT</h1>\n</body>\n</html>";
-   std::cout << "response => " << response << std::endl;
-    /*---------------response------------------------------------------------*/
-    if (send(clientSocket, response, strlen(response), 0) == -1)
-    {
-        std::cerr << "Failed to send response to client" << std::endl;
-        close(clientSocket);
-        exit(1);
-    }
+    this->_request.parseRequest(request);
+    //TODO get server
+    response res;
+    res.generateResponse(this->servers[0], this->_request);
+    this->sendResponse(clientSocket, res);
 
     /*-----------------------------------------------------*/
     // fds.erase(fds.end() - 1);
     close(clientSocket);
 }
+
+void Connection::sendResponse(int clientSocket, response &res)
+{
+    std::string r;
+    // std::map<std::string, std::string> header = res.getHeaderMap();
+    
+    r = res.getStatus() + "\r\n";
+	for (std::map<std::string, std::string>::iterator it = res.getHeaderMap().begin(); it != res.getHeaderMap().end(); it++)
+		r += it->first + ": " + it->second + "\r\n";
+    r += "\r\n";
+    if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
+    {
+        close(clientSocket);
+        PrintExit("Failed to send response to client");
+    }
+    r = readFileContent("./web_pages/mazhari.jpg");
+    if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
+    {
+        close(clientSocket);
+        PrintExit("Failed to send response to client");
+    }
+
+}
+
 
 Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers) : servers(servers)
 {
