@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 22:29:27 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:54:52 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ void	response::Get(server& serv, ParseRequest& request)
 
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, request.getLink());
-	std::cout << "path: " << path << std::endl;
 	// TODO make this a funcion to work with it inside the dir loop
 	if (is_dir(path))
 	{
@@ -87,53 +86,40 @@ void	response::Get(server& serv, ParseRequest& request)
 				{
 					// TODO run cgi if file format is in cgiPaths
 					this->setStatus("OK", 200);
-					this->setHeader("Content-Type", "text/html");
 					this->setFilePath("error_pages/cgi.html");
-					this->setBody(readFileContent(this->getFilePath()));
-					this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+					this->fillResponse();
 				}
 				else
 				{
 					this->setStatus("OK", 200);
 					this->setFilePath(joinPaths(path, *it));
-					this->setHeader("Content-Type", "text/html");
-					this->setBody(readFileContent(this->getFilePath()));
-					this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 				}
 			}
 			else{
 				this->setStatus("Forbidden", 403);
-				this->setHeader("Content-Type", "text/html");
 				this->setFilePath("./error_pages/403.html");
-				this->setBody(readFileContent(this->getFilePath()));
-				this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+				this->fillResponse();
 			}
 		}
 		// check if index.html exist
 		else if (is_file(joinPaths(path, "index.html")))
 		{
 			this->setStatus("OK", 200);
-			this->setHeader("Content-Type", "text/html");
 			this->setFilePath(joinPaths(path, "index.html"));
-			this->setBody(readFileContent(this->getFilePath()));
-			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+			this->fillResponse();
 		}
 		else if (this->getLocation().getAutoIndex().size() && this->getLocation().getAutoIndex() == "on")
 		{
 			//TODO generate autoindex page
 			this->setStatus("OK", 200);
-			this->setHeader("Content-Type", "text/html");
 			this->setFilePath("error_pages/autoindex.html");
-			this->setBody(readFileContent(this->getFilePath()));
-			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+			this->fillResponse();
 		}
 		else
 		{
 			this->setStatus("Forbidden", 403);
-			this->setHeader("Content-Type", "text/html");
 			this->setFilePath("./error_pages/403.html");
-			this->setBody(readFileContent(this->getFilePath()));
-			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+			this->fillResponse();
 		}
 	}
 	else if (is_file(path))
@@ -141,27 +127,21 @@ void	response::Get(server& serv, ParseRequest& request)
 		if (this->getLocation().getCgiPaths().size())// TODO && file format is in cgiPaths
 		{
 			this->setStatus("OK", 200);
-			this->setHeader("Content-Type", "text/html");
 			this->setFilePath("error_pages/cgi.html");
-			this->setBody(readFileContent(this->getFilePath()));
-			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+			this->fillResponse();
 		}
 		else
 		{
 			this->setStatus("OK", 200);
-			this->setHeader("Content-Type", "text/html");
 			this->setFilePath(path);
-			this->setBody(readFileContent(path));
-			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+			this->fillResponse();
 		}
 	}
 	else
 	{
 		this->setStatus("Not Found", 404);
-		this->setHeader("Content-Type", "text/html");
 		this->setFilePath("./error_pages/404.html");
-		this->setBody(readFileContent(this->getFilePath()));
-		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+		this->fillResponse();
 	}
 }
 

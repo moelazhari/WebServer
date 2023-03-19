@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 21:54:07 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:56:54 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	response::checkForLocation(server& serv, ParseRequest& request)
 	// locations = serv.getLocations();
 	it = serv.getLocations().begin();
 	link = request.getLink();
-	while(link.size())
+	while(link.size() > 1)
 	{
 		it = serv.getLocations().find(link);
 		
@@ -69,10 +69,8 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	if (!this->getIsLocation())
 	{
 		this->setStatus("Not Found", 404);
-		this->setHeader("Content-Type", "text/html");
 		this->setFilePath("./error_pages/404.html");
-		this->setBody(readFileContent(this->getFilePath()));
-		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+		this->fillResponse();
 	}
 	else
 	{
@@ -89,10 +87,8 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 		else if (check_method(request.getMethod(), this->getLocation().getAllowMethods()) == false)
 		{
 			this->setStatus("Method Not Allowed", 405);
-			this->setHeader("Content-Type", "text/html");
 			this->setFilePath("./error_pages/405.html");
-			this->setBody(readFileContent(this->getFilePath()));
-			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+			this->fillResponse();
 		}
 		else
 		{

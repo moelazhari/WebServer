@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 19:01:51 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:51:47 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,3 +101,11 @@ std::string	response::getFilePath()
 }
 
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
+
+void	response::fillResponse()
+{
+	this->setHeader("Server", "Webserv/1.0");
+	this->setHeader("Content-Type", "text/html");
+	this->setBody(readFileContent(this->getFilePath()));
+	this->setHeader("Content-Length", std::to_string(this->getBody().length()));
+}

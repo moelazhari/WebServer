@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 19:09:25 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 22:48:59 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ class response
 		void		generateResponse(server& server, ParseRequest& request);
 		std::string	joinResponse();
 		void 		checkForLocation(server& server, ParseRequest& request);
+		void		fillResponse();
 
 		void		Get(server& server, ParseRequest& request);
 		void		Post(server& server, ParseRequest& request);
