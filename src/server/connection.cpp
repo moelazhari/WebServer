@@ -37,7 +37,6 @@ void Connection::sendResponse(int clientSocket, response &res)
 {
     std::string r;
     // std::map<std::string, std::string> header = res.getHeaderMap();
-    
     r = res.getStatus() + "\r\n";
 	for (std::map<std::string, std::string>::iterator it = res.getHeaderMap().begin(); it != res.getHeaderMap().end(); it++)
 		r += it->first + ": " + it->second + "\r\n";
