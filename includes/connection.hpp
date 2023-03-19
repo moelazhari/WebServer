@@ -23,7 +23,6 @@ private:
         int                     serverSocket;
         std::vector<server>     servers;
         std::vector<int>        serverSocketList;
-        int                     clientSocket;
         ParseRequest            _request;
         struct sockaddr_in      serverAddr;
         struct sockaddr_in      clientAddr;
@@ -36,7 +35,7 @@ public:
         void handelRequest(std::vector<server> servers);
         void generate_respoonse(server &serv);
         void start();
-        void receiveRequest(int clientSocket);
+        bool receiveRequest(int clientSocket);
         void sendErrorPage(ParseRequest &request);
         void sendResponse(int clientSocket, response &res);
 };

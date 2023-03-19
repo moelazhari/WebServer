@@ -11,10 +11,11 @@
 //     // }
 // }
 
-void Connection::receiveRequest(int clientSocket)
+bool Connection::receiveRequest(int clientSocket)
 {
-    // std::cout << "clientSocket => " << clientSocket << std::endl;
-    char request[MAX_REQUEST_SIZE]; // normalement  object request parser
+    std::cout << clientSocket << " is readable" << std::endl;
+    bool close_conn = false;
+    char request[MAX_REQUEST_SIZE];
     int numBytes = recv(clientSocket, request, MAX_REQUEST_SIZE, 0);
     if (numBytes == -1)
     {
@@ -22,15 +23,19 @@ void Connection::receiveRequest(int clientSocket)
         close(clientSocket);
         exit(1);
     }
-    this->_request.parseRequest(request);
-    //TODO get server
-    response res;
-    res.generateResponse(this->servers[0], this->_request);
-    this->sendResponse(clientSocket, res);
-
-    /*-----------------------------------------------------*/
-    // fds.erase(fds.end() - 1);
-    close(clientSocket);
+    if (numBytes == 0)
+    {
+        std::cout << " Connection closed" << std::endl;
+        close_conn = true;
+    }
+    else
+    {
+        this->_request.parseRequest(request);
+        response res;
+        res.generateResponse(this->servers[0], this->_request);
+        this->sendResponse(clientSocket, res);
+    }
+    return close_conn;
 }
 
 void Connection::sendResponse(int clientSocket, response &res)
@@ -38,8 +43,8 @@ void Connection::sendResponse(int clientSocket, response &res)
     std::string r;
     // std::map<std::string, std::string> header = res.getHeaderMap();
     r = res.getStatus() + "\r\n";
-	for (std::map<std::string, std::string>::iterator it = res.getHeaderMap().begin(); it != res.getHeaderMap().end(); it++)
-		r += it->first + ": " + it->second + "\r\n";
+    for (std::map<std::string, std::string>::iterator it = res.getHeaderMap().begin(); it != res.getHeaderMap().end(); it++)
+        r += it->first + ": " + it->second + "\r\n";
     r += "\r\n";
     if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
     {
@@ -52,9 +57,7 @@ void Connection::sendResponse(int clientSocket, response &res)
         close(clientSocket);
         PrintExit("Failed to send response to client");
     }
-
 }
-
 
 Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers) : servers(servers)
 {
@@ -75,7 +78,6 @@ void Connection::start()
     while (true)
     {
         std::cout << "Waiting for incoming connections port => " << std::endl;
-        socklen_t addrLen = sizeof(struct sockaddr_in);
         if (poll(&fds[0], fds.size(), -1) < 0)
         {
             std::cerr << "Failed to poll" << std::endl;
@@ -83,18 +85,29 @@ void Connection::start()
         }
         for (size_t i = 0; i < fds.size(); i++)
         {
+
             if (fds[i].revents & POLLIN)
             {
-                if (fds[i].fd == serverSocketList[i])
+                if (fds[i].fd == serverSocketList[i]) // for connection
                 {
-
-                    clientSocket = accept(serverSocketList[i], (struct sockaddr *)&clientAddr, &addrLen);
-                    if (clientSocket == -1)
+                    std::cout << " Listening socket is readable" << std::endl;
+                    int clientSocket = accept(serverSocketList[i], NULL, NULL);
+                    if (clientSocket < 0)
                     {
-                        std::cerr << "Failed to accept incoming connection" << std::endl;
-                        exit(1);
+                        break;
                     }
-                    receiveRequest(clientSocket);
+                    std::cout << clientSocket << ": New incoming connection" << std::endl;
+                    struct pollfd fd = {clientSocket, POLLIN, 0};
+                    fds.push_back(fd);
+                    std::cout << (*(fds.end() - 1)).fd << std::endl;
+                }
+                else // for request
+                {
+                    if (this->receiveRequest(fds[i].fd))
+                    {
+                        close(fds[i].fd);
+                        fds.erase(fds.begin() + i);
+                    }
                 }
             }
         }
