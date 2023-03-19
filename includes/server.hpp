@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:15:21 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/18 23:28:33 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/19 16:07:20 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ class server: public Values
 		void setDefaultValues();
 		std::string							getHost();
 		std::vector<int>					getPorts();
-		std::map<std::string, location>		getLocations();
+		std::map<std::string, location>		&getLocations();
 		void printValues();
 };
 
