@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 22:54:52 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 23:21:53 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	response::Get(server& serv, ParseRequest& request)
 	std::vector<std::string>::iterator	it;
 
 	path = this->getLocation().getRoot();
-	path = joinPaths(path, request.getLink());
+	path = joinPaths(path, request.getLink().substr(this->getLocationPath().size()));
+	std::cout << "path: " << path << std::endl;
 	// TODO make this a funcion to work with it inside the dir loop
 	if (is_dir(path))
 	{
