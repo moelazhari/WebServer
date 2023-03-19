@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   response.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/18 23:22:27 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/19 00:42:18 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class response
 		location							*_location;
 		std::string							_locationPath;
 		bool								_isLocation;
+		std::string							_filePath;
 		// cgi
 		char								*_env[8];
 		char								*cmd[2];
@@ -41,6 +42,7 @@ class response
 		bool		getIsLocation();
 		std::string	getLocationPath();
 		std::map<std::string, std::string>	&getHeaderMap();
+		std::string							getFilePath();
 		
 		void		setStatus(std::string status, int code);
 		void		setHeader(std::string key, std::string value);
@@ -48,6 +50,7 @@ class response
 		void		setIsLocation(bool value);
 		void		setLocation(location *location);
 		void		setLocationPath(std::string path);
+		void		serFilePath(std::string file);
 		
 		void		generateResponse(server& server, ParseRequest& request);
 		std::string	joinResponse();
