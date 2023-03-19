@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 00:42:18 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 15:03:33 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ class response
 		void		setIsLocation(bool value);
 		void		setLocation(location *location);
 		void		setLocationPath(std::string path);
-		void		serFilePath(std::string file);
+		void		setFilePath(std::string file);
 		
 		void		generateResponse(server& server, ParseRequest& request);
 		std::string	joinResponse();

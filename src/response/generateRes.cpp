@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generateRes.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/18 23:46:30 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/19 16:08:09 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	{
 		this->setStatus("OK", 200);
 		this->setHeader("Content-Type", "image/jpeg");
-		this->setBody(readFileContent("./web_pages/mazhari.jpg"));
+		this->setFilePath("./web_pages/200.jpg");
+		this->setBody(readFileContent("./web_pages/200.jpg"));
 		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
-		// std::cout<<readFileContent("/Users/aboudoun/Desktop/webserv/web_pages/index.html")<<std::endl;
 	}
 	else
 	{

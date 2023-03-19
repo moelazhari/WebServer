@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 00:43:52 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 15:52:15 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 response::response()
 {
-	_isLocation = false;
+	this->_isLocation = false;
+	this->_filePath = "";
 	this->_location = new location();
 	return ;
 }
@@ -94,7 +95,7 @@ std::map<std::string, std::string>	&response::getHeaderMap()
 	return this->_header;
 }
 
-std::string	getFilePath()
+std::string	response::getFilePath()
 {
 	return this->_filePath;
 }

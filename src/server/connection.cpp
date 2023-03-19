@@ -47,7 +47,7 @@ void Connection::sendResponse(int clientSocket, response &res)
         close(clientSocket);
         PrintExit("Failed to send response to client");
     }
-    r = readFileContent("./web_pages/mazhari.jpg");
+    r = res.getBody();
     if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
     {
         close(clientSocket);
