@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/18 22:45:28 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/19 22:29:27 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ bool	is_file(std::string path)
 	bool is_file = false;
 	std::ifstream file(path.c_str());
 	if (file.good())
+	{
+		file.close();
 		is_file = true;
-	file.close();
+	}
 	return is_file;
 }
 
@@ -27,8 +29,10 @@ bool	is_dir(std::string path)
 	bool is_dir = false;
 	DIR* dir = opendir(path.c_str());
 	if (dir != NULL)
-		is_dir = true;
-	closedir(dir);
+	{
+		closedir(dir);
+		is_dir = true;	
+	}
 	return is_dir;
 }
 
@@ -61,66 +65,103 @@ std::string	readFileContent(std::string path)
 
 void	response::Get(server& serv, ParseRequest& request)
 {
-	(void)	serv;
-	std::string		path;
-	std::vector<std::string>::iterator it;
+	(void)serv;
+	std::string							path;
+	std::vector<std::string>::iterator	it;
 
-	path = this->getLocation()->getRoot();
+	path = this->getLocation().getRoot();
 	path = joinPaths(path, request.getLink());
+	std::cout << "path: " << path << std::endl;
 	// TODO make this a funcion to work with it inside the dir loop
-	if (is_file(path))
+	if (is_dir(path))
 	{
-		if (this->getLocation()->getCgiPaths().size())// TODO && file format is in cgiPaths
-		{
-			// TODO run cgi if file format is in cgiPaths
-		}
-		else
-		{
-			this->setStatus("OK", 200);
-			this->setBody(readFileContent(path));
-		}
-	}
-	else if (is_dir(path))
-	{
-		if (this->getLocation()->getIndexs().size())
+		if (this->getLocation().getIndexs().size())
 		{
 			// loop on indexs and check if file exist
-			it = this->getLocation()->getIndexs().begin();
-			while(it < this->getLocation()->getIndexs().end() && !is_file(joinPaths(path, *it)))
+			it = this->getLocation().getIndexs().begin();
+			while(it < this->getLocation().getIndexs().end() && !is_file(joinPaths(path, *it)))
 				it++;
-			if (it < this->getLocation()->getIndexs().end() && is_file(joinPaths(path, *it)))
+			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, *it)))
 			{
-				if (this->getLocation()->getCgiPaths().size())
+				if (this->getLocation().getCgiPaths().size())
 				{
 					// TODO run cgi if file format is in cgiPaths
+					this->setStatus("OK", 200);
+					this->setHeader("Content-Type", "text/html");
+					this->setFilePath("error_pages/cgi.html");
+					this->setBody(readFileContent(this->getFilePath()));
+					this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 				}
 				else
 				{
 					this->setStatus("OK", 200);
-					this->setBody(readFileContent(joinPaths(path, *it)));
+					this->setFilePath(joinPaths(path, *it));
+					this->setHeader("Content-Type", "text/html");
+					this->setBody(readFileContent(this->getFilePath()));
+					this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 				}
 			}
-			else
+			else{
 				this->setStatus("Forbidden", 403);
+				this->setHeader("Content-Type", "text/html");
+				this->setFilePath("./error_pages/403.html");
+				this->setBody(readFileContent(this->getFilePath()));
+				this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+			}
 		}
 		// check if index.html exist
 		else if (is_file(joinPaths(path, "index.html")))
 		{
 			this->setStatus("OK", 200);
-			this->setBody(readFileContent(path + "/index.html"));
+			this->setHeader("Content-Type", "text/html");
+			this->setFilePath(joinPaths(path, "index.html"));
+			this->setBody(readFileContent(this->getFilePath()));
+			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 		}
-		else if (this->getLocation()->getAutoIndex().size())
+		else if (this->getLocation().getAutoIndex().size() && this->getLocation().getAutoIndex() == "on")
 		{
 			//TODO generate autoindex page
+			this->setStatus("OK", 200);
+			this->setHeader("Content-Type", "text/html");
+			this->setFilePath("error_pages/autoindex.html");
+			this->setBody(readFileContent(this->getFilePath()));
+			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 		}
 		else
 		{
 			this->setStatus("Forbidden", 403);
+			this->setHeader("Content-Type", "text/html");
+			this->setFilePath("./error_pages/403.html");
+			this->setBody(readFileContent(this->getFilePath()));
+			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+		}
+	}
+	else if (is_file(path))
+	{
+		if (this->getLocation().getCgiPaths().size())// TODO && file format is in cgiPaths
+		{
+			this->setStatus("OK", 200);
+			this->setHeader("Content-Type", "text/html");
+			this->setFilePath("error_pages/cgi.html");
+			this->setBody(readFileContent(this->getFilePath()));
+			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+		}
+		else
+		{
+			this->setStatus("OK", 200);
+			this->setHeader("Content-Type", "text/html");
+			this->setFilePath(path);
+			this->setBody(readFileContent(path));
+			this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 		}
 	}
 	else
 	{
 		this->setStatus("Not Found", 404);
+		this->setHeader("Content-Type", "text/html");
+		this->setFilePath("./error_pages/404.html");
+		this->setBody(readFileContent(this->getFilePath()));
+		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 	}
 }
 

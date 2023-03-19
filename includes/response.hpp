@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 15:03:33 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 19:09:25 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class response
 		std::string							_status;
 		std::map<std::string, std::string>	_header; // key, value
 		std::string							_body;
-		location							*_location;
+		location							_location;
 		std::string							_locationPath;
 		bool								_isLocation;
 		std::string							_filePath;
@@ -38,7 +38,7 @@ class response
 		std::string	getStatus();
 		std::string	getHeader(std::string key);
 		std::string	getBody();
-		location	*getLocation();
+		location	&getLocation();
 		bool		getIsLocation();
 		std::string	getLocationPath();
 		std::map<std::string, std::string>	&getHeaderMap();
@@ -48,7 +48,7 @@ class response
 		void		setHeader(std::string key, std::string value);
 		void		setBody(std::string body);
 		void		setIsLocation(bool value);
-		void		setLocation(location *location);
+		void		setLocation(location &location);
 		void		setLocationPath(std::string path);
 		void		setFilePath(std::string file);
 		

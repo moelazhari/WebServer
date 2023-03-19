@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/19 16:07:44 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/19 17:04:54 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,8 @@ std::vector<int> server::getPorts(){
 	return (this->_ports);
 }
 
-std::map<std::string, location> &server::getLocations(){
+std::map<std::string, location> &server::getLocations()
+{
 	return (this->_locations);
 }
 
