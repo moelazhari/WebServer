@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/18 16:51:21 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 21:35:36 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ void location::printValues(){
     std::cout << "cgi path: ";
     for (std::map<std::string, std::string>::iterator it = this->_cgiPaths.begin(); it != this->_cgiPaths.end(); it++)
         std::cout << it->first << " " << it->second << " ";
+    std::cout << std::endl;
+    //print return
+    std::cout << "return: " << this->_return.first << " " << this->_return.second << std::endl;
 }
 
 location::~location(){

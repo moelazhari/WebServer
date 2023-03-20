@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   response.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 22:48:59 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 23:24:09 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ class response
 		void		generateResponse(server& server, ParseRequest& request);
 		std::string	joinResponse();
 		void 		checkForLocation(server& server, ParseRequest& request);
-		void		fillResponse();
+		void		fillResponse(server &serv);
 
 		void		Get(server& server, ParseRequest& request);
 		void		Post(server& server, ParseRequest& request);

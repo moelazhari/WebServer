@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 23:36:28 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 23:40:53 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	void (response::*f[3])(server& serv, ParseRequest& request) = {&response::Get, &response::Post, &response::Delete};
 	std::string methods[] = {"GET", "POST", "DELETE"};
 	
-	// this->checkForLocation(serv, request);
+	this->checkForLocation(serv, request);
 	if (!this->getIsLocation())
 	{
 		this->setStatus("Not Found", 404);
 		this->setFilePath("./error_pages/404.html");
-		this->fillResponse();
+		this->fillResponse(serv);
 	}
 	else
 	{
@@ -86,7 +86,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 		{
 			this->setStatus("Method Not Allowed", 405);
 			this->setFilePath("./error_pages/405.html");
-			this->fillResponse();
+			this->fillResponse(serv);
 		}
 		else
 		{

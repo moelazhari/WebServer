@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 23:36:37 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 23:40:38 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ std::string	readFileContent(std::string path)
 
 void	response::Get(server& serv, ParseRequest& request)
 {
-	(void)serv;
 	std::string							path;
 	std::vector<std::string>::iterator	it;
 
@@ -87,19 +86,19 @@ void	response::Get(server& serv, ParseRequest& request)
 					// TODO run cgi if file format is in cgiPaths
 					this->setStatus("OK", 200);
 					this->setFilePath("error_pages/cgi.html");
-					this->fillResponse();
+					this->fillResponse(serv);
 				}
 				else
 				{
 					this->setStatus("OK", 200);
 					this->setFilePath(joinPaths(path, *it));
-					this->fillResponse();
+					this->fillResponse(serv);
 				}
 			}
 			else{
 				this->setStatus("Forbidden", 403);
 				this->setFilePath("./error_pages/403.html");
-				this->fillResponse();
+				this->fillResponse(serv);
 			}
 		}
 		// check if index.html exist
@@ -107,20 +106,20 @@ void	response::Get(server& serv, ParseRequest& request)
 		{
 			this->setStatus("OK", 200);
 			this->setFilePath(joinPaths(path, "index.html"));
-			this->fillResponse();
+			this->fillResponse(serv);
 		}
 		else if (this->getLocation().getAutoIndex().size() && this->getLocation().getAutoIndex() == "on")
 		{
 			//TODO generate autoindex page
 			this->setStatus("OK", 200);
 			this->setFilePath("error_pages/autoindex.html");
-			this->fillResponse();
+			this->fillResponse(serv);
 		}
 		else
 		{
 			this->setStatus("Forbidden", 403);
 			this->setFilePath("./error_pages/403.html");
-			this->fillResponse();
+			this->fillResponse(serv);
 		}
 	}
 	else if (is_file(path))
@@ -129,20 +128,20 @@ void	response::Get(server& serv, ParseRequest& request)
 		{
 			this->setStatus("OK", 200);
 			this->setFilePath("error_pages/cgi.html");
-			this->fillResponse();
+			this->fillResponse(serv);
 		}
 		else
 		{
 			this->setStatus("OK", 200);
 			this->setFilePath(path);
-			this->fillResponse();
+			this->fillResponse(serv);
 		}
 	}
 	else
 	{
 		this->setStatus("Not Found", 404);
 		this->setFilePath("./error_pages/404.html");
-		this->fillResponse();
+		this->fillResponse(serv);
 	}
 }
 

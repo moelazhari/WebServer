@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/20 19:41:06 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 23:05:00 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	server::setValues(std::string &key, std::string &value){
 	std::string values[10] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "listen", "error_page", "allow_methods", "index", "meme_types"};
 	
 	void (server::*f[10])(std::string value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
-	 &server::setRoot, &server::setServerName, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs, &server::setMemeTypes};
+	 &server::setRoot, &server::setServerName, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs, &server::parsMemeTypes};
 
 	for (int i = 0; i < 10; i++){
 		if (key == values[i]){
@@ -80,9 +80,12 @@ void	server::setDefaultValues(){
 	if (this->_indexs.size() == 0){
 		this->_indexs.push_back("index.html");
 	}
+	if (this->_memeTypes.size() == 0){
+		this->parsMemeTypes("./configs/types.conf");
+	}
 }
 
-void server::setMemeTypes(std::string path){
+void	server::parsMemeTypes(std::string path){
 	std::ifstream	file(path);
 	std::string		line;
 	std::string		key;
@@ -97,12 +100,21 @@ void server::setMemeTypes(std::string path){
 			line = line.substr(0, line.find("#"));
 		if (isAllWhiteSpace(line)){
 			removeWhiteSpace(line);
-			continue;
+			continue ;
 		}
 		parsLine(line, key, value);
-		std::cout << "key: " << key << " value: " << value << std::endl;
+		this->setMemeTypes(value, key);
 	}
-	exit(0);
+}
+
+void	server::setMemeTypes(std::string key, std::string value){
+	std::vector<std::string> keys = split(key, " ");
+
+	for (size_t i = 0; i < keys.size(); i++){
+		if (this->_memeTypes.find(keys[i]) != this->_memeTypes.end())
+			PrintExit("Error config file: meme_types: extension " + keys[i] + " already exists");
+		this->_memeTypes.insert(std::pair<std::string, std::string>(keys[i], value));
+	}
 }
 
 void server::printValues(){
@@ -137,17 +149,23 @@ void server::printValues(){
 	for (size_t i = 0; i < this->_indexs.size(); i++){
 		std::cout << this->_indexs[i] << " ";
 	}
-	// print locations
-	std::map<std::string, location>::iterator it3 = this->_locations.begin();
-	std::map<std::string, location>::iterator ite3 = this->_locations.end();
+	//print meme types
+    std::cout << "meme types: ";
+    for (std::map<std::string, std::string>::iterator it = this->_memeTypes.begin(); it != this->_memeTypes.end(); it++)
+        std::cout << it->first << " " << it->second << " ";
+    std::cout << std::endl;
+	// // print locations
+	// std::map<std::string, location>::iterator it3 = this->_locations.begin();
+	// std::map<std::string, location>::iterator ite3 = this->_locations.end();
 
-	std::cout << "locations:" << std::endl;	
+	// std::cout << "locations:" << std::endl;	
 
-	while (it3 != ite3){
-		std::cout << it3->first << " : " << std::endl;
-		it3->second.printValues();
-		it3++;
-	}
+	// while (it3 != ite3){
+	// 	std::cout << it3->first << " : " << std::endl;
+	// 	it3->second.printValues();
+	// 	it3++;
+	// }
+	
 }
 
 std::string server::getHost(){
@@ -161,6 +179,11 @@ std::vector<int> server::getPorts(){
 std::map<std::string, location> &server::getLocations()
 {
 	return (this->_locations);
+}
+
+std::map<std::string, std::string> &server::getMemeTypes()
+{
+	return (this->_memeTypes);
 }
 
 server::~server(){
