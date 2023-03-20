@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 19:08:06 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 23:26:03 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,13 @@ std::string	response::getFilePath()
 
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
 
-void	response::fillResponse()
+void	response::fillResponse(server &serv)
 {
+	std::string	ext = getExtension(this->getFilePath());
+	std::map<std::string, std::string>	mime = serv.getMemeTypes();
+
 	this->setHeader("Server", "Webserv/1.0");
-	// this->setHeader("Content-Type", "text/html");
+	this->setHeader("Content-Type", mime[ext]);
 	this->setBody(readFileContent(this->getFilePath()));
-	this->setHeader("Content-Length", "562961");
+	this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 }

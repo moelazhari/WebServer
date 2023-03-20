@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:01:45 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/05 15:22:03 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 23:16:29 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ void getLocations(std::string &content, std::map <std::string, std::string> &loc
 		tmp = content.substr(pos, locationB - pos);
 		removeWhiteSpace(tmp);
 		if (tmp.find("location") != std::string::npos)
-			tmp = tmp.substr(tmp.find("location") + 9, tmp.length() - 1);
+			tmp = tmp.substr(tmp.find("location") + 8, tmp.length() - 1);
+		if (tmp[tmp.length() - 1] == '/')
+			tmp = tmp.substr(0, tmp.length() - 1);
 		// ckecking if there is }
 		locationE = content.find("}", pos);
 		if (locationE == std::string::npos)

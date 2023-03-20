@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/20 22:45:38 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 23:05:00 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ void	server::setDefaultValues(){
 	}
 	if (this->_indexs.size() == 0){
 		this->_indexs.push_back("index.html");
+	}
+	if (this->_memeTypes.size() == 0){
+		this->parsMemeTypes("./configs/types.conf");
 	}
 }
 
