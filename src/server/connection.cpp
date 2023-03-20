@@ -51,7 +51,7 @@ void Connection::sendResponse(int clientSocket, response &res)
         close(clientSocket);
         PrintExit("Failed to send response to client");
     }
-    r = readFileContent("./web_pages/mazhari.jpg");
+    r = res.getBody();
     if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
     {
         close(clientSocket);
@@ -77,7 +77,8 @@ void Connection::start()
 {
     while (true)
     {
-        std::cout << "Waiting for incoming connections port => " << std::endl;
+        // std::cout << "Waiting for incoming connections port => " << std::endl;
+        // socklen_t addrLen = sizeof(struct sockaddr_in);
         if (poll(&fds[0], fds.size(), -1) < 0)
         {
             std::cerr << "Failed to poll" << std::endl;
