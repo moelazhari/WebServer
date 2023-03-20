@@ -38,4 +38,5 @@ public:
         bool receiveRequest(int clientSocket);
         void sendErrorPage(ParseRequest &request);
         void sendResponse(int clientSocket, response &res);
+        void sendLargeFile(int clientSocket, const char* filePath);
 };

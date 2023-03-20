@@ -11,6 +11,32 @@
 //     // }
 // }
 
+void Connection::sendLargeFile(int clientSocket, const char* filePath) {
+    std::ifstream fileStream(filePath, std::ios::binary);
+    std::ifstream fileStream1(filePath, std::ios::binary);
+    if (!fileStream.is_open())
+        return;
+    const int CHUNK_SIZE = 1024;
+    char buffer[CHUNK_SIZE];
+    int bytesRead = 0;
+
+    // std::cout<< "----------------------------------------------\n";
+    while (fileStream.read(buffer, CHUNK_SIZE)) {
+        bytesRead = fileStream.gcount();
+        if (send(clientSocket, buffer, bytesRead, 0) == -1)
+            return;
+    }
+    if (!fileStream.eof())
+        return;
+    bytesRead = fileStream.gcount();
+    if (bytesRead > 0 && send(clientSocket, buffer, bytesRead, 0) == -1)
+        return;
+}
+
+
+
+
+
 bool Connection::receiveRequest(int clientSocket)
 {
     std::cout << clientSocket << " is readable" << std::endl;
@@ -51,12 +77,13 @@ void Connection::sendResponse(int clientSocket, response &res)
         close(clientSocket);
         PrintExit("Failed to send response to client");
     }
-    r = res.getBody();
-    if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
-    {
-        close(clientSocket);
-        PrintExit("Failed to send response to client");
-    }
+    // r = readFileContent("./web_pages/nadii.mp4");
+    sendLargeFile(clientSocket, "./web_pages/nadii.mp4");
+    // if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
+    // {
+    //     close(clientSocket);
+    //     PrintExit("Failed to send response to client");
+    // }
 }
 
 Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers) : servers(servers)
@@ -77,8 +104,7 @@ void Connection::start()
 {
     while (true)
     {
-        // std::cout << "Waiting for incoming connections port => " << std::endl;
-        // socklen_t addrLen = sizeof(struct sockaddr_in);
+        std::cout << "Waiting for incoming connections port => " << std::endl;
         if (poll(&fds[0], fds.size(), -1) < 0)
         {
             std::cerr << "Failed to poll" << std::endl;
