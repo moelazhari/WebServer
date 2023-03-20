@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/19 22:56:54 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 18:36:01 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 
 void	response::checkForLocation(server& serv, ParseRequest& request)
 {
-	// std::map<std::string, location> 			locations;
 	std::map<std::string, location>::iterator 	it;
 	std::string									link;
 	size_t 										pos;
 	
-	// locations = serv.getLocations();
 	it = serv.getLocations().begin();
 	link = request.getLink();
 	while(link.size() > 1)
@@ -68,9 +66,19 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	this->checkForLocation(serv, request);
 	if (!this->getIsLocation())
 	{
-		this->setStatus("Not Found", 404);
-		this->setFilePath("./error_pages/404.html");
-		this->fillResponse();
+		//test a htmlfile		
+		// this->setStatus("OK", 200);
+		// this->setHeader("Content-Type", "text/html");
+		// this->setFilePath("./web_pages/400.html");
+		// this->setBody(readFileContent(this->getFilePath()));
+		// this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+		
+		// test the video
+		this->setStatus("OK", 200);
+		this->setHeader("Content-Type", "video/mp4");
+		this->setFilePath("./web_pages/nadii.mp4");
+		this->setBody(readFileContent("./web_pages/nadii.mp4"));
+		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 	}
 	else
 	{
