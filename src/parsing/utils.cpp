@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 17:14:41 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/14 19:11:37 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 22:41:40 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ std::vector<std::string> split(std::string str, std::string dlem = " "){
     std::vector<std::string> result;
     std::string::size_type pos1, pos2;
 
+	if (dlem == " ")
+		replaceChar(str, '\t', ' ');
+
     pos2 = str.find(dlem);
     pos1 = 0;
     while(std::string::npos != pos2){
@@ -52,6 +55,12 @@ std::vector<std::string> split(std::string str, std::string dlem = " "){
     if (pos1 != str.length())
         result.push_back(str.substr(pos1));
     return result;
+}
+
+void replaceChar(std::string &str, char c1, char c2){
+	for (size_t pos = str.find(c1); pos != std::string::npos; pos = str.find(c1, pos)){
+		str.replace(pos, 1, 1, c2);
+	}
 }
 
 int toInt(std::string str){

@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:45:25 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/17 19:07:10 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 22:45:50 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int main (int ac, char **av)
 			hostPort.insert(std::pair<std::string, int>(servers[i].getHost(), ports[j]));
 		}
 	}
+	
 	removeHostPortDuplicates(hostPort);
 	Connection connection(hostPort, servers);
 	
@@ -51,6 +52,11 @@ int main (int ac, char **av)
 	// for (size_t i = 0; i < servers.size(); i++){
 	// 	std::cout << "      Server " << i << ": " << std::endl;
 	// 	servers[i].printValues();
+	// }
+	// print meme types
+	// std::map<std::string, std::string>::iterator it;
+	// for (it = servers[0].getMemeTypes().begin(); it != servers[0].getMemeTypes().end(); it++){
+	// 	std::cout << "      " << it->first << " : " << it->second << std::endl;
 	// }
     return (0);
 }
