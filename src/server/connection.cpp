@@ -33,7 +33,6 @@ void Connection::sendLargeFile(int clientSocket, const char* filePath) {
         return;
 }
 
-
 bool Connection::receiveRequest(int clientSocket)
 {
     std::cout << clientSocket << " is readable" << std::endl;
@@ -75,6 +74,7 @@ void Connection::sendResponse(int clientSocket, response &res)
         PrintExit("Failed to send response to client");
     }
     // r = readFileContent("./web_pages/nadii.mp4");
+    std::cout << "sending file" << res.getFilePath().c_str() << std::endl;
     sendLargeFile(clientSocket, res.getFilePath().c_str());
     // if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
     // {

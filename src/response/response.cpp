@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 17:28:46 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 19:08:06 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ std::string	response::getFilePath()
 void	response::fillResponse()
 {
 	this->setHeader("Server", "Webserv/1.0");
-	this->setHeader("Content-Type", "video/mp4");
+	// this->setHeader("Content-Type", "text/html");
 	this->setBody(readFileContent(this->getFilePath()));
 	this->setHeader("Content-Length", "562961");
 }
