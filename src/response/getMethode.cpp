@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 19:23:06 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 23:29:14 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	response::Get(server& serv, ParseRequest& request)
 				{
 					this->setStatus("OK", 200);
 					this->setFilePath(joinPaths(path, *it));
+					tihis->fillResponse();
 				}
 			}
 			else{
