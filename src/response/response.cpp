@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   response.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/18 23:22:11 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/19 22:51:47 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 response::response()
 {
-	_isLocation = false;
-	this->_location = new location();
+	this->_isLocation = false;
+	this->_filePath = "";
+	// this->_location = new location();
 	return ;
 }
 
@@ -44,7 +45,7 @@ void	response::setIsLocation(bool value)
 	this->_isLocation = value;
 }
 
-void	response::setLocation(location *location)
+void	response::setLocation(location &location)
 {
 	this->_location = location;
 }
@@ -54,6 +55,10 @@ void	response::setLocationPath(std::string path)
 	this->_locationPath = path;
 }
 
+void	response::setFilePath(std::string file)
+{
+	this->_filePath = file;
+}
 // --------------------------------- GETTER --------------------------------- //
 bool	response::getIsLocation()
 {
@@ -80,7 +85,7 @@ std::string	response::getLocationPath()
 	return this->_locationPath;
 }
 
-location	*response::getLocation()
+location	&response::getLocation()
 {
 	return this->_location;
 }
@@ -90,4 +95,17 @@ std::map<std::string, std::string>	&response::getHeaderMap()
 	return this->_header;
 }
 
+std::string	response::getFilePath()
+{
+	return this->_filePath;
+}
+
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
+
+void	response::fillResponse()
+{
+	this->setHeader("Server", "Webserv/1.0");
+	this->setHeader("Content-Type", "text/html");
+	this->setBody(readFileContent(this->getFilePath()));
+	this->setHeader("Content-Length", std::to_string(this->getBody().length()));
+}
