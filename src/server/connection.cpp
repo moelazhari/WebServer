@@ -78,7 +78,7 @@ void Connection::start()
     while (true)
     {
         // std::cout << "Waiting for incoming connections port => " << std::endl;
-        socklen_t addrLen = sizeof(struct sockaddr_in);
+        // socklen_t addrLen = sizeof(struct sockaddr_in);
         if (poll(&fds[0], fds.size(), -1) < 0)
         {
             std::cerr << "Failed to poll" << std::endl;
