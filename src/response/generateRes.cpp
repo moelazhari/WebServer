@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 17:07:40 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 17:31:10 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	if (!this->getIsLocation())
 	{
 		this->setStatus("OK", 200);
-		this->setFilePath("./web_pages/nadii.mp4");
+		this->setFilePath("./web_pages/v.mp4");
 		this->fillResponse();
 	}
 	else

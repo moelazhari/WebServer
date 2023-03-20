@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 17:09:50 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/20 17:28:46 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ void	response::fillResponse()
 {
 	this->setHeader("Server", "Webserv/1.0");
 	this->setHeader("Content-Type", "video/mp4");
-	this->setBody(readFileContent("./web_pages/nadii.mp4"));
-	this->setHeader("Content-Length", std::to_string(this->getBody().length()));
+	this->setBody(readFileContent(this->getFilePath()));
+	this->setHeader("Content-Length", "562961");
 }
