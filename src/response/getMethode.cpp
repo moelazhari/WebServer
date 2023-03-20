@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 16:24:29 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:23:06 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ bool	is_dir(std::string path)
 	if (dir != NULL)
 	{
 		closedir(dir);
-		is_dir = true;	
+		is_dir = true;
 	}
 	return is_dir;
 }
