@@ -33,10 +33,6 @@ void Connection::sendLargeFile(int clientSocket, const char* filePath) {
         return;
 }
 
-
-
-
-
 bool Connection::receiveRequest(int clientSocket)
 {
     std::cout << clientSocket << " is readable" << std::endl;

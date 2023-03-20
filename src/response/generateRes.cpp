@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 19:32:23 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 23:36:28 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,12 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	void (response::*f[3])(server& serv, ParseRequest& request) = {&response::Get, &response::Post, &response::Delete};
 	std::string methods[] = {"GET", "POST", "DELETE"};
 	
-	this->checkForLocation(serv, request);
+	// this->checkForLocation(serv, request);
 	if (!this->getIsLocation())
 	{
 		this->setStatus("Not Found", 404);
 		this->setFilePath("./error_pages/404.html");
 		this->fillResponse();
-		
-		// test the video
-		// this->setStatus("OK", 200);
-		// this->setHeader("Content-Type", "video/mp4");
-		// this->setFilePath("./web_pages/nadii.mp4");
-		// this->setBody(readFileContent("./web_pages/nadii.mp4"));
-		// this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 	}
 	else
 	{

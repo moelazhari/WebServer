@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/19 17:04:54 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:41:06 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ server::server(parsConfig &config){
 }
 
 void	server::setValues(std::string &key, std::string &value){
-	std::string values[9] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "listen", "error_page", "allow_methods", "index"};
+	std::string values[10] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "listen", "error_page", "allow_methods", "index", "meme_types"};
 	
-	void (server::*f[9])(std::string value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
-	 &server::setRoot, &server::setServerName, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs};
+	void (server::*f[10])(std::string value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
+	 &server::setRoot, &server::setServerName, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs, &server::setMemeTypes};
 
-	for (int i = 0; i < 9; i++){
+	for (int i = 0; i < 10; i++){
 		if (key == values[i]){
 			(this->*f[i])(value);
 			return ;
@@ -82,7 +82,28 @@ void	server::setDefaultValues(){
 	}
 }
 
-
+void server::setMemeTypes(std::string path){
+	std::ifstream	file(path);
+	std::string		line;
+	std::string		key;
+	std::string		value;
+	// size_t pos;
+	if (!file.is_open())
+		std::cout << "Error config file: meme_types: can't open file: " + path << std::endl;
+	while (std::getline(file, line))
+	{
+		// remove comments
+		if (line.find("#") != std::string::npos)
+			line = line.substr(0, line.find("#"));
+		if (isAllWhiteSpace(line)){
+			removeWhiteSpace(line);
+			continue;
+		}
+		parsLine(line, key, value);
+		std::cout << "key: " << key << " value: " << value << std::endl;
+	}
+	exit(0);
+}
 
 void server::printValues(){
 	std::cout << "client_max_body_size: " << this->_clientMaxBodySize << std::endl;
