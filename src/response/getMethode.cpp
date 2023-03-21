@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/21 19:43:42 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/21 20:12:12 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	response::Get(server& serv, ParseRequest& request)
 				if (this->getLocation().getCgiPaths().size() && (getExtension(this->_filePath) == "php" || getExtension(this->_filePath) == "py") )
 				{
 					// TODO run cgi if file format is in cgiPaths
-					std::cout << "run cgi" << std::endl;
+					// std::cout << "run cgi" << std::endl;
 					this->cgi(serv, request);
 				}
 				else
