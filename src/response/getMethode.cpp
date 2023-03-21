@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 23:40:38 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/21 19:43:42 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,11 @@ void	response::Get(server& serv, ParseRequest& request)
 				it++;
 			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, *it)))
 			{
-				if (this->getLocation().getCgiPaths().size())
+				if (this->getLocation().getCgiPaths().size() && (getExtension(this->_filePath) == "php" || getExtension(this->_filePath) == "py") )
 				{
 					// TODO run cgi if file format is in cgiPaths
-					this->setStatus("OK", 200);
-					this->setFilePath("error_pages/cgi.html");
-					this->fillResponse(serv);
+					std::cout << "run cgi" << std::endl;
+					this->cgi(serv, request);
 				}
 				else
 				{
@@ -97,7 +96,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			}
 			else{
 				this->setStatus("Forbidden", 403);
-				this->setFilePath("./error_pages/403.html");
+				this->setFilePath("./web_pages/error_pages/403.html");
 				this->fillResponse(serv);
 			}
 		}
@@ -118,7 +117,7 @@ void	response::Get(server& serv, ParseRequest& request)
 		else
 		{
 			this->setStatus("Forbidden", 403);
-			this->setFilePath("./error_pages/403.html");
+			this->setFilePath("./web_pages/error_pages/403.html");
 			this->fillResponse(serv);
 		}
 	}
@@ -140,7 +139,7 @@ void	response::Get(server& serv, ParseRequest& request)
 	else
 	{
 		this->setStatus("Not Found", 404);
-		this->setFilePath("./error_pages/404.html");
+		this->setFilePath("./web_pages/error_pages/404.html");
 		this->fillResponse(serv);
 	}
 }

@@ -6,7 +6,7 @@
 #    By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/04 20:21:22 by mazhari           #+#    #+#              #
-#    Updated: 2023/03/18 23:47:22 by mazhari          ###   ########.fr        #
+#    Updated: 2023/03/21 19:01:22 by mazhari          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ B_DIR = ./build
 
 PARSING= $(addprefix parsing/, configFileParser utils)
 SERVER= $(addprefix server/, server location Values connection ParseRequest)
-RESPONSE= $(addprefix response/, response generateRes getMethode DeleteMethod postMethod)
+CGI= $(addprefix cgi/, cgi)
+RESPONSE= $(addprefix response/, response generateRes getMethode DeleteMethod postMethod ${CGI})
 
 
 FILES= $(addprefix src/, main $(PARSING) $(SERVER) $(RESPONSE))

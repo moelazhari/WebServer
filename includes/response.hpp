@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 23:24:09 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/21 19:51:13 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ class response
 		std::string							_filePath;
 		// cgi
 		char								*_env[8];
-		char								*cmd[2];
+		char								*_cmd[2];
 	public:
 		response();
 		~response();
@@ -64,8 +64,8 @@ class response
 
 		//cgi
 		void		cgi(server& server, ParseRequest& request);
-		void		cgiSetEnv(server& server, ParseRequest& request);
-		char		*getCGIPaths(std::string fileName);
+		void		setCgiEnv(server& serv, ParseRequest& req);
+		std::string getCGIPath();
 };
 bool		is_dir(std::string path);
 bool		is_file(std::string path);

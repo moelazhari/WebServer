@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generateRes.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 23:40:53 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/21 00:43:26 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	if (!this->getIsLocation())
 	{
 		this->setStatus("Not Found", 404);
-		this->setFilePath("./error_pages/404.html");
+		this->setFilePath("./web_pages/error_pages/404.html");
 		this->fillResponse(serv);
 	}
 	else
@@ -85,7 +85,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 		else if (check_method(request.getMethod(), this->getLocation().getAllowMethods()) == false)
 		{
 			this->setStatus("Method Not Allowed", 405);
-			this->setFilePath("./error_pages/405.html");
+			this->setFilePath("./web_pages/error_pages/405.html");
 			this->fillResponse(serv);
 		}
 		else
