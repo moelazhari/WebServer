@@ -1,41 +1,50 @@
 #include "connection.hpp"
 
-// void Connection::sendErrorPage(ParseRequest &request)
-// {
-//     // if (request.getURL().length() > 2048)
-//     // {
-//     // }
-//     // else if ()//content-lenght > max body size
-//     // {
-
-//     // }
-// }
-
-void Connection::sendLargeFile(int clientSocket, const char* filePath) {
+void Connection::sendLargeFile(int clientSocket, const char *filePath)
+{
     std::ifstream fileStream(filePath, std::ios::binary);
-    std::ifstream fileStream1(filePath, std::ios::binary);
     if (!fileStream.is_open())
         return;
     const int CHUNK_SIZE = 1024;
     char buffer[CHUNK_SIZE];
     int bytesRead = 0;
+    int i = 0;
+    struct pollfd pfd;
+    int timeout = -1;
+    pfd.fd = clientSocket;
+    pfd.events = POLLOUT;
 
-    // std::cout<< "----------------------------------------------\n";
-    while (fileStream.read(buffer, CHUNK_SIZE)) {
+    // Wait for the socket to become ready for writing
+    int ret = poll(&pfd, 1, timeout);
+
+    if (ret == -1)
+    {
+        std::cout << "Error" << std::endl;
+    }
+    else if (ret == 0)
+    {
+        std::cout << "Timeout" << std::endl;
+    }
+    else
+    {
+        std::cout << "----------------------------------------------\n";
+        while (fileStream.read(buffer, CHUNK_SIZE))
+        {
+            bytesRead = fileStream.gcount();
+            if(send(clientSocket, buffer, bytesRead, 0) == -1)
+                return;
+            std::cout << i << std::endl;
+            i++;
+        }
+        if (!fileStream.eof())
+            return;
         bytesRead = fileStream.gcount();
-        if (send(clientSocket, buffer, bytesRead, 0) == -1)
+        if(bytesRead > CHUNK_SIZE)
+        {}
+        if (bytesRead > 0 && send(clientSocket, buffer, bytesRead, 0) == -1)
             return;
     }
-    if (!fileStream.eof())
-        return;
-    bytesRead = fileStream.gcount();
-    if (bytesRead > 0 && send(clientSocket, buffer, bytesRead, 0) == -1)
-        return;
 }
-
-
-
-
 
 bool Connection::receiveRequest(int clientSocket)
 {
@@ -77,9 +86,8 @@ void Connection::sendResponse(int clientSocket, response &res)
         close(clientSocket);
         PrintExit("Failed to send response to client");
     }
-    // r = readFileContent("./web_pages/nadii.mp4");
-    std::cout << "sending file" << res.getFilePath().c_str() << std::endl;
-    sendLargeFile(clientSocket, res.getFilePath().c_str());
+    // r = readFileContent("./web_pages/miski1.mp4");
+    sendLargeFile(clientSocket, "./web_pages/miski1.mp4");
     // if (send(clientSocket, r.c_str(), r.size(), 0) == -1)
     // {
     //     close(clientSocket);
@@ -103,6 +111,7 @@ Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<ser
 }
 void Connection::start()
 {
+    int optval = 1;
     while (true)
     {
         std::cout << "Waiting for incoming connections port => " << std::endl;
@@ -116,26 +125,23 @@ void Connection::start()
 
             if (fds[i].revents & POLLIN)
             {
-                if (fds[i].fd == serverSocketList[i]) // for connection
+                if (i < serverSocketList.size() && fds[i].fd == serverSocketList[i])
                 {
                     std::cout << " Listening socket is readable" << std::endl;
                     int clientSocket = accept(serverSocketList[i], NULL, NULL);
+                    setsockopt(clientSocket, SOL_SOCKET, SO_NOSIGPIPE, &optval, sizeof(optval));
                     if (clientSocket < 0)
-                    {
                         break;
-                    }
                     std::cout << clientSocket << ": New incoming connection" << std::endl;
                     struct pollfd fd = {clientSocket, POLLIN, 0};
                     fds.push_back(fd);
                     std::cout << (*(fds.end() - 1)).fd << std::endl;
                 }
-                else // for request
+                else
                 {
-                    if (this->receiveRequest(fds[i].fd))
-                    {
-                        close(fds[i].fd);
-                        fds.erase(fds.begin() + i);
-                    }
+                    this->receiveRequest(fds[i].fd);
+                    close(fds[i].fd);
+                    fds.erase(fds.begin() + i);
                 }
             }
         }

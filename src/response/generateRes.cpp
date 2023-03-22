@@ -76,8 +76,8 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 		// test the video
 		this->setStatus("OK", 200);
 		this->setHeader("Content-Type", "video/mp4");
-		this->setFilePath("./web_pages/nadii.mp4");
-		this->setBody(readFileContent("./web_pages/nadii.mp4"));
+		this->setFilePath("./web_pages/miski1.mp4");
+		this->setBody(readFileContent("./web_pages/miski1.mp4"));
 		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 	}
 	else

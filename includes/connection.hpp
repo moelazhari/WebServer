@@ -12,8 +12,7 @@
 #include "server.hpp"
 #include "ParseRequest.hpp"
 #include "response.hpp"
-// using namespace std;
-// #define port 8003
+
 #define MAX_SERVER 10
 #define MAX_CONNECTIONS 10
 #define MAX_REQUEST_SIZE 1024
@@ -27,6 +26,8 @@ private:
         struct sockaddr_in      serverAddr;
         struct sockaddr_in      clientAddr;
         std::vector<struct pollfd> fds;
+        struct pollfd           fd;
+        long t;
 
 public:
         Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers);
