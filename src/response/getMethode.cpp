@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/22 15:51:03 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:31:41 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,27 @@ std::string	readFileContent(std::string path)
 	return content.substr(0, content.size() - 1);
 }
 
-// void	autoIndex(std::string path)
-// {
-	
-// }
+void	autoIndex(std::string path, std::string link)
+{
+	DIR	*dir;
+	struct dirent *ent;
+	std::ofstream file("error_pages/autoindex.html");
+
+	file << "<!DOCTYPE html>\n<html>\n<head><title>Index of /</title></head>\n<body bgcolor=\"white\">" << std::endl;
+	file << "<h1>Index of " << path << "</h1><hr><pre>" << std::endl;
+	dir = opendir(path.c_str());
+	if (dir != NULL)
+	{
+		while ((ent = readdir(dir)) != NULL)
+		{
+			if (opendir(joinPaths(path, ent->d_name).c_str()) == NULL)
+				file << "<a href=\"" << joinPaths(link, ent->d_name) << "\">" << ent->d_name << "</a>" << std::endl;
+			else
+				file << "<a href=\"" << joinPaths(link, ent->d_name) << "/\">" << ent->d_name <<"/</a>" << std::endl;
+		}
+		closedir(dir);
+	}
+}
 
 void	response::Get(server& serv, ParseRequest& request)
 {
@@ -88,7 +105,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			file = *it;
 			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, file)))
 			{
-				if (this->getLocation().getCgiPaths().size() && (getExtension(file) == "py" || getExtension(file) == "php")) 
+				if (this->getLocation().getCgiPaths().size() && (getExtension(file) == "py" || getExtension(file) == "php"))
 				{
 					// TODO run cgi if file format is in cgiPaths
 					this->setStatus("OK", 200);
@@ -119,8 +136,8 @@ void	response::Get(server& serv, ParseRequest& request)
 		{
 			//TODO generate autoindex page
 			this->setStatus("OK", 200);
+			autoIndex(path, request.getLink());
 			this->setFilePath("error_pages/autoindex.html");
-			// autoIndex(path);
 			this->fillResponse(serv);
 		}
 		else
@@ -132,7 +149,7 @@ void	response::Get(server& serv, ParseRequest& request)
 	}
 	else if (is_file(path))
 	{
-		if (this->getLocation().getCgiPaths().size() &&  (getExtension(path) == "py" || getExtension(path) == "php") )// TODO && file format is in cgiPaths
+		if (this->getLocation().getCgiPaths().size() &&  (getExtension(path) == "py" || getExtension(path) == "php") )
 		{
 			this->setStatus("OK", 200);
 			this->setFilePath("error_pages/cgi.html");
