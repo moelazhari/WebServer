@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/21 20:12:12 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/22 15:54:55 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ std::string	readFileContent(std::string path)
 	std::ifstream file(path.c_str());
 	if (file.good())
 	{
-		// read line by line and remove \n
+		// read line by line
 		while (getline(file, line)){
 			content += line + "\n";
 		}
@@ -63,10 +63,16 @@ std::string	readFileContent(std::string path)
 	return content.substr(0, content.size() - 1);
 }
 
+// void	autoIndex(std::string path)
+// {
+	
+// }
+
 void	response::Get(server& serv, ParseRequest& request)
 {
 	std::string							path;
 	std::vector<std::string>::iterator	it;
+	std::string							file;
 
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, request.getLink().substr(this->getLocationPath().size()));
@@ -79,9 +85,10 @@ void	response::Get(server& serv, ParseRequest& request)
 			it = this->getLocation().getIndexs().begin();
 			while(it < this->getLocation().getIndexs().end() && !is_file(joinPaths(path, *it)))
 				it++;
-			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, *it)))
+			file = *it;
+			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, file)))
 			{
-				if (this->getLocation().getCgiPaths().size() && (getExtension(this->_filePath) == "php" || getExtension(this->_filePath) == "py") )
+				if (this->getLocation().getCgiPaths().size() && (getExtension(file) == "py" || getExtension(file) == "php")) 
 				{
 					// TODO run cgi if file format is in cgiPaths
 					// std::cout << "run cgi" << std::endl;
@@ -90,7 +97,7 @@ void	response::Get(server& serv, ParseRequest& request)
 				else
 				{
 					this->setStatus("OK", 200);
-					this->setFilePath(joinPaths(path, *it));
+					this->setFilePath(joinPaths(path, file));
 					this->fillResponse(serv);
 				}
 			}
@@ -112,6 +119,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			//TODO generate autoindex page
 			this->setStatus("OK", 200);
 			this->setFilePath("error_pages/autoindex.html");
+			// autoIndex(path);
 			this->fillResponse(serv);
 		}
 		else
@@ -123,7 +131,7 @@ void	response::Get(server& serv, ParseRequest& request)
 	}
 	else if (is_file(path))
 	{
-		if (this->getLocation().getCgiPaths().size())// TODO && file format is in cgiPaths
+		if (this->getLocation().getCgiPaths().size() &&  (getExtension(path) == "py" || getExtension(path) == "php") )// TODO && file format is in cgiPaths
 		{
 			this->setStatus("OK", 200);
 			this->setFilePath("error_pages/cgi.html");
