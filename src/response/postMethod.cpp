@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/17 21:55:02 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/22 21:37:33 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@ void response::Post(server& serv, ParseRequest& request)
 {
 	(void)serv;
 	(void)request;
+	std::cout << "POST REQUEST" << std::endl;
 	return;
 }
