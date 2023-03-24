@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/24 02:11:40 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/24 02:44:48 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,6 @@ void	server::setDefaultValues(){
 		this->_allowMethods.push_back("GET");
 		this->_allowMethods.push_back("HEAD");
 		this->_allowMethods.push_back("POST");
-	}
-	if (this->_indexs.size() == 0){
-		this->_indexs.push_back("index.html");
 	}
 	if (this->_memeTypes.size() == 0){
 		this->parsMemeTypes("./configs/types.conf");
