@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/24 02:44:48 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/24 22:55:15 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	server::setDefaultValues(){
 		this->_autoIndex = "off";
 	if (this->_host == "")
 		this->_host = "web_pages";
-	if (this->_root == "")
-		this->_root = "web_pages";
 	if (this->_ports.size() == 0)
 		this->_ports.push_back(80);
 	if (this->_errorPages.size() == 0){
