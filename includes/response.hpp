@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/22 18:25:50 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/23 23:55:05 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ class response
 		std::string	joinResponse();
 		void 		checkForLocation(server& server, ParseRequest& request);
 		void		fillResponse(server &serv);
+		void		fillLocaiton(server &serv);
 
 		void		Get(server& server, ParseRequest& request);
 		void		Post(server& server, ParseRequest& request);
@@ -74,3 +75,4 @@ std::string	joinPaths(std::string path, std::string add);
 std::string	readFileContent(std::string path);
 bool		check_method(std::string method, std::vector<std::string> methods);
 void		autoIndex(std::string path, std::string link);
+bool		check_method(std::string method, std::vector<std::string> methods);
