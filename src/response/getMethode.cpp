@@ -38,6 +38,8 @@ bool	is_dir(std::string path)
 
 std::string joinPaths(std::string path, std::string add)
 {
+	if (add.size() == 0)
+		return path;
 	if (path[path.size() - 1] != '/')
 		path += '/';
 	if (add[0] == '/')

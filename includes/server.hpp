@@ -23,6 +23,7 @@ class server: public Values
 		std::map<std::string, location>		_locations;
 	public:
 		server(parsConfig &config);
+		server();
 		~server();
 
 		void setValues(std::string &key, std::string &value);

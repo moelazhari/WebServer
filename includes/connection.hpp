@@ -12,19 +12,22 @@
 #include "server.hpp"
 #include "ParseRequest.hpp"
 #include "response.hpp"
+#include "client.hpp"
 
 #define MAX_SERVER 10
 #define MAX_CONNECTIONS 10
-#define MAX_REQUEST_SIZE 1024
+
 class Connection
 {
 private:
-        int                     serverSocket;
         std::vector<server>     servers;
         std::vector<int>        serverSocketList;
+        std::map<int, Client>  clients;
+
+
+        int                     serverSocket;
         ParseRequest            _request;
         struct sockaddr_in      serverAddr;
-        struct sockaddr_in      clientAddr;
         std::vector<struct pollfd> fds;
         struct pollfd           fd;
         long t;

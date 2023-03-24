@@ -85,22 +85,22 @@ std::pair<int, std::string> location::getReturn(){
 }
 
 void location::printValues(){
-    std::cout << "client_max_body_size: " << this->_clientMaxBodySize << std::endl;
-    std::cout << "autoindex: " << this->_autoIndex << std::endl;
-    std::cout << "host: " << this->_host << std::endl;
-    std::cout << "root: " << this->_root << std::endl;
+    //std::cout << "client_max_body_size: " << this->_clientMaxBodySize << std::endl;
+    //std::cout << "autoindex: " << this->_autoIndex << std::endl;
+    //std::cout << "host: " << this->_host << std::endl;
+    //std::cout << "root: " << this->_root << std::endl;
     //prtint error pages
-    std::cout << "allow_methods: ";
+    //std::cout << "allow_methods: ";
     for (size_t i = 0; i < this->_allowMethods.size(); i++)
-        std::cout << this->_allowMethods[i] << " ";
-    std::cout << std::endl;
+        //std::cout << this->_allowMethods[i] << " ";
+    //std::cout << std::endl;
     //print indexs
-    std::cout << "index: ";
+    //std::cout << "index: ";
     for (size_t i = 0; i < this->_indexs.size(); i++)
-        std::cout << this->_indexs[i] << " ";
-    std::cout << std::endl;
+        //std::cout << this->_indexs[i] << " ";
+    //std::cout << std::endl;
     //print cgi path
-    std::cout << "cgi path: ";
+    //std::cout << "cgi path: ";
     for (std::map<std::string, std::string>::iterator it = this->_cgiPaths.begin(); it != this->_cgiPaths.end(); it++)
         std::cout << it->first << " " << it->second << " ";
 }
