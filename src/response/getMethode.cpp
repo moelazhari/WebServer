@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/24 02:26:36 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/24 22:58:51 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,15 @@ void	response::Get(server& serv, ParseRequest& request)
 
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, request.getLink().substr(this->getLocationPath().size()));
+	
+	if (isSlash(path) && this->getLocation().getRoot().empty())
+	{
+		this->setStatus("OK", 200);
+		this->setFilePath("error_pages/welcome.html");
+		this->fillResponse(serv);
+	}
 	// TODO make this a funcion to work with it inside the dir loop
-	if (is_dir(path))
+	else if (is_dir(path))
 	{
 		if (this->getLocation().getIndexs().size())
 		{
@@ -59,7 +66,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			this->setFilePath(joinPaths(path, "index.html"));
 			this->fillResponse(serv);
 		}
-		else if (this->getLocation().getAutoIndex().size() && this->getLocation().getAutoIndex() == "on")
+		else if (this->getLocation().getAutoIndex() == "on")
 		{
 			//TODO generate autoindex page
 			this->setStatus("OK", 200);

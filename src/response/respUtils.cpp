@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/24 02:28:05 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/24 23:07:11 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,23 @@ bool	is_dir(std::string path)
 	return is_dir;
 }
 
+bool	isSlash(std::string path)
+{
+	for (size_t i = 0; i < path.length(); i++)
+	{
+		if (path[i] != '/')
+			return false;
+	}
+	return true;
+}
+
 std::string joinPaths(std::string path, std::string add)
 {
 	if (path.size() == 0)
 		return add;
 	if (add.size() > 0)
 	{	
-		if (path[path.size() - 1] != '/')
+		if (path.back() != '/')
 			path += '/';
 		if (add[0] == '/')
 			add = add.substr(1);

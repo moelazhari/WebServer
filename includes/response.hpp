@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/23 23:55:05 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/24 23:12:15 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,3 +76,4 @@ std::string	readFileContent(std::string path);
 bool		check_method(std::string method, std::vector<std::string> methods);
 void		autoIndex(std::string path, std::string link);
 bool		check_method(std::string method, std::vector<std::string> methods);
+bool		isSlash(std::string path);
