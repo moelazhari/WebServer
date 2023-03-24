@@ -35,7 +35,7 @@ void Connection::sendLargeFile(int clientSocket, const char* filePath) {
 
 bool Connection::receiveRequest(int clientSocket)
 {
-    std::cout << clientSocket << " is readable" << std::endl;
+    // std::cout << clientSocket << " is readable" << std::endl;
     bool close_conn = false;
     char request[MAX_REQUEST_SIZE];
     int numBytes = recv(clientSocket, request, MAX_REQUEST_SIZE, 0);
@@ -90,7 +90,7 @@ Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<ser
     for (it = hostPort.begin(); it != hostPort.end(); it++)
     {
         serverSocketList.push_back(createsocket(it->second));
-        std::cout << "port => " << it->second << std::endl;
+        // std::cout << "port => " << it->second << std::endl;
         struct pollfd fd = {serverSocketList[i], POLLIN, 0};
         i++;
         fds.push_back(fd);
@@ -101,7 +101,7 @@ void Connection::start()
 {
     while (true)
     {
-        std::cout << "Waiting for incoming connections port => " << std::endl;
+        // std::cout << "Waiting for incoming connections port => " << std::endl;
         if (poll(&fds[0], fds.size(), -1) < 0)
         {
             std::cerr << "Failed to poll" << std::endl;
@@ -114,13 +114,13 @@ void Connection::start()
             {
                 if (fds[i].fd == serverSocketList[i]) // for connection
                 {
-                    std::cout << " Listening socket is readable" << std::endl;
+                    // std::cout << " Listening socket is readable" << std::endl;
                     int clientSocket = accept(serverSocketList[i], NULL, NULL);
                     if (clientSocket < 0)
                     {
                         break;
                     }
-                    std::cout << clientSocket << ": New incoming connection" << std::endl;
+                    // std::cout << clientSocket << ": New incoming connection" << std::endl;
                     struct pollfd fd = {clientSocket, POLLIN, 0};
                     fds.push_back(fd);
                     std::cout << (*(fds.end() - 1)).fd << std::endl;
