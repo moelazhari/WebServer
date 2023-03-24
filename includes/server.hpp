@@ -24,6 +24,7 @@ class server: public Values
 		std::map<std::string, std::string>	_memeTypes;
 	public:
 		server(parsConfig &config);
+		server();
 		~server();
 		
 		void setValues(std::string &key, std::string &value);
