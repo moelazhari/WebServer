@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/22 15:54:55 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/22 20:37:36 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	response::Get(server& serv, ParseRequest& request)
 				{
 					// TODO run cgi if file format is in cgiPaths
 					// std::cout << "run cgi" << std::endl;
+					this->setFilePath(joinPaths(path, file));
 					this->cgi(serv, request);
 				}
 				else
@@ -133,9 +134,8 @@ void	response::Get(server& serv, ParseRequest& request)
 	{
 		if (this->getLocation().getCgiPaths().size() &&  (getExtension(path) == "py" || getExtension(path) == "php") )// TODO && file format is in cgiPaths
 		{
-			this->setStatus("OK", 200);
-			this->setFilePath("error_pages/cgi.html");
-			this->fillResponse(serv);
+			this->setFilePath(joinPaths(path, file));
+			this->cgi(serv, request);
 		}
 		else
 		{

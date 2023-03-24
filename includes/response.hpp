@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   response.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/22 15:53:44 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/24 23:38:48 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ class response
 		bool								_isLocation;
 		std::string							_filePath;
 		// cgi
-		char								*_env[8];
-		char								*_cmd[2];
+		std::vector<std::string>			_env;
+		char								*_cmd[3];
 	public:
 		response();
 		~response();
@@ -67,6 +67,8 @@ class response
 		void		cgi(server& server, ParseRequest& request);
 		void		setCgiEnv(server& serv, ParseRequest& req);
 		std::string getCGIPath();
+		void		parseCgiOutput(std::string output);
+		
 };
 bool		is_dir(std::string path);
 bool		is_file(std::string path);

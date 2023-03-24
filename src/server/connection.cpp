@@ -35,7 +35,7 @@ void Connection::sendLargeFile(int clientSocket, const char* filePath) {
 
 bool Connection::receiveRequest(int clientSocket)
 {
-    std::cout << clientSocket << " is readable" << std::endl;
+    // std::cout << clientSocket << " is readable" << std::endl;
     bool close_conn = false;
     char request[MAX_REQUEST_SIZE];
     int numBytes = recv(clientSocket, request, MAX_REQUEST_SIZE, 0);
