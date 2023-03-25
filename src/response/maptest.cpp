@@ -12,24 +12,24 @@
     // it  = num_map.begin();
     // while (it != num_map.end())
     // {
-    //     std::cout<< it->first << " " << num_map[it->first] <<std::endl;
+    //     ////std::cout<< it->first << " " << num_map[it->first] <<std::endl;
     //     it++;
     // }
     
     // calls a_map.begin() and a_map.end()
-    // std::cout<< num_map["one"] << std::endl;
-    // std::cout<< num_map["two"] << std::endl;
+    // ////std::cout<< num_map["one"] << std::endl;
+    // ////std::cout<< num_map["two"] << std::endl;
     // it = num_map.find("thrdee");
 
     // if (it == num_map.end())
-    //     std::cout<<"not fournd"<<"\n";
+    //     ////std::cout<<"not fournd"<<"\n";
     // std::string link = "/one/two/three/four/five";
-    // std::cout<<link<<"\n";
+    // ////std::cout<<link<<"\n";
     // while(link.size())
     // {
     //     link = link.substr(0, link.find_last_of("/"));
-    //     std::cout<<link<<"\n";
-    //     std::cout<< "size: " <<link.size()<<"\n";
+    //     ////std::cout<<link<<"\n";
+    //     ////std::cout<< "size: " <<link.size()<<"\n";
     // }
 // #include <iostream>
 // #include <sstream>
@@ -61,6 +61,6 @@
 //     std::string path3 = "path3/";
 //     std::string path4 = "/path4";
 //     std::string result = join_paths(path1, path2, path3, path4);
-//     std::cout << result << std::endl;
+//     ////std::cout << result << std::endl;
 //     return 0;
 // }

@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/24 23:38:48 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/25 02:57:40 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ class response
 		std::string	joinResponse();
 		void 		checkForLocation(server& server, ParseRequest& request);
 		void		fillResponse(server &serv);
+		void		fillLocaiton(server &serv);
 
 		void		Get(server& server, ParseRequest& request);
 		void		Post(server& server, ParseRequest& request);
@@ -75,3 +76,6 @@ bool		is_file(std::string path);
 std::string	joinPaths(std::string path, std::string add);
 std::string	readFileContent(std::string path);
 bool		check_method(std::string method, std::vector<std::string> methods);
+void		autoIndex(std::string path, std::string link);
+bool		check_method(std::string method, std::vector<std::string> methods);
+bool		isSlash(std::string path);

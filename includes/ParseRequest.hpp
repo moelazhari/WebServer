@@ -7,7 +7,8 @@ class ParseRequest
 {
 private:
     std::string method;
-    std::string url;
+    std::string path;
+    std::string query;
     std::string httpVersion;
     std::map<std::string, std::string> header;
 public:
@@ -16,5 +17,8 @@ public:
     std::string getLink();
     std::string getMethod();
     std::string getHeadr(std::string key);
+    std::string getPort();
+    std::string getHost();
+    std::string getQuery();
     void affiche();
 };
