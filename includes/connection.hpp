@@ -14,8 +14,6 @@
 #include "response.hpp"
 #include "client.hpp"
 
-#define MAX_SERVER 10
-#define MAX_CONNECTIONS 10
 
 class Connection
 {
@@ -43,4 +41,6 @@ public:
         void sendErrorPage(ParseRequest &request);
         void sendResponse(int clientSocket, response &res);
         void sendLargeFile(int clientSocket, const char* filePath);
+        int acceptConnection(int index);
+        void closeConnection(int index);
 };
