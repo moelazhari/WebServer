@@ -39,16 +39,16 @@ std::string ParseRequest::getLink()
 }
 void ParseRequest::affiche()
 {
-    std::cout << "------------------first line----------------------" << std::endl;
-    std::cout << "Method: " << this->method << std::endl;
-    std::cout << "Url: " << this->url << std::endl;
-    std::cout << "HttpVersion: " << this->httpVersion << std::endl;
-    std::cout << "-------------------header------------------------" << std::endl;
+    ////std::cout << "------------------first line----------------------" << std::endl;
+    ////std::cout << "Method: " << this->method << std::endl;
+    ////std::cout << "Url: " << this->url << std::endl;
+    ////std::cout << "HttpVersion: " << this->httpVersion << std::endl;
+    ////std::cout << "-------------------header------------------------" << std::endl;
     for (std::map<std::string, std::string>::iterator it = this->header.begin(); it != this->header.end(); it++)
     {
-        std::cout << it->first << ": " << it->second << std::endl;
+        ////std::cout << it->first << ": " << it->second << std::endl;
     }
-    std::cout << "-------------------body------------------------" << std::endl;
+    ////std::cout << "-------------------body------------------------" << std::endl;
 }
 
 std::string ParseRequest::getMethod()
