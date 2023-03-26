@@ -76,6 +76,11 @@ std::string ParseRequest::getHeadr(std::string key)
     return (this->header[key]);
 }
 
+std::map<std::string, std::string> ParseRequest::getHeaders()
+{
+    return (this->header);
+}
+
 std::string ParseRequest::getPort()
 {
     if (this->header.find("Host") == this->header.end())

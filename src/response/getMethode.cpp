@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/25 03:11:27 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/26 17:16:36 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			file = *it;
 			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, file)))
 			{
-				if (this->getLocation().getCgiPaths().size() && (getExtension(file) == "py" || getExtension(file) == "php"))
+				if (this->isCgi(file))
 				{
 					// TODO run cgi if file format is in cgiPaths
 					// std::cout << "run cgi" << std::endl;
@@ -85,11 +85,12 @@ void	response::Get(server& serv, ParseRequest& request)
 	}
 	else if (is_file(path))
 	{
-		if (this->getLocation().getCgiPaths().size() &&  (getExtension(path) == "py" || getExtension(path) == "php") )
-		{
+		if (this->isCgi(path))
+		{	
 			this->setFilePath(joinPaths(path, file));
 			this->cgi(serv, request);
 			this->setStatus("OK", 200);
+			std::cout << "body size: " << this->_body.size() << std::endl;
 			this->setHeader("Content-Length", std::to_string(this->_body.size()));
 		}
 		else

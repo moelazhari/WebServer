@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/25 18:33:53 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/26 16:50:54 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,17 @@ void    response::cgi(server& serv, ParseRequest& req){
 	// exec cgi
 	int tmp = dup(0);
 	int fd[2];
-	pipe(fd);
+	if (pipe(fd) < 0)
+		std::cout << "pipe error" << std::endl;
 	pid_t pid = fork();
+	if (pid < 0)
+		std::cout << "fork error" << std::endl;
 	if (pid == 0){
 		dup2(fd[1], 1);
 		close(fd[1]);
 		
-		std::istringstream in("first_name=ghjgh&last_name=kjjhkghkgh");
-		std::cin.rdbuf(in.rdbuf());
+		// std::istringstream in("first_name=ghjgh&last_name=kjjhkghkgh");
+		// std::cin.rdbuf(in.rdbuf());
 		execve(this->_cmd[0], this->_cmd, env);
 	}
 	waitpid(pid, NULL, 0);
@@ -61,12 +64,9 @@ void    response::cgi(server& serv, ParseRequest& req){
 
 std::string response::getCGIPath(){
 	std::map<std::string, std::string> cgiPaths = this->_location.getCgiPaths();
+	std::string extension = "." + getExtension(this->_filePath);
 
-	if (getExtension(this->_filePath) == "py")
-		return cgiPaths[".py"];
-	else
-		return cgiPaths[".php"];
-	return std::string();
+	return cgiPaths[extension];
 }
 
 void	response::setCgiEnv(server& serv, ParseRequest& req){
@@ -81,6 +81,7 @@ void	response::setCgiEnv(server& serv, ParseRequest& req){
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("SCRIPT_NAME=" + this->getFilePath());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
+	
 	// this->_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getBody().length()));
 	this->_env.push_back("QUERY_STRING=" + req.getQuery());
 }
@@ -100,4 +101,15 @@ void    response::parseCgiOutput(std::string output){
 		}
 	}
 	getline(tmp, this->_body, '\0');
+}
+
+bool  response::isCgi(std::string file){
+	std::map<std::string, std::string> 	extensions = this->_location.getCgiPaths();
+	std::string							extension = "." + getExtension(file);
+	
+	if (this->_location.getCgiPaths().empty())
+		return false;
+	if (extensions.find(extension) == extensions.end())
+		return false;
+	return true;
 }

@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/23 20:45:49 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/25 20:21:12 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	response::Delete(server& serv, ParseRequest& request)
 	// 			this->setFilePath("./error_pages/403.html");
 	// 			this->fillResponse(serv);
 	// 		}
-			
 	// 	}
 	// 	else
 	// 	{
