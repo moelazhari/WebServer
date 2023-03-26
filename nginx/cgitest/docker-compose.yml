@@ -1,0 +1,42 @@
+version: '3.7'
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
+
+volumes:
+  data:
+    name: data
+    driver_opts:
+      device: /Users/aboudoun/Desktop/webserv/nginx/cgitest/test
+      o: bind
+      type: none
+
+services:
+  phpfpm:
+    build: ./phpfpm
+    image: phpfpm:1337
+    container_name: phpfpm
+    networks:
+      - inception
+    ports:
+      - 9000:9000
+    volumes:
+      - data:/var/www/html
+    restart: always
+
+
+  nginx:
+    build: ./nginx
+    image: nginx:1337
+    container_name: nginx
+    networks:
+      - inception
+    ports:
+      - 8080:8080
+    volumes:
+      - data:/var/www/html
+    depends_on:
+      - phpfpm
+    restart: always
