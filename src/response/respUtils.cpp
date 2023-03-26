@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/24 23:07:11 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/26 02:12:21 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,4 +138,36 @@ void	response::fillLocaiton(server &serv)
 	// this->getLocation().setServerName();
 	// this->getLocation().setPorts();
 	// this->getLocation().setErrorPages();
+}
+
+/*---------------------------------------------------------------------------------*/
+
+bool	deleteAllFilesInDir(std::string path)
+{
+	DIR	*dir;
+	struct dirent *ent;
+	std::string file_path;
+
+	dir = opendir(path.c_str());
+	if (dir != NULL)
+	{
+		while ((ent = readdir(dir)) != NULL)
+		{
+			if (ent->d_name[0] != '.')
+			{
+				file_path = joinPaths(path, ent->d_name);
+				if (is_dir(file_path))
+					deleteAllFilesInDir(file_path);
+				else if (is_file(file_path))
+					std::remove(file_path.c_str());
+			}
+		}
+		if (readdir(dir) == NULL)
+		{
+			closedir(dir);
+			return true;	
+		}
+		closedir(dir);
+	}
+	return true;
 }
