@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/24 23:40:13 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/26 02:04:08 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
 #include "configFileParser.hpp"
+
 server::server(){
 }
+
 server::server(parsConfig &config){
 	size_t      			pos = 0;
 	std::string             tmp;

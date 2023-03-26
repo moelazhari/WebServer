@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/25 07:17:46 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/25 18:33:53 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ void    response::cgi(server& serv, ParseRequest& req){
 		
 		std::istringstream in("first_name=ghjgh&last_name=kjjhkghkgh");
 		std::cin.rdbuf(in.rdbuf());
-
-		//std::cin << req.getBody();
 		execve(this->_cmd[0], this->_cmd, env);
 	}
 	waitpid(pid, NULL, 0);
@@ -80,7 +78,7 @@ void	response::setCgiEnv(server& serv, ParseRequest& req){
 	this->_env.push_back("SERVER_PROTOCOL=HTTP/1.1");
 	this->_env.push_back("SERVER_PORT= " + req.getPort());
 	// this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
-	this->_env.push_back("REQUEST_METHOD=POST");
+	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("SCRIPT_NAME=" + this->getFilePath());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
 	// this->_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getBody().length()));
