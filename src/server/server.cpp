@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/26 02:04:08 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:31:40 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,9 @@ void	server::setDefaultValues(){
 	if (this->_ports.size() == 0)
 		this->_ports.push_back(80);
 	if (this->_errorPages.size() == 0){
-		this->_errorPages[404] = "400.html";
-		this->_errorPages[500] = "500.html";
+		this->_errorPages[404] = "./web_pages/error_pages/404.html";
+		this->_errorPages[403] = "./web_pages/error_pages/403.html";
+		this->_errorPages[500] = "./web_pages/error_pages/500.html";
 	}
 	if (this->_allowMethods.size() == 0){
 		this->_allowMethods.push_back("GET");

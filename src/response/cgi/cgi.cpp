@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/26 16:50:54 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:37:00 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ void    response::cgi(server& serv, ParseRequest& req){
 		dup2(fd[1], 1);
 		close(fd[1]);
 		
-		// std::istringstream in("first_name=ghjgh&last_name=kjjhkghkgh");
-		// std::cin.rdbuf(in.rdbuf());
+		std::istringstream in("first_name=ghjgh&last_name=kjjhkghkgh");
+		std::cin.rdbuf(in.rdbuf());
 		execve(this->_cmd[0], this->_cmd, env);
 	}
 	waitpid(pid, NULL, 0);
@@ -77,7 +77,6 @@ void	response::setCgiEnv(server& serv, ParseRequest& req){
 	this->_env.push_back("GATEWAY_INTERFACE=CGI/1.1");
 	this->_env.push_back("SERVER_PROTOCOL=HTTP/1.1");
 	this->_env.push_back("SERVER_PORT= " + req.getPort());
-	// this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("SCRIPT_NAME=" + this->getFilePath());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
@@ -101,6 +100,14 @@ void    response::parseCgiOutput(std::string output){
 		}
 	}
 	getline(tmp, this->_body, '\0');
+	if (this->_body.empty()){
+		this->setStatus("Internal Server Error", 500);
+		this->setBody(readFileContent("./web_pages/error_pages/500.html"));
+	}
+	else
+		this->setStatus("OK", 200);
+
+	this->setHeader("Content-Length", std::to_string(this->_body.size()));
 }
 
 bool  response::isCgi(std::string file){

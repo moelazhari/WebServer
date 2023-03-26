@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/26 17:16:36 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:33:25 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	response::Get(server& serv, ParseRequest& request)
 	if (isSlash(path) && this->getLocation().getRoot().empty())
 	{
 		this->setStatus("OK", 200);
-		this->setFilePath("error_pages/welcome.html");
+		this->setFilePath("./web_pages/welcome.html");
 		this->fillResponse(serv);
 	}
 	// TODO make this a funcion to work with it inside the dir loop
@@ -45,8 +45,6 @@ void	response::Get(server& serv, ParseRequest& request)
 					// std::cout << "run cgi" << std::endl;
 					this->setFilePath(joinPaths(path, file));
 					this->cgi(serv, request);
-					this->setStatus("OK", 200);
-					this->setHeader("Content-Length", std::to_string(this->_body.size()));
 				}
 				else
 				{
@@ -73,7 +71,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			//TODO generate autoindex page
 			this->setStatus("OK", 200);
 			autoIndex(path, request.getLink());
-			this->setFilePath("error_pages/autoindex.html");
+			this->setFilePath("./web_pages/autoindex.html");
 			this->fillResponse(serv);
 		}
 		else
@@ -89,9 +87,6 @@ void	response::Get(server& serv, ParseRequest& request)
 		{	
 			this->setFilePath(joinPaths(path, file));
 			this->cgi(serv, request);
-			this->setStatus("OK", 200);
-			std::cout << "body size: " << this->_body.size() << std::endl;
-			this->setHeader("Content-Length", std::to_string(this->_body.size()));
 		}
 		else
 		{
