@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/25 20:21:12 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 01:06:16 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ void	response::Delete(server& serv, ParseRequest& request)
 {
 	(void)(serv);
 	(void)(request);
-	std::cout << "Delete" << std::endl;
 	// std::string path;
 	
 	// path = this->getLocation().getRoot();
-	// path = joinPaths(path, request.getLink().substr(this->getLocationPath().size()));
+	// path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 
 	// if (is_dir(path))
 	// {
@@ -28,7 +27,7 @@ void	response::Delete(server& serv, ParseRequest& request)
 	// 	{
 	// 		if (this->getLocation().getIndexs().size())
 	// 		{
-	// 			// run cgi on requested file with Delete method
+	// 			// TODO run cgi on requested file with Delete method
 	// 		}
 	// 		else
 	// 		{
@@ -40,20 +39,20 @@ void	response::Delete(server& serv, ParseRequest& request)
 	// 	else
 	// 	{
 	// 		//dlete all files in directory
-	// 		if (/*delete failed*/)
+	// 		if (deleteAllFiles(path) == false)
 	// 		{
-	// 			if (/*has write acces on folder*/)
-	// 			{
-	// 				this->setStatus("Internal Server Error", 500);
-	// 				this->setFilePath("./error_pages/500.html");
-	// 				this->fillResponse(serv);
-	// 			}
-	// 			else
-	// 			{
-	// 				this->setStatus("Forbidden", 403);
-	// 				this->setFilePath("./error_pages/403.html");
-	// 				this->fillResponse(serv);
-	// 			}
+	// 			// if (TODO /*has write acces on folder*/)
+	// 			// {
+	// 			// 	this->setStatus("Internal Server Error", 500);
+	// 			// 	this->setFilePath("./error_pages/500.html");
+	// 			// 	this->fillResponse(serv);
+	// 			// }
+	// 			// else
+	// 			// {
+	// 			// 	this->setStatus("Forbidden", 403);
+	// 			// 	this->setFilePath("./error_pages/403.html");
+	// 			// 	this->fillResponse(serv);
+	// 			// }
 				
 	// 		}
 	// 		else
@@ -69,13 +68,13 @@ void	response::Delete(server& serv, ParseRequest& request)
 	// {
 	// 	if (this->getLocation().getCgiPaths().size())
 	// 	{
-	// 		// run cgi on requested file with Delete method
+	// 		// TODO run cgi on requested file with Delete method
 	// 	}
 	// 	else
 	// 	{
-	// 		if (/*delete failed*/)
+	// 		if (deleteFile(path) == false)
 	// 		{
-	// 			if (/*has write acces on file*/)
+	// 			if (/*TODO has write acces on file*/)
 	// 			{
 	// 				this->setStatus("Internal Server Error", 500);
 	// 				this->setFilePath("./error_pages/500.html");

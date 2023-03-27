@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/25 05:10:26 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 01:21:06 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	response::checkForLocation(server& serv, ParseRequest& request)
 	size_t 										pos;
 	
 	it = serv.getLocations().begin();
-	link = request.getLink();
+	link = fixLink(request.getLink());
 	while(link.size() > 1)
 	{
 		it = serv.getLocations().find(link);

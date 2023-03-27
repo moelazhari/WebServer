@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/26 02:12:21 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 00:56:48 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,28 @@ static	std::string vecToStr(std::vector<std::string> vec)
 	return str;
 }
 
+static	std::vector<std::string> strToVec(std::string str, char c)
+{
+	std::vector<std::string> vec;
+	std::string tmp = "";
+	
+	for(size_t i = 0; i < str.size(); i++)
+	{
+		//add the last element
+		if ((str[i] == c && tmp.size() != 0) || i == str.size() - 1)
+		{
+			//add the last element if it is not the same as c
+			if (i == str.size() - 1 && str[i] != c)
+				tmp += str[i];
+			vec.push_back(tmp);
+			tmp = "";
+		}
+		else
+			tmp += str[i];
+	}
+	return vec;
+}
+
 void	response::fillLocaiton(server &serv)
 {
 	if (this->getLocation().getAllowMethods().size() == 0 && serv.getAllowMethods().size() != 0)
@@ -141,8 +163,14 @@ void	response::fillLocaiton(server &serv)
 }
 
 /*---------------------------------------------------------------------------------*/
+bool	deleteFile(std::string path)
+{
+	if (std::remove(path.c_str()) == 0)
+		return true;
+	return false;
+}
 
-bool	deleteAllFilesInDir(std::string path)
+bool	deleteAllFiles(std::string path)
 {
 	DIR	*dir;
 	struct dirent *ent;
@@ -157,11 +185,13 @@ bool	deleteAllFilesInDir(std::string path)
 			{
 				file_path = joinPaths(path, ent->d_name);
 				if (is_dir(file_path))
-					deleteAllFilesInDir(file_path);
+					deleteAllFiles(file_path);
 				else if (is_file(file_path))
-					std::remove(file_path.c_str());
+					if(std::remove(file_path.c_str()) != 0)
+						return false;
 			}
 		}
+		// check if al files are deleted
 		if (readdir(dir) == NULL)
 		{
 			closedir(dir);
@@ -170,4 +200,31 @@ bool	deleteAllFilesInDir(std::string path)
 		closedir(dir);
 	}
 	return true;
+}
+
+std::string fixLink(std::string link)
+{
+	std::deque<std::string> path;
+	std::vector<std::string> vecLink;
+	std::string newLink = "";
+
+	vecLink = strToVec(link, '/');
+	for (size_t i = 0; i < vecLink.size(); i++)
+	{
+		if (vecLink[i] == "..")
+		{
+			if (path.size() > 0)
+				path.pop_back();
+		}
+		else if (vecLink[i] != ".")
+			path.push_back(vecLink[i]);
+	}
+	newLink = "";
+	for (size_t i = 0; i < path.size(); i++)
+	{
+		newLink += path[i];
+		if (i != path.size() - 1)
+			newLink += "/";
+	}
+	return newLink;
 }
