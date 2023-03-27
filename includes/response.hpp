@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/27 00:57:38 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 02:25:56 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <dirent.h>
+#include <unistd.h>
 #include "server.hpp"
 #include "ParseRequest.hpp"
 #include "utils.hpp"
@@ -80,3 +81,4 @@ bool		isSlash(std::string path);
 bool		deleteAllFiles(std::string path);
 bool		deleteFile(std::string path);
 std::string fixLink(std::string link);
+bool		hasAccess(std::string path);

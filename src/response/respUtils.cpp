@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/27 00:56:48 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 02:24:52 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,10 +192,10 @@ bool	deleteAllFiles(std::string path)
 			}
 		}
 		// check if al files are deleted
-		if (readdir(dir) == NULL)
+		if (readdir(dir) != NULL)
 		{
 			closedir(dir);
-			return true;	
+			return false;
 		}
 		closedir(dir);
 	}
@@ -227,4 +227,11 @@ std::string fixLink(std::string link)
 			newLink += "/";
 	}
 	return newLink;
+}
+
+bool	hasAccess(std::string path)
+{
+	if (access(path.c_str(), W_OK) != -1)
+		return true;
+	return false;
 }

@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/27 01:19:09 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 02:22:34 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	response::Get(server& serv, ParseRequest& request)
 		}
 		else if (this->getLocation().getAutoIndex() == "on")
 		{
-			//TODO generate autoindex page
 			this->setStatus("OK", 200);
 			autoIndex(path, request.getLink());
 			this->setFilePath("error_pages/autoindex.html");

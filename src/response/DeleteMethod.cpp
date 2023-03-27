@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/27 01:06:16 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 02:27:30 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	response::Delete(server& serv, ParseRequest& request)
 	// 		//dlete all files in directory
 	// 		if (deleteAllFiles(path) == false)
 	// 		{
-	// 			// if (TODO /*has write acces on folder*/)
+	// 			// if (hasAccess(path)
 	// 			// {
 	// 			// 	this->setStatus("Internal Server Error", 500);
 	// 			// 	this->setFilePath("./error_pages/500.html");
@@ -74,7 +74,7 @@ void	response::Delete(server& serv, ParseRequest& request)
 	// 	{
 	// 		if (deleteFile(path) == false)
 	// 		{
-	// 			if (/*TODO has write acces on file*/)
+	// 			if (hasAccess(path))
 	// 			{
 	// 				this->setStatus("Internal Server Error", 500);
 	// 				this->setFilePath("./error_pages/500.html");
