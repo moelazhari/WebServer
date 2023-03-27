@@ -6,13 +6,15 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/26 18:37:00 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/27 20:13:33 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "response.hpp"
 #include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <string>
 
 void    response::cgi(server& serv, ParseRequest& req){
 	std::string output;
@@ -42,9 +44,20 @@ void    response::cgi(server& serv, ParseRequest& req){
 	if (pid == 0){
 		dup2(fd[1], 1);
 		close(fd[1]);
+
+		std::string body = "first_name=mohamed&last_name=azhari";
+
+		std::FILE *tmp;
+		tmp = tmpfile();
 		
-		std::istringstream in("first_name=ghjgh&last_name=kjjhkghkgh");
-		std::cin.rdbuf(in.rdbuf());
+    	if (tmp) {
+        	std::fputs(body.c_str(), tmp);
+        	std::rewind(tmp);
+    	}
+
+		dup2(fileno(tmp), 0);
+		close(fileno(tmp));
+
 		execve(this->_cmd[0], this->_cmd, env);
 	}
 	waitpid(pid, NULL, 0);
@@ -59,7 +72,7 @@ void    response::cgi(server& serv, ParseRequest& req){
 	dup2(tmp, 0);
 	close(tmp);
 	this->parseCgiOutput(output);
-	std::cout << "CGI OUTPUT: " << output << std::endl;
+	// std::cout << "CGI OUTPUT: " << output << std::endl;
 }
 
 std::string response::getCGIPath(){

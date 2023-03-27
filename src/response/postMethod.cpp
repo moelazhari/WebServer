@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/26 16:49:05 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/26 20:13:05 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void response::Post(server& serv, ParseRequest& request)
 		}
 		else
 		{
+			this->setFilePath(path);
 			this->cgi(serv, request);
 			this->setStatus("OK", 200);
 			this->setHeader("Content-Length", std::to_string(this->_body.size()));
