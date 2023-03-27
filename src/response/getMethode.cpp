@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/27 02:22:34 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 03:09:36 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,8 @@ void	response::Get(server& serv, ParseRequest& request)
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 	std::cout << "path:" << path << std::endl;
 	
-	if (isSlash(path) && this->getLocation().getRoot().empty())
-	{
-		this->setStatus("OK", 200);
-		this->setFilePath("error_pages/welcome.html");
-		this->fillResponse(serv);
-	}
 	// TODO make this a funcion to work with it inside the dir loop
-	else if (is_dir(path))
+	if (is_dir(path))
 	{
 		if (this->getLocation().getIndexs().size())
 		{

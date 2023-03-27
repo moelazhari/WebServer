@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/24 23:40:13 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/27 03:11:06 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	server::setValues(std::string &key, std::string &value){
 }
 
 void	server::setDefaultValues(){
+	if (this->_root == "")
+		this->_root = "./www/html";
 	if (this->_clientMaxBodySize == 0)
 		this->_clientMaxBodySize = 10000;
 	if (this->_autoIndex == "")
