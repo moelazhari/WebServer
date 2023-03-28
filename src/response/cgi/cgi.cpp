@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/27 20:13:33 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/27 20:40:25 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void    response::cgi(server& serv, ParseRequest& req){
 	dup2(tmp, 0);
 	close(tmp);
 	this->parseCgiOutput(output);
-	// std::cout << "CGI OUTPUT: " << output << std::endl;
+	std::cout << "CGI OUTPUT: " << output << std::endl;
 }
 
 std::string response::getCGIPath(){
@@ -93,8 +93,7 @@ void	response::setCgiEnv(server& serv, ParseRequest& req){
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("SCRIPT_NAME=" + this->getFilePath());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
-	
-	// this->_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getBody().length()));
+	this->_env.push_back("CONTENT_LENGTH=35");
 	this->_env.push_back("QUERY_STRING=" + req.getQuery());
 }
 
