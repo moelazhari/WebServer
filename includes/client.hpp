@@ -6,12 +6,7 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <server.hpp>
-#define MAX_REQUEST_SIZE 1024
-#define BUFFER_SIZE 1024
-#define REDYTOWRITE 1
-#define NOTREADYTOWRITE 0
-#define HEADER_DONE 2
-#define BODY_DONE 3
+#include "define.hpp"
 
 class Client
 {
@@ -21,21 +16,26 @@ private:
     std::string     _requestString;
     struct pollfd   _fdClient;
     ParseRequest    _request;
+    std::string     _req;
     std::string     _body;
-  
-    
-
+    int             bodytype;
+    int bytes;
 public:
     Client();
     ~Client();
     response &getResponse();
     pollfd &getFdClient();
     void setFdClient(struct pollfd fdClient);
-    void setRequestString(std::string r);
     int receiveRequest(std::vector<server>     servers);
     int sendResponse();
     int sendPacket();
    std::string readbuffer();
     std::string generatHeader();
+    void CheckReq(char rq[MAX_REQUEST_SIZE]);
+    void checkHeader();
+    void recvBody(std::string r);
+    void parsechunked(std::string r);
     int status;
 };
+
+size_t hexToDec(std::string hex);

@@ -1,29 +1,24 @@
 #include <iostream>
+#include <sstream>
 #include <string>
 
-const int BUFFER_SIZE = 5;
+using namespace std;
 
-std::string readbuffer(std::string& body)
+int hexToDec(string hex)
 {
-    if(body.size() > BUFFER_SIZE)
-    {
-        std::string buffer(body.begin(), body.begin() + BUFFER_SIZE);
-        body.erase(body.begin(), body.begin() + BUFFER_SIZE);
-        return buffer;
-    }
-    return body;
+    int decimal;
+    stringstream ss;
+    ss << hex;
+    ss >> std::hex >> decimal;
+    return decimal;
 }
 
-int main() {
-    std::string data = "This is a large string object with lots of data......."; // large string object
-    std::string::iterator pos;
-
-    
-      
-while(data.size() > 5)
+int main()
 {
-    ////std::cout << readbuffer(data) ;
-}
-////std::cout << readbuffer(data) ;
+    string hex;
+    cout << "Enter a hexadecimal number: ";
+    cin >> hex;
+    int decimal = hexToDec(hex);
+    cout << "Decimal equivalent of " << hex << " is " << decimal << endl;
     return 0;
 }

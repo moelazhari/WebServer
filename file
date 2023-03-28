@@ -1,0 +1,23 @@
+POST /api/endpoint HTTP/1.1
+Host: example.com
+Content-Type: multipart/form-data; boundary=boundarystring
+Content-Length: <length of entire message>
+
+--boundarystring
+Content-Disposition: form-data; name=header-part-1
+
+<part 1 of header>
+--boundarystring
+Content-Disposition: form-data; name=header-part-2
+
+<part 2 of header>
+--boundarystring
+Content-Disposition: form-data; name=header-part-3
+
+<part 3 of header>
+--boundarystring
+Content-Disposition: form-data; name=file; filename=filename.txt
+Content-Type: text/plain
+
+<file data>
+--boundarystring--

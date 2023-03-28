@@ -1,19 +1,41 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>POST Request Form</title>
+	<title>File Upload Form</title>
 </head>
 <body>
-  <h1>Send a POST Request</h1>
-  <form method="POST" action="http://localhost:8003/">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name"><br><br>
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email"><br><br>
-    <label for="message">Message:</label>
-    <textarea id="message" name="message"></textarea><br><br>
-    <input type="submit" value="Submit">
-  </form>
+	<form action="http://localhost:8004/" method="post" enctype="multipart/form-data">
+		<label for="file">Select a file to upload:</label><br>
+		<input type="file" id="file" name="file"><br><br>
+		<input type="submit" value="Upload">
+	</form>
+</body>
+</html> -->
+<html>
+<head>
+  <title>Delete User</title>
+</head>
+<body>
+  <h1>Delete User</h1>
+  <p>Are you sure you want to delete this user?</p>
+  <button id="delete-btn">Yes, delete user</button>
+
+  <script>
+    const deleteBtn = document.getElementById('delete-btn');
+    deleteBtn.addEventListener('click', () => {
+      fetch('http://localhost:8004/', {
+        method: 'DELETE',
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to delete user');
+        }
+        // Handle successful deletion
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    });
+  </script>
 </body>
 </html>
