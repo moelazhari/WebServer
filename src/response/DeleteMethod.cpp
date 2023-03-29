@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 00:35:31 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 03:28:52 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	response::Delete(server& serv, ParseRequest& request)
 			else
 			{
 				this->setStatus(403);
-				this->setFilePath("./error_pages/403.html");
 				this->fillResponse(serv, "");
 			}
 		}
@@ -56,7 +55,6 @@ void	response::Delete(server& serv, ParseRequest& request)
 			else
 			{
 				this->setStatus(204);
-				this->setFilePath("./error_pages/204.html");
 				this->fillResponse(serv, "");
 			}
 		}
@@ -75,13 +73,11 @@ void	response::Delete(server& serv, ParseRequest& request)
 				if (hasAccess(path))
 				{
 					this->setStatus(500);
-					this->setFilePath("./error_pages/500.html");
 					this->fillResponse(serv, "");
 				}
 				else
 				{
 					this->setStatus(403);
-					this->setFilePath("./error_pages/403.html");
 					this->fillResponse(serv, "");
 				}
 				
@@ -89,7 +85,6 @@ void	response::Delete(server& serv, ParseRequest& request)
 			else
 			{
 				this->setStatus(204);
-				this->setFilePath("./error_pages/204.html");
 				this->fillResponse(serv, "");	
 			}
 		}
@@ -98,7 +93,6 @@ void	response::Delete(server& serv, ParseRequest& request)
 	else
 	{
 		this->setStatus(404);
-		this->setFilePath("./error_pages/404.html");
 		this->fillResponse(serv, "");
 	}
 }

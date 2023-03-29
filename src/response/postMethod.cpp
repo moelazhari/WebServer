@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 02:11:50 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 03:30:58 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void response::Post(server& serv, ParseRequest& request)
 	if (!is_file(path) && !is_dir(path))
 	{
 		this->setStatus(404);
-		this->setFilePath("./error_pages/404.html");
 		this->fillResponse(serv, "");
 	}
 	else if (is_dir(path))
@@ -60,13 +59,11 @@ void response::Post(server& serv, ParseRequest& request)
 		{
 			// TODO do i need to check if the index is present in the directory? or just pss it to the cgi?
 			this->setStatus(403);
-			this->setFilePath("./error_pages/403.html");
 			this->fillResponse(serv, "");
 		}
 		else if (this->getLocation().getCgiPaths().empty())
 		{
 			this->setStatus(403);
-			this->setFilePath("./error_pages/403.html");
 			this->fillResponse(serv, "");
 		}
 		else
@@ -81,7 +78,6 @@ void response::Post(server& serv, ParseRequest& request)
 		if (this->getLocation().getCgiPaths().empty())
 		{
 			this->setStatus(403);
-			this->setFilePath("./error_pages/403.html");
 			this->fillResponse(serv, "");
 		}
 		else

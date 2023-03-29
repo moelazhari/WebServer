@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 01:13:12 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 03:29:03 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	else if (check_method(request.getMethod(), this->getLocation().getAllowMethods()) == false)
 	{
 		this->setStatus(405);
-		this->setFilePath("./error_pages/405.html");
 		this->fillResponse(serv, "");
 	}
 	else

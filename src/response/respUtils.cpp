@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 00:46:45 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 03:30:20 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	autoIndex(std::string path, std::string link)
 {
 	DIR	*dir;
 	struct dirent *ent;
-	std::ofstream file("error_pages/autoindex.html");
+	std::ofstream file("./www/html/autoindex.html");
 
 	file << "<!DOCTYPE html>\n<html>\n<head><title>Index of /</title></head>\n<body bgcolor=\"white\">" << std::endl;
 	file << "<h1>Index of " << path << "</h1><hr><pre>" << std::endl;
