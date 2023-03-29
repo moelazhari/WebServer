@@ -1,6 +1,7 @@
 #include "client.hpp"
 
-Client::Client() : status(NOTREADYTOWRITE)
+//for client
+Client::Client() :  _req(""),  bytes(0), status(NOTREADY)
 {
 }
 Client::~Client()
@@ -21,14 +22,30 @@ void Client::setFdClient(struct pollfd fdClient)
 {
     _fdClient = fdClient;
 }
-
-void Client::setRequestString(std::string r)
+/*----------------------req-------------------------------*/
+void Client::CheckReq(char rq[MAX_REQUEST_SIZE])
 {
-    _requestString = r;
-    //std::cout << "request => " << _requestString << std::endl;
+    std::string r(rq);
+    if(r.find("\r\n\r\n") != std::string::npos)
+    {
+        this->status = REQ_HEADR_DONE;
+        this->_req += r;
+        this->bytes = this->_request.parseRequest(this->_req).size();
+        this->bodytype = this->_request.CheckHeader(this->status);
+        // this->_request.affiche();
+    }
+    else if(this->status == REQ_HEADR_DONE)
+    {
+        this->bytes += r.size();
+        this->recvBody(r);
+    }
+    else
+    {
+        this->_req += r;
+    }
+    
 }
-
-int Client::receiveRequest(std::vector<server>     servers)
+int Client::receiveRequest(std::vector<server> servers)
 {
     this->_server = servers[0];
     char request[MAX_REQUEST_SIZE];
@@ -37,13 +54,75 @@ int Client::receiveRequest(std::vector<server>     servers)
     {
         std::cerr << "Failed to read request from client" << std::endl;
         close(_fdClient.fd);
-   
+
         exit(1);
     }
-    this->_request.parseRequest(request);
-    this->_response.generateResponse(this->_server, this->_request);
-    return(1);
+    this->CheckReq(request);
+    // this->_request.affiche();
+    if(this->status == READYTO_RES)
+    {
+        this->_response.generateResponse(this->_server, this->_request);
+        return (1);
+    }
+    else
+        return (0);
 }
+
+void Client::recvBody(std::string r)
+{
+    if(this->bodytype == content_length)
+    {
+        if(toInt(this->_request.getHeaders()["Content-Length"]) <= this->bytes)
+        {
+            this->_request.setBody(r);
+            this->status = READYTO_RES;
+        }
+        else
+        {
+            this->_request.setBody(r);
+        }
+    }
+    else if(this->bodytype == transfer_encoding)
+    {
+        // if(this->_body.size() == 0)
+        // {
+        //     this->_body = r;
+        // }
+        // else
+        // {
+        //     this->_body = this->_body.substr(this->_body.find("\r\n"));
+        // }
+        
+    }
+    else if(this->bodytype == ERROR)
+    {
+        //errors   
+    }
+}
+
+void Client::parsechunked(std::string r)
+{
+    std::string size = r.substr(0, r.find("\r\n"));
+    std::string data = r.substr(r.find("\r\n") + 2);
+    if(size.compare("0") == 0)
+    {
+        this->status = READYTO_RES;
+    }
+    else
+    {
+        if(data.size() != hexToDec(size))
+        {
+            this->status = ERROR;
+        }
+        else
+        {
+            this->_request.setBody(data);
+        }
+    }
+}
+
+
+/*-----------------for response-----------------------------*/
 std::string Client::generatHeader()
 {
     std::string r;
@@ -57,35 +136,24 @@ std::string Client::generatHeader()
 int Client::sendPacket()
 {
     std::string r;
-    if(this->status != HEADER_DONE)
+    if (this->status != HEADER_DONE)
     {
-        // std::cout << "send header from "<< _fdClient.fd << std::endl;
         r = generatHeader();
-        std::cout << "header: " << r << std::endl;
-        // std::cout << "header => " << _request.getLink() << std::endl;
-        // if(this->_request.getLink().compare("/favicon.ico") == 0)
-        // {
-        //     exit(0);
-        //     this->status = BODY_DONE;
-        // }
-        // else 
         this->status = HEADER_DONE;
     }
     else
     {
-        if(this->_body.size() == 0)
-         {
+        if (this->_body.size() == 0)
+        {
             this->status = BODY_DONE;
             return 0;
-         }
-        //std::cout << "send BODY from "<< _fdClient.fd << std::endl;
+        }
+
         r = readbuffer();
     }
     if (send(this->getFdClient().fd, r.c_str(), r.size(), 0) == -1)
     {
-        // close(this->getFdClient().fd);
         std::cout << "Failed to send response to client" << std::endl;
-        // PrintExit("Failed to send response to client");
         return 1;
     }
     return 0;
@@ -93,13 +161,12 @@ int Client::sendPacket()
 
 int Client::sendResponse()
 {
-   return (this->sendPacket());
-  
+    return (this->sendPacket());
 }
 
 std::string Client::readbuffer()
 {
-    if(this->_body.size() > BUFFER_SIZE)
+    if (this->_body.size() > BUFFER_SIZE)
     {
         std::string buffer(this->_body.begin(), this->_body.begin() + BUFFER_SIZE);
         this->_body.erase(this->_body.begin(), this->_body.begin() + BUFFER_SIZE);
@@ -108,4 +175,13 @@ std::string Client::readbuffer()
     this->status = BODY_DONE;
 
     return this->_body;
+}
+
+size_t hexToDec(std::string hex)
+{
+    int decimal;
+    std::stringstream ss;
+    ss << hex;
+    ss >> std::hex >> decimal;
+    return decimal;
 }

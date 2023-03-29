@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 03:30:58 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 05:03:07 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void response::Post(server& serv, ParseRequest& request)
 	// (void)request;
 	// (void)serv;
 	std::string path;
+	std::cout<<"POST"<<std::endl;
 
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
