@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/26 18:31:40 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:44:55 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ server::server(parsConfig &config){
 }
 
 void	server::setValues(std::string &key, std::string &value){
-	std::string values[10] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "listen", "error_page", "allow_methods", "index", "meme_types"};
+	std::string values[11] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "upload", "listen", "error_page", "allow_methods", "index", "meme_types"};
 	
-	void (server::*f[10])(std::string value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
-	 &server::setRoot, &server::setServerName, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs, &server::parsMemeTypes};
+	void (server::*f[11])(std::string value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
+	 &server::setRoot, &server::setServerName, &server::setUpload, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs, &server::parsMemeTypes};
 
-	for (int i = 0; i < 10; i++){
+	for (int i = 0; i < 11; i++){
 		if (key == values[i]){
 			(this->*f[i])(value);
 			return ;

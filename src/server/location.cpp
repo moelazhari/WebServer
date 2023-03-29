@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/20 21:35:36 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:46:14 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ location::location (std::string &content): _cgiPaths(std::map<std::string, std::
 }
 
 void    location::setValues(std::string &key, std::string &value){
-    std::string values[9] = {"client_max_body_size",  "autoindex", "host", "root", "error_page", "allow_methods", "index", "path_info", "return"};
+    std::string values[10] = {"client_max_body_size",  "autoindex", "host", "root", "upload", "error_page", "allow_methods", "index", "path_info", "return"};
   
-    void (location::*f[9])(std::string value) = {&location::setClientMaxBodySize, &location::setAutoIndex, &location::setHost,\
-    &location::setRoot, &location::setErrorPages, &location::setAllowMethods, &location::setIndexs, &location::setCgiPaths, &location::setReturn};
+    void (location::*f[10])(std::string value) = {&location::setClientMaxBodySize, &location::setAutoIndex, &location::setHost,\
+    &location::setRoot, &location::setUpload, &location::setErrorPages, &location::setAllowMethods, &location::setIndexs, &location::setCgiPaths, &location::setReturn};
     
-    for (int i = 0; i < 9; i++){
+    for (int i = 0; i < 10; i++){
         if (key == values[i]){
             (this->*f[i])(value);
             return ;

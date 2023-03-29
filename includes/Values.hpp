@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:44:48 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/18 23:24:33 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:47:40 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class Values{
 		std::string                         _host;
 		std::string							_root;
 		std::string							_serverName;
+		std::string							_upload;
 		std::vector<int>					_ports;
 		std::map<int, std::string>			_errorPages;
 		std::vector<std::string>			_allowMethods;
@@ -38,6 +39,7 @@ class Values{
 		void setHost(std::string value);
 		void setRoot(std::string value);
 		void setServerName(std::string value);
+		void setUpload(std::string value);
 		void setPorts(std::string value);
 		void setErrorPages(std::string value);
 		void setAllowMethods(std::string value);
@@ -48,6 +50,7 @@ class Values{
 		std::string					getHost();
 		std::string					getRoot();
 		std::string					getServerName();
+		std::string					getUpload();
 		std::vector<int>			getPorts();
 		std::map<int, std::string>	getErrorPages();
 		std::vector<std::string>	getAllowMethods();

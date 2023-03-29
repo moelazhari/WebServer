@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/26 20:13:05 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:54:26 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void response::Post(server& serv, ParseRequest& request)
 
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, request.getLink().substr(this->getLocationPath().size()));
-	// if (/*location supports upload*/)
+	// if ()
 	// {
 	// 	std::ifstream file(path);
 

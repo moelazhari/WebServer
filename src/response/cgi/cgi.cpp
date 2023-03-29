@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/27 20:40:25 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 00:53:37 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ void    response::parseCgiOutput(std::string output){
 	if (this->_body.empty()){
 		this->setStatus("Internal Server Error", 500);
 		this->setBody(readFileContent("./web_pages/error_pages/500.html"));
+		this->setHeader("Content-Length", std::to_string(this->_body.size()));
+		this->setHeader("Content-Type", "text/html");
 	}
 	else
 		this->setStatus("OK", 200);
