@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/29 03:22:51 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 06:13:08 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void    response::cgi(server& serv, ParseRequest& req){
 		close(fileno(tmp));
 
 		execve(this->_cmd[0], this->_cmd, env);
+		std::cout << "execve error" << std::endl;
 	}
 	waitpid(pid, NULL, 0);
 	dup2(fd[0], 0);
