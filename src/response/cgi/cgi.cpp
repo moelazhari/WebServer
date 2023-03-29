@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/29 00:53:37 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 03:22:51 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void    response::cgi(server& serv, ParseRequest& req){
 	dup2(tmp, 0);
 	close(tmp);
 	this->parseCgiOutput(output);
-	std::cout << "CGI OUTPUT: " << output << std::endl;
 }
 
 std::string response::getCGIPath(){
@@ -105,23 +104,18 @@ void    response::parseCgiOutput(std::string output){
 		line += "\n";
 		
 		if (line.find(":") != std::string::npos){
-			this->setHeader(line.substr(0, line.find(":")), line.substr(line.find(":") + 1));
+			size_t pos = line.find(":");
+			this->setHeader(line.substr(0, pos), line.substr(pos + 1, line.find("\r\n") - pos - 1));
 		}
 		else if (line.find("\r\n") != std::string::npos){
 			break;
 		}
 	}
 	getline(tmp, this->_body, '\0');
-	if (this->_body.empty()){
-		this->setStatus("Internal Server Error", 500);
-		this->setBody(readFileContent("./web_pages/error_pages/500.html"));
-		this->setHeader("Content-Length", std::to_string(this->_body.size()));
-		this->setHeader("Content-Type", "text/html");
-	}
-	else
-		this->setStatus("OK", 200);
-
-	this->setHeader("Content-Length", std::to_string(this->_body.size()));
+	if (!this->_body.empty())
+		this->setStatus(200);
+	else 
+		this->setStatus(500);
 }
 
 bool  response::isCgi(std::string file){

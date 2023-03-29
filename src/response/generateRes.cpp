@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   generateRes.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/26 03:34:07 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 03:29:03 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	response::checkForLocation(server& serv, ParseRequest& request)
 	size_t 										pos;
 	
 	it = serv.getLocations().begin();
-	link = request.getLink();
+	link = fixLink(request.getLink());
 	while(link.size() > 1)
 	{
 		it = serv.getLocations().find(link);
@@ -64,7 +64,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	//check for return redirection
 	if (this->getLocation().getReturn().second.size())
 	{
-		this->setStatus("Moved Temporarily", this->getLocation().getReturn().first);
+		this->setStatus(this->getLocation().getReturn().first);
 		this->setHeader("Content-Type", "text/html");
 		//return link
 		this->setHeader("Location", this->getLocation().getReturn().second);
@@ -73,9 +73,8 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	//check if method allowed
 	else if (check_method(request.getMethod(), this->getLocation().getAllowMethods()) == false)
 	{
-		this->setStatus("Method Not Allowed", 405);
-		this->setFilePath("./error_pages/405.html");
-		this->fillResponse(serv);
+		this->setStatus(405);
+		this->fillResponse(serv, "");
 	}
 	else
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/29 00:44:55 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 01:40:27 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	server::setValues(std::string &key, std::string &value){
 }
 
 void	server::setDefaultValues(){
+	if (this->_root == "")
+		this->_root = "./www/html";
 	if (this->_clientMaxBodySize == 0)
 		this->_clientMaxBodySize = 10000;
 	if (this->_autoIndex == "")
@@ -69,11 +71,12 @@ void	server::setDefaultValues(){
 		this->_host = "web_pages";
 	if (this->_ports.size() == 0)
 		this->_ports.push_back(80);
-	if (this->_errorPages.size() == 0){
-		this->_errorPages[404] = "./web_pages/error_pages/404.html";
-		this->_errorPages[403] = "./web_pages/error_pages/403.html";
-		this->_errorPages[500] = "./web_pages/error_pages/500.html";
-	}
+	if (this->_errorPages.find(404) == this->_errorPages.end())
+		this->_errorPages[404] = "./www/html/error_pages/404.html";
+	if (this->_errorPages.find(403) == this->_errorPages.end())
+		this->_errorPages[403] = "./www/html/error_pages/403.html";
+	if (this->_errorPages.find(500) == this->_errorPages.end())
+		this->_errorPages[500] = "./www/html/error_pages/500.html";
 	if (this->_allowMethods.size() == 0){
 		this->_allowMethods.push_back("GET");
 		this->_allowMethods.push_back("HEAD");

@@ -2,6 +2,8 @@
 #pragma once
 #include <iostream>
 #include <map>
+#include "define.hpp"
+#include "utils.hpp"
 
 class ParseRequest
 {
@@ -10,10 +12,11 @@ private:
 	std::string path;
 	std::string query;
 	std::string httpVersion;
+    std::string                         body;
 	std::map<std::string, std::string> header;
 public:
 	ParseRequest();
-	void parseRequest(const std::string& request);
+	std::string							parseRequest(const std::string& request);
 	std::string                         getLink();
 	std::string                         getMethod();
 	std::string                         getHeadr(std::string key);
@@ -22,4 +25,8 @@ public:
 	std::string                         getHost();
 	std::string                         getQuery();
 	void                                affiche();
+    int                                 CheckHeader(int& status);
+    std::string                         getBody();
+    void                                setBody(std::string body);
+
 };

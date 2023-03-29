@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/26 18:33:25 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 03:30:35 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,10 @@ void	response::Get(server& serv, ParseRequest& request)
 	std::string							file;
 
 	path = this->getLocation().getRoot();
-	path = joinPaths(path, request.getLink().substr(this->getLocationPath().size()));
+	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 	
-	if (isSlash(path) && this->getLocation().getRoot().empty())
-	{
-		this->setStatus("OK", 200);
-		this->setFilePath("./web_pages/welcome.html");
-		this->fillResponse(serv);
-	}
 	// TODO make this a funcion to work with it inside the dir loop
-	else if (is_dir(path))
+	if (is_dir(path))
 	{
 		if (this->getLocation().getIndexs().size())
 		{
@@ -41,44 +35,38 @@ void	response::Get(server& serv, ParseRequest& request)
 			{
 				if (this->isCgi(file))
 				{
-					// TODO run cgi if file format is in cgiPaths
-					// std::cout << "run cgi" << std::endl;
 					this->setFilePath(joinPaths(path, file));
 					this->cgi(serv, request);
+					this->fillResponse(serv, "");
 				}
 				else
 				{
-					this->setStatus("OK", 200);
+					this->setStatus(200);
 					this->setFilePath(joinPaths(path, file));
-					this->fillResponse(serv);
+					this->fillResponse(serv, joinPaths(path, file));
 				}
 			}
 			else{
-				this->setStatus("Forbidden", 403);
-				this->setFilePath("./web_pages/error_pages/403.html");
-				this->fillResponse(serv);
+				this->setStatus(403);
+				this->fillResponse(serv, "");
 			}
 		}
 		// check if index.html exist
 		else if (is_file(joinPaths(path, "index.html")))
 		{
-			this->setStatus("OK", 200);
-			this->setFilePath(joinPaths(path, "index.html"));
-			this->fillResponse(serv);
+			this->setStatus(200);
+			this->fillResponse(serv, joinPaths(path, "index.html"));
 		}
 		else if (this->getLocation().getAutoIndex() == "on")
 		{
-			//TODO generate autoindex page
-			this->setStatus("OK", 200);
 			autoIndex(path, request.getLink());
-			this->setFilePath("./web_pages/autoindex.html");
-			this->fillResponse(serv);
+			this->setStatus(200);
+			this->fillResponse(serv, "./www/html/autoindex.html");
 		}
 		else
 		{
-			this->setStatus("Forbidden", 403);
-			this->setFilePath("./web_pages/error_pages/403.html");
-			this->fillResponse(serv);
+			this->setStatus(403);
+			this->fillResponse(serv, "");
 		}
 	}
 	else if (is_file(path))
@@ -90,16 +78,15 @@ void	response::Get(server& serv, ParseRequest& request)
 		}
 		else
 		{
-			this->setStatus("OK", 200);
+			this->setStatus(200);
 			this->setFilePath(path);
-			this->fillResponse(serv);
+			this->fillResponse(serv, path);
 		}
 	}
 	else
 	{
-		this->setStatus("Not Found", 404);
-		this->setFilePath("./web_pages/error_pages/404.html");
-		this->fillResponse(serv);
+		this->setStatus(404);
+		this->fillResponse(serv, "");
 	}
 }
 
