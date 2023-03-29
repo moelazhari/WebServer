@@ -143,7 +143,6 @@ void Connection::start()
                 {
                     if (clients.find(fds[i].fd)->second.receiveRequest(this->servers))
                     {
-
                         fds[i].events = POLLOUT;
                         std::cout << clients.size() << std::endl;
                     }

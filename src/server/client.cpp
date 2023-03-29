@@ -41,7 +41,6 @@ int Client::receiveRequest(std::vector<server>     servers)
         exit(1);
     }
     this->_request.parseRequest(request);
-    this->_request.affiche();
     this->_response.generateResponse(this->_server, this->_request);
     return(1);
 }

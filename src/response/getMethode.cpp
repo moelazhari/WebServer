@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 02:31:03 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 03:13:34 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ void	response::Get(server& serv, ParseRequest& request)
 				{
 					this->setFilePath(joinPaths(path, file));
 					this->cgi(serv, request);
-					if (this->getStatus().empty()){
-						this->setStatus(500);
-						this->fillResponse(serv, "");
-					}
+					this->fillResponse(serv, "");
 				}
 				else
 				{

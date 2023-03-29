@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   response.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 02:15:40 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 03:03:30 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,12 @@ void	response::fillResponse(server &serv, std::string path)
 	else
 		this->setFilePath(path);
 
+	this->setHeader("Server", "Webserv/1.0");
+
 	if (this->_header.find("Content-Type") == this->_header.end())
 		this->setHeader("Content-Type", mime[ext]);
 	if (this->getBody().empty())
 		this->setBody(readFileContent(this->getFilePath()));
 	if (this->_header.find("Content-Length") == this->_header.end())
 		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
-	this->setHeader("Server", "Webserv/1.0");
 }
