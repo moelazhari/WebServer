@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 05:03:07 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 05:22:45 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 void response::Post(server& serv, ParseRequest& request)
 {
-	// (void)request;
-	// (void)serv;
-	std::string path;
-	std::cout<<"POST"<<std::endl;
-
+	std::string 						path;
+	std::vector<std::string>::iterator	it;
+	std::string							file;
+	
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 	
-	// if (this->getLocation().getUpload() && this->getLocation().getUpload() == "on")
+	// TODO if (this->getLocation().getUpload() && this->getLocation().getUpload() == "on")
 	// {
 	// 	if ()
 	// 	{
@@ -31,7 +30,7 @@ void response::Post(server& serv, ParseRequest& request)
 	// 		return;	
 	// 	}
 	// }
-	// if (/*hi*/)
+	// if (/*shouldUpload*/)
 	// {
 	// 	std::ofstream file(path, std::ios::app);
 	// 	if (file.is_open())
@@ -58,7 +57,10 @@ void response::Post(server& serv, ParseRequest& request)
 	{
 		if (this->getLocation().getIndexs().empty())
 		{
-			// TODO do i need to check if the index is present in the directory? or just pss it to the cgi?
+			//TODO it = this->getLocation().getIndexs().begin();
+			// while(it < this->getLocation().getIndexs().end() && !is_file(joinPaths(path, *it)))
+			// 	it++;
+			// file = *it;
 			this->setStatus(403);
 			this->fillResponse(serv, "");
 		}
