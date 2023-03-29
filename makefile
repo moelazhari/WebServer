@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+         #
+#    By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/04 20:21:22 by mazhari           #+#    #+#              #
-#    Updated: 2023/03/24 23:41:13 by aboudoun         ###   ########.fr        #
+#    Updated: 2023/03/25 02:54:34 by mazhari          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ INCLUDES= ./includes
 B_DIR = ./build
 
 PARSING= $(addprefix parsing/, configFileParser utils)
-RESPONSE= $(addprefix response/, response generateRes getMethode DeleteMethod postMethod respUtils)
+CGI= $(addprefix cgi/, cgi)
+RESPONSE= $(addprefix response/, response generateRes getMethode DeleteMethod postMethod respUtils ${CGI})
 SERVER= $(addprefix server/, server location Values connection ParseRequest client)
 
 

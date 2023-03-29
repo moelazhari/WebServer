@@ -60,9 +60,10 @@ int Client::sendPacket()
     std::string r;
     if(this->status != HEADER_DONE)
     {
-        std::cout << "send header from "<< _fdClient.fd << std::endl;
+        // std::cout << "send header from "<< _fdClient.fd << std::endl;
         r = generatHeader();
-        std::cout << "header => " << _request.getLink() << std::endl;
+        std::cout << "header: " << r << std::endl;
+        // std::cout << "header => " << _request.getLink() << std::endl;
         // if(this->_request.getLink().compare("/favicon.ico") == 0)
         // {
         //     exit(0);

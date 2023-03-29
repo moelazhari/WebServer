@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 00:45:16 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 02:15:40 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ response::response()
 	this->_statusString[305] = "Use Proxy";
 	this->_statusString[307] = "Temporary Redirect";
 	this->_statusString[308] = "Permanent Redirect";
-	
+	this->_env = std::vector<std::string>();
+	// this->_location = new location();
+	return ;
 }
 
 response::~response()
@@ -137,9 +139,14 @@ void	response::fillResponse(server &serv, std::string path)
 	
 	if (path.empty())
 		this->setFilePath(serv.getErrorPages()[this->_code]);
-	this->setFilePath(path);
+	else
+		this->setFilePath(path);
+
+	if (this->_header.find("Content-Type") == this->_header.end())
+		this->setHeader("Content-Type", mime[ext]);
+	if (this->getBody().empty())
+		this->setBody(readFileContent(this->getFilePath()));
+	if (this->_header.find("Content-Length") == this->_header.end())
+		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 	this->setHeader("Server", "Webserv/1.0");
-	this->setHeader("Content-Type", mime[ext]);
-	this->setBody(readFileContent(this->getFilePath()));
-	this->setHeader("Content-Length", std::to_string(this->getBody().size()));
 }

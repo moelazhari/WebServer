@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Values.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 16:55:41 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/17 21:47:39 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 00:48:03 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ Values::Values(){
 	this->_host = "";
 	this->_root = "";
 	this->_serverName = "";
+	this->_upload = "";
 	this->_ports = std::vector<int>();
 	this->_errorPages = std::map<int, std::string>();
 	this->_allowMethods = std::vector<std::string>();
@@ -70,6 +71,14 @@ void 	Values::setServerName(std::string value){
 	if (this->_serverName != "")
 		PrintExit("Error config file: serverName is already set");
 	this->_serverName = value;
+}
+
+void Values::setUpload(std::string value){
+	if (this->_upload != "")
+		PrintExit("Error config file: upload is already set");
+	if (value != "on" && value != "off")
+		PrintExit("Error config file: upload: " + value + " invalid value");
+	this->_upload = value;
 }
 
 void Values::setPorts(std::string value){
@@ -132,6 +141,10 @@ std::string	Values::getRoot(){
 
 std::string	Values::getServerName(){
 	return this->_serverName;
+}
+
+std::string	Values::getUpload(){
+	return this->_upload;
 }
 
 std::vector<int>	Values::getPorts(){

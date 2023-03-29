@@ -1,29 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/24 01:16:43 by mazhari           #+#    #+#             */
+/*   Updated: 2023/03/27 20:12:27 by mazhari          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+// #include <iostream>
+// #include <string>
+// #include <unistd.h>
+// #include <string>
+// #include <sstream>
+
+// int main(){
+
+//     std::istringstream in("first_name=ghjgh&last_name=kjjhkghkgh");
+
+//     std::cin.rdbuf(in.rdbuf());
+//     std::string        line;
+//     getline(std::cin, line, '\0');
+//     std::cout << line << std::endl;
+// }
+
 #include <iostream>
-#include <string>
-
-const int BUFFER_SIZE = 5;
-
-std::string readbuffer(std::string& body)
+using namespace std;
+int main()
 {
-    if(body.size() > BUFFER_SIZE)
-    {
-        std::string buffer(body.begin(), body.begin() + BUFFER_SIZE);
-        body.erase(body.begin(), body.begin() + BUFFER_SIZE);
-        return buffer;
-    }
-    return body;
-}
-
-int main() {
-    std::string data = "This is a large string object with lots of data......."; // large string object
-    std::string::iterator pos;
-
-    
-      
-while(data.size() > 5)
-{
-    ////std::cout << readbuffer(data) ;
-}
-////std::cout << readbuffer(data) ;
-    return 0;
+    cout << "this is a test" << endl;
+    string line;
+    getline(cin, line, '\n');
+    cout << "line = " + line << endl;
 }

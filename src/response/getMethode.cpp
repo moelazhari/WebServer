@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 00:37:51 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 02:31:03 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ void	response::Get(server& serv, ParseRequest& request)
 			file = *it;
 			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, file)))
 			{
-				if (this->getLocation().getCgiPaths().size() && (getExtension(file) == "py" || getExtension(file) == "php"))
+				if (this->isCgi(file))
 				{
-					// TODO run cgi if file format is in cgiPaths
-					this->setStatus(200);
-					this->setFilePath("error_pages/cgi.html");
-					this->fillResponse(serv, "error_pages/cgi.html");
+					this->setFilePath(joinPaths(path, file));
+					this->cgi(serv, request);
+					if (this->getStatus().empty()){
+						this->setStatus(500);
+						this->fillResponse(serv, "");
+					}
 				}
 				else
 				{
@@ -76,11 +78,10 @@ void	response::Get(server& serv, ParseRequest& request)
 	}
 	else if (is_file(path))
 	{
-		if (this->getLocation().getCgiPaths().size() &&  (getExtension(path) == "py" || getExtension(path) == "php") )
-		{
-			this->setStatus(200);
-			this->setFilePath("error_pages/cgi.html");
-			this->fillResponse(serv, "error_pages/cgi.html");
+		if (this->isCgi(path))
+		{	
+			this->setFilePath(joinPaths(path, file));
+			this->cgi(serv, request);
 		}
 		else
 		{
@@ -92,7 +93,6 @@ void	response::Get(server& serv, ParseRequest& request)
 	else
 	{
 		this->setStatus(404);
-		this->setFilePath("./error_pages/404.html");
 		this->fillResponse(serv, "");
 	}
 }

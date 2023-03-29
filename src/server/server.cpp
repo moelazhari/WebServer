@@ -6,14 +6,16 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/27 03:11:06 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 01:40:27 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "server.hpp"
 #include "configFileParser.hpp"
+
 server::server(){
 }
+
 server::server(parsConfig &config){
 	size_t      			pos = 0;
 	std::string             tmp;
@@ -44,12 +46,12 @@ server::server(parsConfig &config){
 }
 
 void	server::setValues(std::string &key, std::string &value){
-	std::string values[10] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "listen", "error_page", "allow_methods", "index", "meme_types"};
+	std::string values[11] = {"client_max_body_size",  "autoindex", "host", "root", "server_name", "upload", "listen", "error_page", "allow_methods", "index", "meme_types"};
 	
-	void (server::*f[10])(std::string value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
-	 &server::setRoot, &server::setServerName, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs, &server::parsMemeTypes};
+	void (server::*f[11])(std::string value) = {&server::setClientMaxBodySize, &server::setAutoIndex, &server::setHost,\
+	 &server::setRoot, &server::setServerName, &server::setUpload, &server::setPorts, &server::setErrorPages, &server::setAllowMethods, &server::setIndexs, &server::parsMemeTypes};
 
-	for (int i = 0; i < 10; i++){
+	for (int i = 0; i < 11; i++){
 		if (key == values[i]){
 			(this->*f[i])(value);
 			return ;
@@ -69,10 +71,12 @@ void	server::setDefaultValues(){
 		this->_host = "web_pages";
 	if (this->_ports.size() == 0)
 		this->_ports.push_back(80);
-	if (this->_errorPages.size() == 0){
-		this->_errorPages[404] = "400.html";
-		this->_errorPages[500] = "500.html";
-	}
+	if (this->_errorPages.find(404) == this->_errorPages.end())
+		this->_errorPages[404] = "./www/html/error_pages/404.html";
+	if (this->_errorPages.find(403) == this->_errorPages.end())
+		this->_errorPages[403] = "./www/html/error_pages/403.html";
+	if (this->_errorPages.find(500) == this->_errorPages.end())
+		this->_errorPages[500] = "./www/html/error_pages/500.html";
 	if (this->_allowMethods.size() == 0){
 		this->_allowMethods.push_back("GET");
 		this->_allowMethods.push_back("HEAD");

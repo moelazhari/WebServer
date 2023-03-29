@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 00:18:59 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 02:23:10 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ class response
 		bool								_upload;
 		std::string							_filePath;
 		// cgi
-		char								*_env[8];
-		char								*cmd[2];
+		std::vector<std::string>			_env;
+		char								*_cmd[3];
 	public:
 		response();
 		~response();
@@ -72,9 +72,13 @@ class response
 
 		//cgi
 		void		cgi(server& server, ParseRequest& request);
-		void		cgiSetEnv(server& server, ParseRequest& request);
-		char		*getCGIPaths(std::string fileName);
+		bool		isCgi(std::string file);
+		void		setCgiEnv(server& serv, ParseRequest& req);
+		std::string getCGIPath();
+		void		parseCgiOutput(std::string output);
+		
 };
+
 bool		is_dir(std::string path);
 bool		is_file(std::string path);
 std::string	joinPaths(std::string path, std::string add);
