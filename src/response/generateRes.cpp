@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/27 01:21:06 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 00:35:43 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	//check for return redirection
 	if (this->getLocation().getReturn().second.size())
 	{
-		this->setStatus("Moved Temporarily", this->getLocation().getReturn().first);
+		this->setStatus(this->getLocation().getReturn().first);
 		this->setHeader("Content-Type", "text/html");
 		//return link
 		this->setHeader("Location", this->getLocation().getReturn().second);
@@ -73,9 +73,9 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	//check if method allowed
 	else if (check_method(request.getMethod(), this->getLocation().getAllowMethods()) == false)
 	{
-		this->setStatus("Method Not Allowed", 405);
+		this->setStatus(405);
 		this->setFilePath("./error_pages/405.html");
-		this->fillResponse(serv);
+		this->fillResponse(serv, "");
 	}
 	else
 	{

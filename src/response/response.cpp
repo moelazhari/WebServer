@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/20 23:41:53 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 00:45:16 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,28 @@
 
 response::response()
 {
+	this->_status = "";
+	this->_header = std::map<std::string, std::string>();
+	this->_body = "";
+	this->_locationPath = "";
 	this->_isLocation = false;
+	this->_upload = false;
 	this->_filePath = "";
-	// this->_location = new location();
-	return ;
+	this->_statusString[200] = "OK";
+	this->_statusString[201] = "Created";
+	this->_statusString[403] = "Forbidden";
+	this->_statusString[404] = "Not Found";
+	this->_statusString[405] = "Method Not Allowed";
+	this->_statusString[500] = "Internal Server Error";
+	this->_statusString[300] = "Multiple Choices";
+	this->_statusString[301] = "Moved Permanently";
+	this->_statusString[302] = "Found";
+	this->_statusString[303] = "See Other";
+	this->_statusString[304] = "Not Modified";
+	this->_statusString[305] = "Use Proxy";
+	this->_statusString[307] = "Temporary Redirect";
+	this->_statusString[308] = "Permanent Redirect";
+	
 }
 
 response::~response()
@@ -25,9 +43,10 @@ response::~response()
 	return ;
 }
 // --------------------------------- SETTER --------------------------------- //
-void	response::setStatus(std::string status, int code)
+void	response::setStatus(int code)
 {
-	this->_status = "HTTP/1.1 " + std::to_string(code) + " " + status;
+	this->_status = "HTTP/1.1 " + std::to_string(code) + " " + this->_statusString[code];
+	this->_code = code;
 }
 
 void	response::setHeader(std::string key, std::string value)
@@ -58,6 +77,11 @@ void	response::setLocationPath(std::string path)
 void	response::setFilePath(std::string file)
 {
 	this->_filePath = file;
+}
+
+void	response::setUpload(bool value)
+{
+	this->_upload = value;
 }
 // --------------------------------- GETTER --------------------------------- //
 bool	response::getIsLocation()
@@ -100,13 +124,20 @@ std::string	response::getFilePath()
 	return this->_filePath;
 }
 
+bool	response::getUpload()
+{
+	return this->_upload;
+}
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
 
-void	response::fillResponse(server &serv)
+void	response::fillResponse(server &serv, std::string path)
 {
 	std::string	ext = getExtension(this->getFilePath());
 	std::map<std::string, std::string>	mime = serv.getMemeTypes();
-
+	
+	if (path.empty())
+		this->setFilePath(serv.getErrorPages()[this->_code]);
+	this->setFilePath(path);
 	this->setHeader("Server", "Webserv/1.0");
 	this->setHeader("Content-Type", mime[ext]);
 	this->setBody(readFileContent(this->getFilePath()));
