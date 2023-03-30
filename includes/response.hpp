@@ -32,6 +32,7 @@ class response
 		std::string							_locationPath;
 		bool								_isLocation;
 		bool								_upload;
+		std::string							_fileUpload;
 		std::string							_filePath;
 		// cgi
 		std::vector<std::string>			_env;

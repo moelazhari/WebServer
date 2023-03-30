@@ -29,6 +29,9 @@ std::string ParseRequest::parseRequest(const std::string &request)
     size_t pos = endOfLine + 2;
     while (pos < request.length())
     {
+        size_t end1 = request.find("\r\n\r\n", pos);
+        if (end1 == std::string::npos)
+            break;
         size_t end = request.find("\r\n", pos);
         if (end == std::string::npos)
             break;
@@ -42,7 +45,11 @@ std::string ParseRequest::parseRequest(const std::string &request)
         }
         pos = end + 2;
     }
-    this->body = request.substr(pos, request.length() - pos);
+   
+    // this->body = request.substr(pos, request.length() - pos);
+    this->setBody(request.substr(pos + 2, request.length() - pos));
+    // std::cout << "body " << this->body << std::endl;
+    std::cout <<"dlk " << request.substr(pos + 2, request.length() - pos) << std::endl;
     return(request.substr(pos, request.length() - pos));
 }
 
@@ -73,7 +80,10 @@ std::string ParseRequest::getMethod()
 
 void ParseRequest::setBody(std::string body)
 {
-    this->body += body;
+    for(size_t i = 0; i < body.size(); i++)
+    {
+        this->body.push_back(body[i]);
+    }
 }
 
 std::string ParseRequest::getBody()
@@ -154,4 +164,13 @@ std::map<std::string, std::string> ParseRequest::getHeaders()
 std::string ParseRequest::getHeadr(std::string key)
 {
     return (this->header[key]);
+}
+
+std::string		ParseRequest::parseFile()
+{
+    std::cout << this->body.substr(0, this->body.find("\r\n\r\n"));
+    std::string s = this->body.substr(this->body.find("\r\n\r\n") + 4);
+    std::string d = s.substr(0, s.find("\r\n\r\n") );
+    // std::cout << "s " << d << std::endl;
+    return (d);
 }

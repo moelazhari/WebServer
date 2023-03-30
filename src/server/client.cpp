@@ -23,27 +23,27 @@ void Client::setFdClient(struct pollfd fdClient)
     _fdClient = fdClient;
 }
 /*----------------------req-------------------------------*/
-void Client::CheckReq(char rq[MAX_REQUEST_SIZE])
+void Client::CheckReq(std::string r)
 {
-    std::string r(rq);
-    if(r.find("\r\n\r\n") != std::string::npos)
+    if(status != REQ_HEADR_DONE && r.find("\r\n\r\n") != std::string::npos)
     {
         this->status = REQ_HEADR_DONE;
         this->_req += r;
         this->bytes = this->_request.parseRequest(this->_req).size();
         this->bodytype = this->_request.CheckHeader(this->status);
+        // std::cout <<"=>" << r << "<="<< std::endl;
         // this->_request.affiche();
     }
-    else if(this->status == REQ_HEADR_DONE)
+   else if(this->status == REQ_HEADR_DONE)
     {
         this->bytes += r.size();
         this->recvBody(r);
+        // std::cout << "part " << std::endl;
     }
     else
     {
         this->_req += r;
     }
-    
 }
 int Client::receiveRequest(std::vector<server> servers)
 {
@@ -57,8 +57,10 @@ int Client::receiveRequest(std::vector<server> servers)
 
         exit(1);
     }
-    this->CheckReq(request);
-    // this->_request.affiche();
+    std::string r;
+    for(int i = 0; i < numBytes; i++)
+        r.push_back(request[i]);
+    this->CheckReq(r);
     if(this->status == READYTO_RES)
     {
         this->_response.generateResponse(this->_server, this->_request);
@@ -72,9 +74,13 @@ void Client::recvBody(std::string r)
 {
     if(this->bodytype == content_length)
     {
-        if(toInt(this->_request.getHeaders()["Content-Length"]) <= this->bytes)
+        if(toInt(this->_request.getHeaders()["Content-Length"]) <= (int)(this->_request.getBody().size() + r.size()))
         {
             this->_request.setBody(r);
+            std::cout << "-------------------\n";
+            std::ofstream myfile("favi.mp4");
+            this->_request.parseFile();
+            myfile <<  this->_request.parseFile();
             this->status = READYTO_RES;
         }
         else
@@ -84,14 +90,15 @@ void Client::recvBody(std::string r)
     }
     else if(this->bodytype == transfer_encoding)
     {
-        // if(this->_body.size() == 0)
-        // {
-        //     this->_body = r;
-        // }
-        // else
-        // {
-        //     this->_body = this->_body.substr(this->_body.find("\r\n"));
-        // }
+        std::cout << "chunked" << std::endl;
+        if(r.compare("0") == 0)
+        {
+            this->status = READYTO_RES;
+        }
+        else
+        {
+            this->_body += this->_body.substr(this->_body.find("\r\n"));
+        }
         
     }
     else if(this->bodytype == ERROR)

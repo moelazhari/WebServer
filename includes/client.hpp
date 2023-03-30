@@ -31,7 +31,7 @@ public:
     int sendPacket();
    std::string readbuffer();
     std::string generatHeader();
-    void CheckReq(char rq[MAX_REQUEST_SIZE]);
+    void CheckReq(std::string r);
     void checkHeader();
     void recvBody(std::string r);
     void parsechunked(std::string r);
