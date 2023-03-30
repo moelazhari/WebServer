@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 02:23:10 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/30 02:39:42 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@ class response
 		location							_location;
 		std::string							_locationPath;
 		bool								_isLocation;
-		bool								_upload;
 		std::string							_filePath;
+		bool								_uploadAlowed;
+		std::string							_uploadPath;
 		// cgi
 		std::vector<std::string>			_env;
 		char								*_cmd[3];
@@ -48,7 +49,8 @@ class response
 		std::string	getLocationPath();
 		std::map<std::string, std::string>	&getHeaderMap();
 		std::string							getFilePath();
-		bool								getUpload();
+		bool								getUploadAlowed();
+		std::string							getUploadPath();
 		
 		void		setStatus(int code);
 		void		setHeader(std::string key, std::string value);
@@ -57,7 +59,8 @@ class response
 		void		setLocation(location &location);
 		void		setLocationPath(std::string path);
 		void		setFilePath(std::string file);
-		void		setUpload(bool value);
+		void		setUploadAlowed(bool value);
+		void		setUploadPath(std::string path);
 		
 		void		generateResponse(server& server, ParseRequest& request);
 		std::string	joinResponse();
@@ -90,4 +93,3 @@ bool		isSlash(std::string path);
 bool		deleteAllFiles(std::string path);
 bool		deleteFile(std::string path);
 std::string fixLink(std::string link);
-bool		hasAccess(std::string path);

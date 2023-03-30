@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 05:22:45 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/30 02:50:22 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,21 @@
 void response::Post(server& serv, ParseRequest& request)
 {
 	std::string 						path;
-	std::vector<std::string>::iterator	it;
-	std::string							file;
+	// std::vector<std::string>::iterator	it;
+	// std::string							file;
+	std::cout << "POST" << std::endl;
 	
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 	
-	// TODO if (this->getLocation().getUpload() && this->getLocation().getUpload() == "on")
+	// if (request.getIsUpload())
 	// {
-	// 	if ()
+	// 	if (this->getLocation().getUpload() == "on")
 	// 	{
-	// 		this->setUpload(true);
-	// 		this->setFilePath(path);
-	// 		return;	
+	// 		this->setUploadAlowed(true);
+	// 		this->setUploadPath(path);
+	// 		// TODO add status after uploading the file 201 or 500
 	// 	}
-	// }
-	// if (/*shouldUpload*/)
-	// {
-	// 	std::ofstream file(path, std::ios::app);
-	// 	if (file.is_open())
-	// 		{
-	// 		file << request.getBody();
-	// 		file.close();
-	// 		this->setStatus("Created", 201);
-	// 		this->setFilePath(path);
-	// 		this->fillResponse(serv);
-	// 		}
-	// 	else
-	// 		{
-	// 			this->setStatus("Internal Server Error", 500);
-	// 			this->setFilePath("./error_pages/500.html");
-	// 			this->fillResponse(serv);
-	// 		}
 	// }
 	if (!is_file(path) && !is_dir(path))
 	{
@@ -57,10 +40,6 @@ void response::Post(server& serv, ParseRequest& request)
 	{
 		if (this->getLocation().getIndexs().empty())
 		{
-			//TODO it = this->getLocation().getIndexs().begin();
-			// while(it < this->getLocation().getIndexs().end() && !is_file(joinPaths(path, *it)))
-			// 	it++;
-			// file = *it;
 			this->setStatus(403);
 			this->fillResponse(serv, "");
 		}
@@ -71,6 +50,7 @@ void response::Post(server& serv, ParseRequest& request)
 		}
 		else
 		{
+			this->setFilePath(joinPaths(path, this->getLocation().getIndexs()[0]));
 			this->cgi(serv, request);
 			this->setStatus(200);
 			this->setHeader("Content-Length", std::to_string(this->_body.size()));

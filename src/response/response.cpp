@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 03:26:11 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/30 02:40:11 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ response::response()
 	this->_body = "";
 	this->_locationPath = "";
 	this->_isLocation = false;
-	this->_upload = false;
+	this->_uploadAlowed = false;
 	this->_filePath = "";
+	this->_uploadPath = "";
 	this->_statusString[200] = "OK";
 	this->_statusString[201] = "Created";
 	this->_statusString[403] = "Forbidden";
@@ -81,9 +82,14 @@ void	response::setFilePath(std::string file)
 	this->_filePath = file;
 }
 
-void	response::setUpload(bool value)
+void	response::setUploadAlowed(bool value)
 {
-	this->_upload = value;
+	this->_uploadAlowed = value;
+}
+
+void	response::setUploadPath(std::string path)
+{
+	this->_uploadPath = path;
 }
 // --------------------------------- GETTER --------------------------------- //
 bool	response::getIsLocation()
@@ -126,9 +132,14 @@ std::string	response::getFilePath()
 	return this->_filePath;
 }
 
-bool	response::getUpload()
+bool	response::getUploadAlowed()
 {
-	return this->_upload;
+	return this->_uploadAlowed;
+}
+
+std::string	response::getUploadPath()
+{
+	return this->_uploadPath;
 }
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
 

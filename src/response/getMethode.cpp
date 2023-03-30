@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 03:30:35 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:51:23 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	response::Get(server& serv, ParseRequest& request)
 				else
 				{
 					this->setStatus(200);
-					this->setFilePath(joinPaths(path, file));
 					this->fillResponse(serv, joinPaths(path, file));
 				}
 			}
@@ -79,7 +78,6 @@ void	response::Get(server& serv, ParseRequest& request)
 		else
 		{
 			this->setStatus(200);
-			this->setFilePath(path);
 			this->fillResponse(serv, path);
 		}
 	}

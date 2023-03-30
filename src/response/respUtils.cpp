@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 03:30:20 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/30 02:48:40 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,11 +155,9 @@ void	response::fillLocaiton(server &serv)
 		this->getLocation().setRoot(serv.getRoot());
 	if (this->getLocation().getIndexs().size() == 0 && serv.getIndexs().size() != 0)
 		this->getLocation().setIndexs(vecToStr(serv.getIndexs()));
-	// this->getLocation().setClientMaxBodySize();
-	// this->getLocation().setHost();
-	// this->getLocation().setServerName();
-	// this->getLocation().setPorts();
-	// this->getLocation().setErrorPages();
+	if (this->getLocation().getClientMaxBodySize() == 0 && serv.getClientMaxBodySize() != 0)
+		this->getLocation().setClientMaxBodySize(std::to_string(serv.getClientMaxBodySize()));
+	// TODO remove to_string funtion
 }
 
 /*---------------------------------------------------------------------------------*/
@@ -227,11 +225,4 @@ std::string fixLink(std::string link)
 			newLink += "/";
 	}
 	return newLink;
-}
-
-bool	hasAccess(std::string path)
-{
-	if (access(path.c_str(), W_OK) != -1)
-		return true;
-	return false;
 }
