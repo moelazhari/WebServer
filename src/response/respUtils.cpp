@@ -6,13 +6,13 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/30 02:48:40 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 01:41:59 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "response.hpp"
 
-bool	check_method(std::string method, std::vector<std::string> methods)
+bool	checkForElement(std::string method, std::vector<std::string> methods)
 {
 	std::vector<std::string>::iterator it;
 	
@@ -168,37 +168,37 @@ bool	deleteFile(std::string path)
 	return false;
 }
 
-bool	deleteAllFiles(std::string path)
-{
-	DIR	*dir;
-	struct dirent *ent;
-	std::string file_path;
+// bool	deleteAllFiles(std::string path)
+// {
+// 	DIR	*dir;
+// 	struct dirent *ent;
+// 	std::string file_path;
 
-	dir = opendir(path.c_str());
-	if (dir != NULL)
-	{
-		while ((ent = readdir(dir)) != NULL)
-		{
-			if (ent->d_name[0] != '.')
-			{
-				file_path = joinPaths(path, ent->d_name);
-				if (is_dir(file_path))
-					deleteAllFiles(file_path);
-				else if (is_file(file_path))
-					if(std::remove(file_path.c_str()) != 0)
-						return false;
-			}
-		}
-		// check if al files are deleted
-		if (readdir(dir) != NULL)
-		{
-			closedir(dir);
-			return false;
-		}
-		closedir(dir);
-	}
-	return true;
-}
+// 	dir = opendir(path.c_str());
+// 	if (dir != NULL)
+// 	{
+// 		while ((ent = readdir(dir)) != NULL)
+// 		{
+// 			if (ent->d_name[0] != '.')
+// 			{
+// 				file_path = joinPaths(path, ent->d_name);
+// 				if (is_dir(file_path))
+// 					deleteAllFiles(file_path);
+// 				else if (is_file(file_path))
+// 					if(std::remove(file_path.c_str()) != 0)
+// 						return false;
+// 			}
+// 		}
+// 		// check if al files are deleted
+// 		if (readdir(dir) != NULL)
+// 		{
+// 			closedir(dir);
+// 			return false;
+// 		}
+// 		closedir(dir);
+// 	}
+// 	return true;
+// }
 
 std::string fixLink(std::string link)
 {

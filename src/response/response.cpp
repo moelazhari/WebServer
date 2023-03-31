@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/30 02:40:11 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 00:29:30 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ response::response()
 	this->_uploadPath = "";
 	this->_statusString[200] = "OK";
 	this->_statusString[201] = "Created";
+	this->_statusString[204] = "No Content";
 	this->_statusString[403] = "Forbidden";
 	this->_statusString[404] = "Not Found";
 	this->_statusString[405] = "Method Not Allowed";
@@ -37,8 +38,6 @@ response::response()
 	this->_statusString[307] = "Temporary Redirect";
 	this->_statusString[308] = "Permanent Redirect";
 	this->_env = std::vector<std::string>();
-	// this->_location = new location();
-	return ;
 }
 
 response::~response()
@@ -153,11 +152,11 @@ void	response::fillResponse(server &serv, std::string path)
 	else
 		this->setFilePath(path);
 
-	this->setHeader("Server", "Webserv/1.0");
 	if (this->_header.find("Content-Type") == this->_header.end())
 		this->setHeader("Content-Type", mime[ext]);
 	if (this->getBody().empty())
 		this->setBody(readFileContent(this->getFilePath()));
 	if (this->_header.find("Content-Length") == this->_header.end())
 		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+	this->setHeader("Server", "Webserv/1.0");
 }

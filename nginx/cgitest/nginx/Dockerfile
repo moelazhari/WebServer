@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY nginx.conf /etc/nginx/nginx.conf
+RUN mkdir -p /var/www/html
 COPY tools /var/www/html
 # COPY index.php /usr/share/nginx/html/index.php
 

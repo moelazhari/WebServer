@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/30 02:50:22 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 03:02:38 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 void response::Post(server& serv, ParseRequest& request)
 {
 	std::string 						path;
-	// std::vector<std::string>::iterator	it;
-	// std::string							file;
-	std::cout << "POST" << std::endl;
+	std::vector<std::string>::iterator	it;
+	std::string							file;
 	
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
@@ -43,32 +42,40 @@ void response::Post(server& serv, ParseRequest& request)
 			this->setStatus(403);
 			this->fillResponse(serv, "");
 		}
-		else if (this->getLocation().getCgiPaths().empty())
-		{
-			this->setStatus(403);
-			this->fillResponse(serv, "");
-		}
 		else
 		{
-			this->setFilePath(joinPaths(path, this->getLocation().getIndexs()[0]));
-			this->cgi(serv, request);
-			this->setStatus(200);
-			this->setHeader("Content-Length", std::to_string(this->_body.size()));
+			it = this->getLocation().getIndexs().begin();
+			while(it < this->getLocation().getIndexs().end() && !is_file(joinPaths(path, *it)))
+				it++;
+			file = *it;
+			if (it == this->getLocation().getIndexs().end() || !this->isCgi(file))
+			{
+				this->setStatus(403);
+				this->fillResponse(serv, "");
+			}
+			else
+			{
+				this->setFilePath(joinPaths(path, file));
+				this->cgi(serv, request);
+				// this->setStatus(200);
+				// this->setHeader("Content-Length", std::to_string(this->_body.size()));
+			}
 		}
 	}
 	else if (is_file(path))
 	{
-		if (this->getLocation().getCgiPaths().empty())
-		{
-			this->setStatus(403);
-			this->fillResponse(serv, "");
-		}
-		else
+		if (this->isCgi(path))
 		{
 			this->setFilePath(path);
 			this->cgi(serv, request);
-			this->setStatus(200);
-			this->setHeader("Content-Length", std::to_string(this->_body.size()));
+			//TODO why setting the status after cgi
+			// this->setStatus(200);
+			// this->setHeader("Content-Length", std::to_string(this->_body.size()));
+		}
+		else
+		{
+			this->setStatus(403);
+			this->fillResponse(serv, "");
 		}
 	}
 }

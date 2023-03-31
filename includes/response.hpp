@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/30 02:39:42 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 01:45:15 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ class response
 		bool								_uploadAlowed;
 		std::string							_uploadPath;
 		// cgi
+		std::string							_cgiFile;
 		std::vector<std::string>			_env;
 		char								*_cmd[3];
 	public:
@@ -86,10 +87,9 @@ bool		is_dir(std::string path);
 bool		is_file(std::string path);
 std::string	joinPaths(std::string path, std::string add);
 std::string	readFileContent(std::string path);
-bool		check_method(std::string method, std::vector<std::string> methods);
+bool		checkForElement(std::string method, std::vector<std::string> methods);
 void		autoIndex(std::string path, std::string link);
-bool		check_method(std::string method, std::vector<std::string> methods);
 bool		isSlash(std::string path);
-bool		deleteAllFiles(std::string path);
+// bool		deleteAllFiles(std::string path);
 bool		deleteFile(std::string path);
 std::string fixLink(std::string link);
