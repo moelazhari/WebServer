@@ -69,7 +69,8 @@ void response::Post(server& serv, ParseRequest& request)
 		}
 		else
 		{
-			this->cgi(serv, request);
+			this->setFilePath(path);
+			this->cgi(request);
 			this->setStatus(200);
 			this->setHeader("Content-Length", std::to_string(this->_body.size()));
 		}
@@ -84,7 +85,7 @@ void response::Post(server& serv, ParseRequest& request)
 		else
 		{
 			this->setFilePath(path);
-			this->cgi(serv, request);
+			this->cgi(request);
 			this->setStatus(200);
 			this->setHeader("Content-Length", std::to_string(this->_body.size()));
 		}

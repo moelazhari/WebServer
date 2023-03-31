@@ -36,7 +36,7 @@ void	response::Get(server& serv, ParseRequest& request)
 				if (this->isCgi(file))
 				{
 					this->setFilePath(joinPaths(path, file));
-					this->cgi(serv, request);
+					this->cgi(request);
 					this->fillResponse(serv, "");
 				}
 				else
@@ -74,7 +74,7 @@ void	response::Get(server& serv, ParseRequest& request)
 		if (this->isCgi(path))
 		{	
 			this->setFilePath(joinPaths(path, file));
-			this->cgi(serv, request);
+			this->cgi(request);
 			this->fillResponse(serv, "");
 		}
 		else

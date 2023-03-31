@@ -64,13 +64,6 @@ void  location::setCgiPaths(std::string value){
         PrintExit("Error config file: cgiPath: " + tmp[0] + " extension is not supported yet");
     if (_cgiPaths.find(tmp[0]) != _cgiPaths.end())
         PrintExit("Error config file: cgiPath: " + tmp[0] + " extension is already set");
-    
-    file.open(tmp[1].c_str());
-    if (!file.is_open())
-        PrintExit("Error config file: cgiPath: " + tmp[1] + " not found");
-    // if (is_executable(tmp[1]) == false)
-    //     PrintExit("Error config file: cgiPath: " + tmp[1] + " is not executable");
-    
     this->_cgiPaths[tmp[0]] = tmp[1];
 }
 

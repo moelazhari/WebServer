@@ -33,9 +33,10 @@ class response
 		bool								_isLocation;
 		bool								_upload;
 		std::string							_filePath;
-		// cgi
+		// cgi 
+		std::string							_cgiFile;
 		std::vector<std::string>			_env;
-		char								*_cmd[3];
+		std::vector<std::string>			_cmd;
 	public:
 		response();
 		~response();
@@ -71,10 +72,10 @@ class response
 		//TODO std::string send_error(int status);
 
 		//cgi
-		void		cgi(server& server, ParseRequest& request);
+		void		cgi(ParseRequest& request);
 		bool		isCgi(std::string file);
-		void		setCgiEnv(server& serv, ParseRequest& req);
-		std::string getCGIPath();
+		void		setCgiEnv(ParseRequest& req);
+		void		setCgiCmd();
 		void		parseCgiOutput(std::string output);
 		
 };
