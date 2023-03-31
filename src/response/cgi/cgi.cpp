@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/31 04:15:57 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 05:52:17 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void    response::parseCgiOutput(std::string output){
 		this->setStatus(500);
 }
 
-qqqqqqqbool  response::isCgi(std::string file){
+bool  response::isCgi(std::string file){
 	std::map<std::string, std::string> 	extensions = this->_location.getCgiPaths();
 	std::string							extension = "." + getExtension(file);
 	

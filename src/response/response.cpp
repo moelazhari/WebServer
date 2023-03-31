@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 00:29:30 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 21:04:00 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,14 @@ response::response()
 	this->_statusString[200] = "OK";
 	this->_statusString[201] = "Created";
 	this->_statusString[204] = "No Content";
+	this->_statusString[400] = "Bad Request";
 	this->_statusString[403] = "Forbidden";
 	this->_statusString[404] = "Not Found";
 	this->_statusString[405] = "Method Not Allowed";
+	this->_statusString[413] = "Content Too Large";
+	this->_statusString[414] = "URI Too Long";
 	this->_statusString[500] = "Internal Server Error";
+	this->_statusString[501] = "Not Implemented";
 	this->_statusString[300] = "Multiple Choices";
 	this->_statusString[301] = "Moved Permanently";
 	this->_statusString[302] = "Found";
