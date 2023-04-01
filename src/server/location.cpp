@@ -6,7 +6,7 @@
 /*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/29 00:46:14 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/03/29 03:38:35 by mazhari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void    location::setValues(std::string &key, std::string &value){
 
 void  location::setCgiPaths(std::string value){
     std::vector<std::string>    tmp = split(value, " ");
+    std::ifstream               file;
 
     if (tmp.size() != 2)
         PrintExit("Error config file: cgiPath: " + value + " invalid value");

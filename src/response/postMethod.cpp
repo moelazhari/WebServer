@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 05:23:15 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:38:59 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void response::Post(server& serv, ParseRequest& request)
 			else
 			{
 				this->setFilePath(joinPaths(path, file));
-				this->cgi(serv, request);
+				this->cgi(request);
 				this->fillResponse(serv, "");
 			}
 		}
@@ -66,7 +66,7 @@ void response::Post(server& serv, ParseRequest& request)
 		if (this->isCgi(path))
 		{
 			this->setFilePath(path);
-			this->cgi(serv, request);
+			this->cgi(request);
 			this->fillResponse(serv, "");
 		}
 		else

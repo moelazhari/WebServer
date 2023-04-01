@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/31 05:52:17 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:37:48 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string>
+#include <poll.h>
 
-void    response::cgi(server& serv, ParseRequest& req){
-	std::string output;
-	this->setCgiEnv(serv, req);
+void    response::cgi(ParseRequest& req){
+	std::string 	output;
+ 
+	this->setCgiCmd();
+	this->setCgiEnv(req);
 	char        *env[this->_env.size() + 1];
+	char        *cmd[this->_env.size() + 1];
 	// string to char
 	int i = 0;
 	for (std::vector<std::string>::iterator it = this->_env.begin(); it != this->_env.end(); it++)
@@ -28,39 +32,60 @@ void    response::cgi(server& serv, ParseRequest& req){
 		i++;
 	}
 	env[i] = NULL;
-	// set cmd 
-	this->_cmd[0] = (char *)this->getCGIPath().c_str();
-	this->_cmd[1] = (char *)this->_filePath.c_str();
-	this->_cmd[2] = NULL;
-	
+
+	i = 0;
+	for (std::vector<std::string>::iterator it = this->_cmd.begin(); it != this->_cmd.end(); it++)
+	{
+		cmd[i] = (char *)(*it).c_str();
+		i++;
+	}
+	cmd[i] = NULL;
+
 	// exec cgi
 	int tmp = dup(0);
 	int fd[2];
-	if (pipe(fd) < 0)
-		std::cout << "pipe error" << std::endl;
+
+	if (pipe(fd) < 0){
+		this->setStatus(502);
+		return ;
+	}
 	pid_t pid = fork();
-	if (pid < 0)
-		std::cout << "fork error" << std::endl;
+	if (pid < 0){
+		this->setStatus(502);
+		return ;
+	}
+
 	if (pid == 0){
 		dup2(fd[1], 1);
 		close(fd[1]);
-
-		std::string body = "first_name=mohamed&last_name=azhari";
 
 		std::FILE *tmp;
 		tmp = tmpfile();
 		
     	if (tmp) {
-        	std::fputs(body.c_str(), tmp);
+			std::string str = req.getBody();
+        	std::fputs(str.c_str(), tmp);
         	std::rewind(tmp);
     	}
 
 		dup2(fileno(tmp), 0);
 		close(fileno(tmp));
 
-		execve(this->_cmd[0], this->_cmd, env);
+		// std::string tmp = this->_location.getRoot();
+		if (chdir(this->_location.getRoot().c_str()) < 0)
+			exit(1);
+		alarm(5);
+		if (execve(cmd[0], cmd, env) == -1)
+			exit(1);
 	}
-	waitpid(pid, NULL, 0);
+	int status = 0;
+	waitpid(pid, &status, 0);
+
+	if (WIFSIGNALED(status) || status != 0) {
+			this->setStatus(502);
+		return ;
+	}
+
 	dup2(fd[0], 0);
 	close(fd[0]);
 	close(fd[1]);
@@ -74,26 +99,30 @@ void    response::cgi(server& serv, ParseRequest& req){
 	this->parseCgiOutput(output);
 }
 
-std::string response::getCGIPath(){
-	std::map<std::string, std::string> cgiPaths = this->_location.getCgiPaths();
-	std::string extension = "." + getExtension(this->_filePath);
-
-	return cgiPaths[extension];
-}
-
-void	response::setCgiEnv(server& serv, ParseRequest& req){
-	(void)serv;
-	(void)req;
+void	response::setCgiEnv(ParseRequest& req){
 	this->_env.push_back("SERVER_SOFTWARE=webserv/1.0");
-	this->_env.push_back("SERVER_NAME=" + serv.getServerName());
+	this->_env.push_back("SERVER_NAME=" + this->_location.getServerName());
 	this->_env.push_back("GATEWAY_INTERFACE=CGI/1.1");
 	this->_env.push_back("SERVER_PROTOCOL=HTTP/1.1");
 	this->_env.push_back("SERVER_PORT= " + req.getPort());
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
-	this->_env.push_back("SCRIPT_NAME=" + this->getFilePath());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
 	this->_env.push_back("CONTENT_LENGTH=35");
 	this->_env.push_back("QUERY_STRING=" + req.getQuery());
+	this->_env.push_back("REDIRECT_STATUS=200");
+	this->_env.push_back("DOCUMENT_ROOT=" + this->_location.getRoot());
+	this->_env.push_back("SCRIPT_FILENAME=" + this->_cmd[1]);
+	this->_env.push_back("HTTP_COOKIE=" + req.getHeadr("Cookie"));
+}
+
+void   response::setCgiCmd(){
+	std::string extension = "." + getExtension(this->_filePath);
+	std::string cgiPath = this->_location.getCgiPaths()[extension];
+
+	std::string file = this->_filePath.substr(this->_filePath.find_last_of("/") + 1);
+
+	this->_cmd.push_back(cgiPath);
+	this->_cmd.push_back(file);
 }
 
 void    response::parseCgiOutput(std::string output){
@@ -102,7 +131,6 @@ void    response::parseCgiOutput(std::string output){
 
 	while (std::getline(tmp, line)){
 		line += "\n";
-		
 		if (line.find(":") != std::string::npos){
 			size_t pos = line.find(":");
 			this->setHeader(line.substr(0, pos), line.substr(pos + 1, line.find("\r\n") - pos - 1));
@@ -114,8 +142,8 @@ void    response::parseCgiOutput(std::string output){
 	getline(tmp, this->_body, '\0');
 	if (!this->_body.empty())
 		this->setStatus(200);
-	else 
-		this->setStatus(500);
+	else
+		this->setStatus(502);
 }
 
 bool  response::isCgi(std::string file){

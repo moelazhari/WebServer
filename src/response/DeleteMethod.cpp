@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 03:28:05 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:39:35 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ void	response::Delete(server& serv, ParseRequest& request)
 	std::vector<std::string>::iterator	it;
 	std::string							file;
 	
-	std::cout << "DELETE" << std::endl;
-	return;
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 
@@ -51,7 +49,7 @@ void	response::Delete(server& serv, ParseRequest& request)
 			else if (isCgi(file))
 			{
 				this->setFilePath(joinPaths(path, file));
-				this->cgi(serv, request);
+				this->cgi(request);
 			}
 			// delete index
 			else
@@ -75,7 +73,7 @@ void	response::Delete(server& serv, ParseRequest& request)
 		if (this->isCgi(path))
 		{
 			this->setFilePath(path);
-			this->cgi(serv, request);
+			this->cgi(request);
 		}
 		else
 		{

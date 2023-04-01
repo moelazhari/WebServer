@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 02:53:18 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:40:58 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	response::Get(server& serv, ParseRequest& request)
 	std::vector<std::string>::iterator	it;
 	std::string							file;
 
+	std
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 	
@@ -36,7 +37,7 @@ void	response::Get(server& serv, ParseRequest& request)
 				if (this->isCgi(file))
 				{
 					this->setFilePath(joinPaths(path, file));
-					this->cgi(serv, request);
+					this->cgi(request);
 					this->fillResponse(serv, "");
 				}
 				else
@@ -73,8 +74,9 @@ void	response::Get(server& serv, ParseRequest& request)
 	{
 		if (this->isCgi(path))
 		{	
-			this->setFilePath(path);
-			this->cgi(serv, request);
+			this->setFilePath(joinPaths(path, file));
+			this->cgi(request);
+			this->fillResponse(serv, "");
 		}
 		else
 		{

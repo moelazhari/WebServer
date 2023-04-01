@@ -139,6 +139,7 @@ int Client::sendPacket()
     if (this->status != HEADER_DONE)
     {
         r = generatHeader();
+        std::cout << r << std::endl;
         this->status = HEADER_DONE;
     }
     else

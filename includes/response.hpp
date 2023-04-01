@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 05:14:16 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:37:39 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,8 @@ class response
 		bool								_uploadAlowed;
 		std::string							_uploadPath;
 		// cgi
-		std::string							_cgiFile;
 		std::vector<std::string>			_env;
-		char								*_cmd[3];
+		std::vector<std::string>			_cmd;
 	public:
 		response();
 		~response();
@@ -75,11 +74,11 @@ class response
 		//TODO std::string send_error(int status);
 
 		//cgi
-		void								cgi(server& server, ParseRequest& request);
-		bool								isCgi(std::string file);
-		void								setCgiEnv(server& serv, ParseRequest& req);
-		std::string 						getCGIPath();
-		void								parseCgiOutput(std::string output);
+		void		cgi(ParseRequest& request);
+		bool		isCgi(std::string file);
+		void		setCgiEnv(ParseRequest& req);
+		void		setCgiCmd();
+		void		parseCgiOutput(std::string output);
 		
 };
 
