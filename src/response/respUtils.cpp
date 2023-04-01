@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 05:17:12 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 18:26:44 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ void	response::fillLocaiton(server &serv)
 		this->getLocation().setIndexs(vecToStr(serv.getIndexs()));
 	if (this->getLocation().getClientMaxBodySize() == 0 && serv.getClientMaxBodySize() != 0)
 		this->getLocation().setClientMaxBodySize(toStr(serv.getClientMaxBodySize()));
-	// TODO remove toStr funtion
 }
 
 
@@ -167,38 +166,6 @@ bool	deleteFile(std::string path)
 		return true;
 	return false;
 }
-
-// bool	deleteAllFiles(std::string path)
-// {
-// 	DIR	*dir;
-// 	struct dirent *ent;
-// 	std::string file_path;
-
-// 	dir = opendir(path.c_str());
-// 	if (dir != NULL)
-// 	{
-// 		while ((ent = readdir(dir)) != NULL)
-// 		{
-// 			if (ent->d_name[0] != '.')
-// 			{
-// 				file_path = joinPaths(path, ent->d_name);
-// 				if (is_dir(file_path))
-// 					deleteAllFiles(file_path);
-// 				else if (is_file(file_path))
-// 					if(std::remove(file_path.c_str()) != 0)
-// 						return false;
-// 			}
-// 		}
-// 		// check if al files are deleted
-// 		if (readdir(dir) != NULL)
-// 		{
-// 			closedir(dir);
-// 			return false;
-// 		}
-// 		closedir(dir);
-// 	}
-// 	return true;
-// }
 
 std::string fixLink(std::string link)
 {
@@ -226,16 +193,6 @@ std::string fixLink(std::string link)
 	}
 	return newLink;
 }
-
-// std::string	getDateTime()
-// {
-// 	time_t now = time(0);
-// 	struct tm tstruct;
-// 	char buf[80];
-// 	tstruct = *localtime(&now);
-// 	strftime(buf, sizeof(buf), "%a, %d %b %Y %X %Z", &tstruct);
-// 	return buf;
-// }
 
 std::string toStr(int num)
 {

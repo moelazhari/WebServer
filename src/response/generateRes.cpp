@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 03:30:37 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 05:51:01 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	else
 	{
 		//check which method to call
-		// std::cout << "---------------------method:-------------- " << request.getMethod() << std::endl;
 		for (int i = 0; i < 3; i++)
 		{
 			if (request.getMethod() == methods[i]){
