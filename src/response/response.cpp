@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 21:04:00 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 03:08:43 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,19 +148,21 @@ std::string	response::getUploadPath()
 
 void	response::fillResponse(server &serv, std::string path)
 {
-	std::string	ext = getExtension(this->getFilePath());
-	std::map<std::string, std::string>	mime = serv.getMemeTypes();
+	std::string	ext;
+	std::map<std::string, std::string>	mime;
 	
+	mime = serv.getMemeTypes();
 	if (path.empty())
 		this->setFilePath(serv.getErrorPages()[this->_code]);
 	else
 		this->setFilePath(path);
-
+	ext = getExtension(this->getFilePath());
 	if (this->_header.find("Content-Type") == this->_header.end())
 		this->setHeader("Content-Type", mime[ext]);
 	if (this->getBody().empty())
 		this->setBody(readFileContent(this->getFilePath()));
 	if (this->_header.find("Content-Length") == this->_header.end())
 		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+	std::cout << "Content-Length: " << this->getHeader("Content-Length") << std::endl;
 	this->setHeader("Server", "Webserv/1.0");
 }

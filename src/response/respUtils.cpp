@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 01:41:59 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 22:24:48 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,7 @@ void	response::fillLocaiton(server &serv)
 	// TODO remove to_string funtion
 }
 
-/*---------------------------------------------------------------------------------*/
+
 bool	deleteFile(std::string path)
 {
 	if (std::remove(path.c_str()) == 0)
