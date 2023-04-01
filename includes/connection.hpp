@@ -18,29 +18,27 @@
 class Connection
 {
 private:
-        std::vector<server>     servers;
-        std::vector<int>        serverSocketList;
-        std::map<int, Client>  clients;
-
-
-        int                     serverSocket;
-        ParseRequest            _request;
-        struct sockaddr_in      serverAddr;
-        std::vector<struct pollfd> fds;
-        struct pollfd           fd;
+        std::vector<server>             servers;
+        std::vector<int>                serverSocketList;
+        std::map<int, Client>           clients;
+        int                             serverSocket;
+        ParseRequest                    _request;
+        struct sockaddr_in              serverAddr;
+        std::vector<struct pollfd>      fds;
+        struct pollfd                   fd;
         long t;
 
 public:
         Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers);
-        int createsocket(int port);
+        int     createsocket(int port);
         // server getServer(std::vector servers);
-        void handelRequest(std::vector<server> servers);
-        void generate_respoonse(server &serv);
-        void start();
-        bool receiveRequest(int clientSocket);
-        void sendErrorPage(ParseRequest &request);
-        void sendResponse(int clientSocket, response &res);
-        void sendLargeFile(int clientSocket, const char* filePath);
-        int acceptConnection(int index);
-        void closeConnection(int index);
+        void    handelRequest(std::vector<server> servers);
+        void    generate_respoonse(server &serv);
+        void    start();
+        bool    receiveRequest(int clientSocket);
+        void    sendErrorPage(ParseRequest &request);
+        void    sendResponse(int clientSocket, response &res);
+        void    sendLargeFile(int clientSocket, const char* filePath);
+        int     acceptConnection(int index);
+        void    closeConnection(int index);
 };

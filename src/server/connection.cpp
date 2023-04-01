@@ -22,7 +22,7 @@ Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<ser
     for (it = hostPort.begin(); it != hostPort.end(); it++)
     {
         serverSocketList.push_back(createsocket(it->second));
-        // std::cout << "port => " << it->second << std::endl;
+        std::cout << "port => " << it->second << std::endl;
         struct pollfd fd = {serverSocketList[i], POLLIN, 0};
         i++;
         fds.push_back(fd);
@@ -31,7 +31,6 @@ Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<ser
 }
 void Connection::start()
 {
-    // int optval = 1;
     while (true)
     {
         // std::cout << "Waiting for incoming connections : " << clients.size()<< std::endl;
@@ -43,8 +42,12 @@ void Connection::start()
         }
         for (size_t i = 0; i < fds.size(); i++)
         {
-
-            if (fds[i].revents & POLLIN)
+            if (fds[i].revents & POLLHUP)
+            {
+                std::cout << "close connection\n";
+                this->closeConnection(i);
+            }
+            else if (fds[i].revents & POLLIN)
             {
                 if (i < serverSocketList.size() && fds[i].fd == serverSocketList[i])
                 {
@@ -73,11 +76,12 @@ void Connection::start()
                     this->closeConnection(i);
                 }
             }
-            if (fds[i].revents & POLLHUP)
-            {
-                std::cout << "close connection\n";
-                this->closeConnection(i);
-            }
+        //    if (fds[i].revents & POLLHUP)
+        //     {
+        //         std::cout << "close connection\n";
+        //         this->closeConnection(i);
+        //     }
+            
         }
     }
 }

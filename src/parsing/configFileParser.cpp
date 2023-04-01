@@ -124,6 +124,8 @@ void getLocations(std::string &content, std::map <std::string, std::string> &loc
 		if (locationE == std::string::npos)
 			PrintExit("Error config file location block: } not found");
 		// geting location content
+		if (locations.find(tmp) != locations.end())
+			PrintExit("Error config file location block: " + tmp + " already exist");
 		locations[tmp] = content.substr(locationB + 1, locationE - locationB - 1);
 		content.erase(pos, locationE - pos + 1);
 		pos = content.find("location", pos + 1);

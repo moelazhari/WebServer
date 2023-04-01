@@ -19,23 +19,24 @@ private:
     std::string     _req;
     std::string     _body;
     int             bodytype;
-    int bytes;
 public:
     Client();
     ~Client();
-    response &getResponse();
-    pollfd &getFdClient();
-    void setFdClient(struct pollfd fdClient);
-    int receiveRequest(std::vector<server>     servers);
-    int sendResponse();
-    int sendPacket();
-   std::string readbuffer();
+    response    &getResponse();
+    pollfd      &getFdClient();
+    void        setFdClient(struct pollfd fdClient);
+    int         receiveRequest(std::vector<server>     servers);
+    int         sendResponse();
+    int         sendPacket();
+   std::string  readbuffer();
     std::string generatHeader();
-    void CheckReq(char rq[MAX_REQUEST_SIZE]);
-    void checkHeader();
-    void recvBody(std::string r);
-    void parsechunked(std::string r);
-    int status;
+    void        CheckReq(std::string r);
+    void        checkHeader();
+    void        recvBody(std::string r);
+    void        parsechunked();
+    void        is_UplodFile();
+    int         status;
+    void		defaultRes(int status);
 };
 
 size_t hexToDec(std::string hex);

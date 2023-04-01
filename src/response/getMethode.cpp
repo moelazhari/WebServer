@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getMethode.cpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 06:12:53 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/04/01 19:48:31 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	response::Get(server& serv, ParseRequest& request)
 	std::vector<std::string>::iterator	it;
 	std::string							file;
 
+	std::cout<< "GET" << std::endl;
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 	
 	// TODO make this a funcion to work with it inside the dir loop
 	if (is_dir(path))
 	{
-		if (this->getLocation().getIndexs().size())
+		if (!this->getLocation().getIndexs().empty())
 		{
 			// loop on indexs and check if file exist
 			it = this->getLocation().getIndexs().begin();
@@ -42,11 +43,11 @@ void	response::Get(server& serv, ParseRequest& request)
 				else
 				{
 					this->setStatus(200);
-					this->setFilePath(joinPaths(path, file));
 					this->fillResponse(serv, joinPaths(path, file));
 				}
 			}
-			else{
+			else
+			{
 				this->setStatus(403);
 				this->fillResponse(serv, "");
 			}
@@ -74,13 +75,13 @@ void	response::Get(server& serv, ParseRequest& request)
 		if (this->isCgi(path))
 		{	
 			this->setFilePath(joinPaths(path, file));
+			//print headers
 			this->cgi(request);
 			this->fillResponse(serv, "");
 		}
 		else
 		{
 			this->setStatus(200);
-			this->setFilePath(path);
 			this->fillResponse(serv, path);
 		}
 	}
