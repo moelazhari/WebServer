@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/29 01:40:27 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:54:48 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,34 @@ void	server::setDefaultValues(){
 		this->_host = "web_pages";
 	if (this->_ports.size() == 0)
 		this->_ports.push_back(80);
-	if (this->_errorPages.find(404) == this->_errorPages.end())
-		this->_errorPages[404] = "./www/html/error_pages/404.html";
+	if (this->_errorPages.find(201) == this->_errorPages.end())
+		this->_errorPages[201] = "./www/html/error_pages/201.html";
+	if (this->_errorPages.find(204) == this->_errorPages.end())
+		this->_errorPages[204] = "./www/html/error_pages/204.html";
+	if (this->_errorPages.find(400) == this->_errorPages.end())
+		this->_errorPages[400] = "./www/html/error_pages/400.html";
 	if (this->_errorPages.find(403) == this->_errorPages.end())
 		this->_errorPages[403] = "./www/html/error_pages/403.html";
+	if (this->_errorPages.find(404) == this->_errorPages.end())
+		this->_errorPages[404] = "./www/html/error_pages/404.html";
+	if (this->_errorPages.find(405) == this->_errorPages.end())
+		this->_errorPages[405] = "./www/html/error_pages/405.html";
+	if (this->_errorPages.find(413) == this->_errorPages.end())
+		this->_errorPages[413] = "./www/html/error_pages/413.html";
+	if (this->_errorPages.find(414) == this->_errorPages.end())
+		this->_errorPages[414] = "./www/html/error_pages/414.html";
 	if (this->_errorPages.find(500) == this->_errorPages.end())
 		this->_errorPages[500] = "./www/html/error_pages/500.html";
+	if (this->_errorPages.find(501) == this->_errorPages.end())
+		this->_errorPages[501] = "./www/html/error_pages/501.html";
+	if (this->_errorPages.find(502) == this->_errorPages.end())
+		this->_errorPages[502] = "./www/html/error_pages/502.html";
+	if (this->_errorPages.find(505) == this->_errorPages.end())
+		this->_errorPages[505] = "./www/html/error_pages/505.html";
+	
 	if (this->_allowMethods.size() == 0){
 		this->_allowMethods.push_back("GET");
-		this->_allowMethods.push_back("HEAD");
+		this->_allowMethods.push_back("DELETE");
 		this->_allowMethods.push_back("POST");
 	}
 	if (this->_memeTypes.size() == 0){
@@ -152,10 +171,10 @@ void server::printValues(){
 		////std::cout << this->_indexs[i] << " ";
 	}
 	//print meme types
-    std::cout << "meme types: ";
-    for (std::map<std::string, std::string>::iterator it = this->_memeTypes.begin(); it != this->_memeTypes.end(); it++)
-        std::cout << it->first << " " << it->second << " ";
-    std::cout << std::endl;
+    // std::cout << "meme types: ";
+    // for (std::map<std::string, std::string>::iterator it = this->_memeTypes.begin(); it != this->_memeTypes.end(); it++)
+    //     std::cout << it->first << " " << it->second << " ";
+    // std::cout << std::endl;
 	// // print locations
 	// std::map<std::string, location>::iterator it3 = this->_locations.begin();
 	// std::map<std::string, location>::iterator ite3 = this->_locations.end();

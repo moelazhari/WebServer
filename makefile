@@ -6,9 +6,13 @@
 #    By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/04 20:21:22 by mazhari           #+#    #+#              #
-#    Updated: 2023/03/29 04:54:27 by aboudoun         ###   ########.fr        #
+#    Updated: 2023/04/01 18:35:42 by aboudoun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+RED=$'\x1b[31m
+GREEN=$'\x1b[32m
+PURPLE=$'\x1b[35m
 
 CC= c++
 FLAGS = -Wall -Werror -Wextra -g
@@ -30,18 +34,21 @@ OBJS= $(addprefix $(B_DIR)/, $(FILES:=.o))
 all: $(NAME)
 
 $(B_DIR)/src/%.o: src/%.cpp
-	mkdir -p $(@D)
-	$(CC) -I$(INCLUDES) $(FLAGS) -c $< -o $@
+	@mkdir -p $(@D)
+	@$(CC) -I$(INCLUDES) $(FLAGS) -c $< -o $@
+	@echo "$(GREEN)" "Compiling $<";
 
 $(NAME): $(OBJS) $(HEDEAR)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 
 clean:
-	rm -f $(OBJS)
-	rm -rf $(B_DIR)
+	@rm -f $(OBJS)
+	@rm -rf $(B_DIR)
+	@echo "$(RED)" "Cleaning ..."
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "$(RED)" "Full cleaning ..."
 
 re: fclean all
 

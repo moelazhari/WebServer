@@ -1,7 +1,7 @@
 #include "client.hpp"
 
-//for client
-Client::Client() :  _req(""),  bytes(0), status(NOTREADY)
+// for client
+Client::Client() : _req(""), status(NOTREADY)
 {
 }
 Client::~Client()
@@ -22,28 +22,37 @@ void Client::setFdClient(struct pollfd fdClient)
 {
     _fdClient = fdClient;
 }
-/*----------------------req-------------------------------*/
-void Client::CheckReq(char rq[MAX_REQUEST_SIZE])
+void Client::defaultRes(int status)
 {
-    std::string r(rq);
-    if(r.find("\r\n\r\n") != std::string::npos)
+
+   if(status == ERROR_400 || status == ERROR_501 )
     {
-        this->status = REQ_HEADR_DONE;
-        this->_req += r;
-        this->bytes = this->_request.parseRequest(this->_req).size();
-        this->bodytype = this->_request.CheckHeader(this->status);
-        // this->_request.affiche();
+        this->status = READYTO_RES;
+        _response.setStatus(status);
+        _response.fillResponse(this->_server, "");
+        this->status = SEND_ERROR;
     }
-    else if(this->status == REQ_HEADR_DONE)
+}
+/*----------------------req-------------------------------*/
+void Client::CheckReq(std::string r)
+{
+
+    if (this->status == REQ_HEADR_DONE)
     {
-        this->bytes += r.size();
         this->recvBody(r);
     }
     else
     {
+
         this->_req += r;
+        if (this->_req.find("\r\n\r\n") != std::string::npos)
+        {
+            this->status = REQ_HEADR_DONE;
+            this->_request.parseRequest(this->_req).size();
+            this->bodytype = this->_request.CheckHeader(this->status);
+            this->defaultRes(bodytype);
+        }
     }
-    
 }
 int Client::receiveRequest(std::vector<server> servers)
 {
@@ -57,24 +66,36 @@ int Client::receiveRequest(std::vector<server> servers)
 
         exit(1);
     }
-    this->CheckReq(request);
-    // this->_request.affiche();
-    if(this->status == READYTO_RES)
+    std::string r;
+    for (int i = 0; i < numBytes; i++)
+        r.push_back(request[i]);
+    this->CheckReq(r);
+    if (this->status == READYTO_RES)
     {
+        // std::cout << "ready to res" << std::endl;
         this->_response.generateResponse(this->_server, this->_request);
+        std::cout << this->_response.getHeader("Content-Type") << std::endl;
+        // exit(1);
         return (1);
     }
+    else if(this->status == SEND_ERROR)
+        return (1);
     else
         return (0);
 }
 
 void Client::recvBody(std::string r)
 {
-    if(this->bodytype == content_length)
+    if (this->bodytype == content_length)
     {
-        if(toInt(this->_request.getHeaders()["Content-Length"]) <= this->bytes)
+        if (toInt(this->_request.getHeaders()["Content-Length"]) <= (int)(this->_request.getBody().size() + r.size()))
         {
             this->_request.setBody(r);
+            //isUPloadFule
+            // std::ofstream myfile("favi.mp4");
+            // this->_request.parseFile();
+
+            // myfile << this->_request.parseFile();
             this->status = READYTO_RES;
         }
         else
@@ -82,45 +103,46 @@ void Client::recvBody(std::string r)
             this->_request.setBody(r);
         }
     }
-    else if(this->bodytype == transfer_encoding)
+    else if (this->bodytype == transfer_encoding)
     {
-        // if(this->_body.size() == 0)
-        // {
-        //     this->_body = r;
-        // }
-        // else
-        // {
-        //     this->_body = this->_body.substr(this->_body.find("\r\n"));
-        // }
-        
-    }
-    else if(this->bodytype == ERROR)
-    {
-        //errors   
+        this->_request.setBody(r);
+
+        if (this->_request.getBody().find("\r\n0\r\n\r\n") != std::string::npos)
+        {
+            parsechunked();
+            this->status = READYTO_RES;
+        }
     }
 }
 
-void Client::parsechunked(std::string r)
+void Client::parsechunked()
 {
-    std::string size = r.substr(0, r.find("\r\n"));
-    std::string data = r.substr(r.find("\r\n") + 2);
-    if(size.compare("0") == 0)
+    std::string input = this->_request.getBody();
+    std::string output;
+    std::string size;
+    while(input.size() > 0)
     {
-        this->status = READYTO_RES;
-    }
-    else
-    {
-        if(data.size() != hexToDec(size))
+         size_t pos = input.find("\r\n");
+        if (pos == std::string::npos)
+            break;
+        size = input.substr(0, pos);
+        size_t chunk_size = hexToDec(size);
+        if (chunk_size == 0)
+            break;
+        input = input.substr(pos + 2);
+        std::string tchunck = input.substr(0, input.find("\r\n"));
+        if (tchunck.size() != chunk_size)
         {
-            this->status = ERROR;
+            this->bodytype = ERROR_400;
+            exit(0);
         }
-        else
-        {
-            this->_request.setBody(data);
-        }
+        output += tchunck;
+        input = input.substr(input.find("\r\n") + 2);
     }
+    this->_request.ClearBody();
+    this->_request.setBody(output);
+    std::cout <<this->_request.getBody() << std::endl;
 }
-
 
 /*-----------------for response-----------------------------*/
 std::string Client::generatHeader()
@@ -136,6 +158,7 @@ std::string Client::generatHeader()
     this->_body = this->_response.getBody();
     return r;
 }
+
 int Client::sendPacket()
 {
     std::string r;
@@ -189,3 +212,26 @@ size_t hexToDec(std::string hex)
     ss >> std::hex >> decimal;
     return decimal;
 }
+
+void Client::is_UplodFile()
+{
+    if (this->_request.getMethod() == "POST")
+    {
+        if (this->_request.getHeaders().find("Content-Type") != this->_request.getHeaders().end())
+        {
+        }
+    }
+}
+
+
+
+// if (is upload);
+// generateResponse();
+// if res.getUploadAllowed() == true
+// upload;
+// if (error)
+// res.setStaus(500);
+// res.fillResponse(serv, "");
+// esle
+/// res.setStaus(201);
+// res.fillResponse(serv, "");

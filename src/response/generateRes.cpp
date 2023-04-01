@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 03:29:03 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 05:51:01 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	if (this->getLocation().getReturn().second.size())
 	{
 		this->setStatus(this->getLocation().getReturn().first);
-		this->setHeader("Content-Type", "text/html");
+		this->setHeader("Content-type", "text/html");
 		//return link
 		this->setHeader("Location", this->getLocation().getReturn().second);
 	}
 	
 	//check if method allowed
-	else if (check_method(request.getMethod(), this->getLocation().getAllowMethods()) == false)
+	else if (checkForElement(request.getMethod(), this->getLocation().getAllowMethods()) == false)
 	{
 		this->setStatus(405);
 		this->fillResponse(serv, "");
