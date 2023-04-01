@@ -20,6 +20,7 @@ void    response::cgi(server& serv, ParseRequest& req){
 	std::string output;
 	this->setCgiEnv(serv, req);
 	char        *env[this->_env.size() + 1];
+	std::cout << "req: : " << req.getBody() << std::endl;
 	// string to char
 	int i = 0;
 	for (std::vector<std::string>::iterator it = this->_env.begin(); it != this->_env.end(); it++)

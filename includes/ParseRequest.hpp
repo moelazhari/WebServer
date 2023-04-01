@@ -32,6 +32,6 @@ public:
     std::string                         getBody();
     void                                setBody(std::string body);
 	std::string		parseFile();
-
+	void            ClearBody();
 };
 
