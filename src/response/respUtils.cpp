@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 22:24:48 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 05:17:12 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,8 @@ void	response::fillLocaiton(server &serv)
 	if (this->getLocation().getIndexs().size() == 0 && serv.getIndexs().size() != 0)
 		this->getLocation().setIndexs(vecToStr(serv.getIndexs()));
 	if (this->getLocation().getClientMaxBodySize() == 0 && serv.getClientMaxBodySize() != 0)
-		this->getLocation().setClientMaxBodySize(std::to_string(serv.getClientMaxBodySize()));
-	// TODO remove to_string funtion
+		this->getLocation().setClientMaxBodySize(toStr(serv.getClientMaxBodySize()));
+	// TODO remove toStr funtion
 }
 
 
@@ -225,4 +225,21 @@ std::string fixLink(std::string link)
 			newLink += "/";
 	}
 	return newLink;
+}
+
+// std::string	getDateTime()
+// {
+// 	time_t now = time(0);
+// 	struct tm tstruct;
+// 	char buf[80];
+// 	tstruct = *localtime(&now);
+// 	strftime(buf, sizeof(buf), "%a, %d %b %Y %X %Z", &tstruct);
+// 	return buf;
+// }
+
+std::string toStr(int num)
+{
+	std::stringstream ss;
+	ss << num;
+	return ss.str();
 }

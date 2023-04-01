@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 01:45:15 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 05:14:16 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,44 +42,44 @@ class response
 		response();
 		~response();
 
-		std::string	getStatus();
-		std::string	getHeader(std::string key);
-		std::string	getBody();
-		location	&getLocation();
-		bool		getIsLocation();
-		std::string	getLocationPath();
+		std::string							getStatus();
+		std::string							getHeader(std::string key);
+		std::string							getBody();
+		location							&getLocation();
+		bool								getIsLocation();
+		std::string							getLocationPath();
 		std::map<std::string, std::string>	&getHeaderMap();
 		std::string							getFilePath();
 		bool								getUploadAlowed();
 		std::string							getUploadPath();
 		
-		void		setStatus(int code);
-		void		setHeader(std::string key, std::string value);
-		void		setBody(std::string body);
-		void		setIsLocation(bool value);
-		void		setLocation(location &location);
-		void		setLocationPath(std::string path);
-		void		setFilePath(std::string file);
-		void		setUploadAlowed(bool value);
-		void		setUploadPath(std::string path);
-		
-		void		generateResponse(server& server, ParseRequest& request);
-		std::string	joinResponse();
-		void 		checkForLocation(server& server, ParseRequest& request);
-		void		fillLocaiton(server &serv);
-		void		fillResponse(server &serv, std::string path);
+		void								setStatus(int code);
+		void								setHeader(std::string key, std::string value);
+		void								setBody(std::string body);
+		void								setIsLocation(bool value);
+		void								setLocation(location &location);
+		void								setLocationPath(std::string path);
+		void								setFilePath(std::string file);
+		void								setUploadAlowed(bool value);
+		void								setUploadPath(std::string path);
 
-		void		Get(server& server, ParseRequest& request);
-		void		Post(server& server, ParseRequest& request);
-		void		Delete(server& server, ParseRequest& request);
+		void								generateResponse(server& server, ParseRequest& request);
+		std::string							joinResponse();
+		void 								checkForLocation(server& server, ParseRequest& request);
+		void								fillLocaiton(server &serv);
+		void								fillResponse(server &serv, std::string path);
+
+		void								Get(server& server, ParseRequest& request);
+		void								Post(server& server, ParseRequest& request);
+		void								Delete(server& server, ParseRequest& request);
 		//TODO std::string send_error(int status);
 
 		//cgi
-		void		cgi(server& server, ParseRequest& request);
-		bool		isCgi(std::string file);
-		void		setCgiEnv(server& serv, ParseRequest& req);
-		std::string getCGIPath();
-		void		parseCgiOutput(std::string output);
+		void								cgi(server& server, ParseRequest& request);
+		bool								isCgi(std::string file);
+		void								setCgiEnv(server& serv, ParseRequest& req);
+		std::string 						getCGIPath();
+		void								parseCgiOutput(std::string output);
 		
 };
 
@@ -92,4 +92,6 @@ void		autoIndex(std::string path, std::string link);
 bool		isSlash(std::string path);
 // bool		deleteAllFiles(std::string path);
 bool		deleteFile(std::string path);
-std::string fixLink(std::string link);
+std::string	fixLink(std::string link);
+// std::string	getDateTime();
+std::string	toStr(int num);

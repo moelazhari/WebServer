@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 03:08:43 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 05:27:33 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ response::~response()
 // --------------------------------- SETTER --------------------------------- //
 void	response::setStatus(int code)
 {
-	this->_status = "HTTP/1.1 " + std::to_string(code) + " " + this->_statusString[code];
+	this->_status = "HTTP/1.1 " + toStr(code) + " " + this->_statusString[code];
 	this->_code = code;
 }
 
@@ -152,7 +152,7 @@ void	response::fillResponse(server &serv, std::string path)
 	std::map<std::string, std::string>	mime;
 	
 	mime = serv.getMemeTypes();
-	if (path.empty())
+	if (path.empty() && (_code != 200 || getHeader("Location").empty()))
 		this->setFilePath(serv.getErrorPages()[this->_code]);
 	else
 		this->setFilePath(path);
@@ -162,7 +162,7 @@ void	response::fillResponse(server &serv, std::string path)
 	if (this->getBody().empty())
 		this->setBody(readFileContent(this->getFilePath()));
 	if (this->_header.find("Content-Length") == this->_header.end())
-		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
-	std::cout << "Content-Length: " << this->getHeader("Content-Length") << std::endl;
+		this->setHeader("Content-Length", toStr(this->getBody().size()));
 	this->setHeader("Server", "Webserv/1.0");
+	// this->setHeader("Date", getDateTime());
 }

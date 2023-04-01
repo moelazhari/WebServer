@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 03:02:38 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 05:23:15 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ void response::Post(server& serv, ParseRequest& request)
 			{
 				this->setFilePath(joinPaths(path, file));
 				this->cgi(serv, request);
-				// this->setStatus(200);
-				// this->setHeader("Content-Length", std::to_string(this->_body.size()));
+				this->fillResponse(serv, "");
 			}
 		}
 	}
@@ -68,9 +67,7 @@ void response::Post(server& serv, ParseRequest& request)
 		{
 			this->setFilePath(path);
 			this->cgi(serv, request);
-			//TODO why setting the status after cgi
-			// this->setStatus(200);
-			// this->setHeader("Content-Length", std::to_string(this->_body.size()));
+			this->fillResponse(serv, "");
 		}
 		else
 		{
