@@ -74,6 +74,8 @@ int Client::receiveRequest(std::vector<server> servers)
     {
         std::cout << "ready to res" << std::endl;
         this->_response.generateResponse(this->_server, this->_request);
+        std::cout << this->_response.getHeader("Content-Type") << std::endl;
+        // exit(1);
         return (1);
     }
     else if(this->status == SEND_ERROR)

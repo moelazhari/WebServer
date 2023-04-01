@@ -6,13 +6,13 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 03:30:20 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 01:41:59 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "response.hpp"
 
-bool	check_method(std::string method, std::vector<std::string> methods)
+bool	checkForElement(std::string method, std::vector<std::string> methods)
 {
 	std::vector<std::string>::iterator it;
 	
@@ -155,11 +155,9 @@ void	response::fillLocaiton(server &serv)
 		this->getLocation().setRoot(serv.getRoot());
 	if (this->getLocation().getIndexs().size() == 0 && serv.getIndexs().size() != 0)
 		this->getLocation().setIndexs(vecToStr(serv.getIndexs()));
-	// this->getLocation().setClientMaxBodySize();
-	// this->getLocation().setHost();
-	// this->getLocation().setServerName();
-	// this->getLocation().setPorts();
-	// this->getLocation().setErrorPages();
+	if (this->getLocation().getClientMaxBodySize() == 0 && serv.getClientMaxBodySize() != 0)
+		this->getLocation().setClientMaxBodySize(std::to_string(serv.getClientMaxBodySize()));
+	// TODO remove to_string funtion
 }
 
 /*---------------------------------------------------------------------------------*/
@@ -170,37 +168,37 @@ bool	deleteFile(std::string path)
 	return false;
 }
 
-bool	deleteAllFiles(std::string path)
-{
-	DIR	*dir;
-	struct dirent *ent;
-	std::string file_path;
+// bool	deleteAllFiles(std::string path)
+// {
+// 	DIR	*dir;
+// 	struct dirent *ent;
+// 	std::string file_path;
 
-	dir = opendir(path.c_str());
-	if (dir != NULL)
-	{
-		while ((ent = readdir(dir)) != NULL)
-		{
-			if (ent->d_name[0] != '.')
-			{
-				file_path = joinPaths(path, ent->d_name);
-				if (is_dir(file_path))
-					deleteAllFiles(file_path);
-				else if (is_file(file_path))
-					if(std::remove(file_path.c_str()) != 0)
-						return false;
-			}
-		}
-		// check if al files are deleted
-		if (readdir(dir) != NULL)
-		{
-			closedir(dir);
-			return false;
-		}
-		closedir(dir);
-	}
-	return true;
-}
+// 	dir = opendir(path.c_str());
+// 	if (dir != NULL)
+// 	{
+// 		while ((ent = readdir(dir)) != NULL)
+// 		{
+// 			if (ent->d_name[0] != '.')
+// 			{
+// 				file_path = joinPaths(path, ent->d_name);
+// 				if (is_dir(file_path))
+// 					deleteAllFiles(file_path);
+// 				else if (is_file(file_path))
+// 					if(std::remove(file_path.c_str()) != 0)
+// 						return false;
+// 			}
+// 		}
+// 		// check if al files are deleted
+// 		if (readdir(dir) != NULL)
+// 		{
+// 			closedir(dir);
+// 			return false;
+// 		}
+// 		closedir(dir);
+// 	}
+// 	return true;
+// }
 
 std::string fixLink(std::string link)
 {
@@ -227,11 +225,4 @@ std::string fixLink(std::string link)
 			newLink += "/";
 	}
 	return newLink;
-}
-
-bool	hasAccess(std::string path)
-{
-	if (access(path.c_str(), W_OK) != -1)
-		return true;
-	return false;
 }

@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/29 02:23:10 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/03/31 01:45:15 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ class response
 		location							_location;
 		std::string							_locationPath;
 		bool								_isLocation;
-		bool								_upload;
-		std::string							_fileUpload;
 		std::string							_filePath;
+		bool								_uploadAlowed;
+		std::string							_uploadPath;
 		// cgi
+		std::string							_cgiFile;
 		std::vector<std::string>			_env;
 		char								*_cmd[3];
 	public:
@@ -49,7 +50,8 @@ class response
 		std::string	getLocationPath();
 		std::map<std::string, std::string>	&getHeaderMap();
 		std::string							getFilePath();
-		bool								getUpload();
+		bool								getUploadAlowed();
+		std::string							getUploadPath();
 		
 		void		setStatus(int code);
 		void		setHeader(std::string key, std::string value);
@@ -58,7 +60,8 @@ class response
 		void		setLocation(location &location);
 		void		setLocationPath(std::string path);
 		void		setFilePath(std::string file);
-		void		setUpload(bool value);
+		void		setUploadAlowed(bool value);
+		void		setUploadPath(std::string path);
 		
 		void		generateResponse(server& server, ParseRequest& request);
 		std::string	joinResponse();
@@ -84,11 +87,9 @@ bool		is_dir(std::string path);
 bool		is_file(std::string path);
 std::string	joinPaths(std::string path, std::string add);
 std::string	readFileContent(std::string path);
-bool		check_method(std::string method, std::vector<std::string> methods);
+bool		checkForElement(std::string method, std::vector<std::string> methods);
 void		autoIndex(std::string path, std::string link);
-bool		check_method(std::string method, std::vector<std::string> methods);
 bool		isSlash(std::string path);
-bool		deleteAllFiles(std::string path);
+// bool		deleteAllFiles(std::string path);
 bool		deleteFile(std::string path);
 std::string fixLink(std::string link);
-bool		hasAccess(std::string path);
