@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/04/01 05:33:28 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:54:48 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,10 +171,10 @@ void server::printValues(){
 		////std::cout << this->_indexs[i] << " ";
 	}
 	//print meme types
-    std::cout << "meme types: ";
-    for (std::map<std::string, std::string>::iterator it = this->_memeTypes.begin(); it != this->_memeTypes.end(); it++)
-        std::cout << it->first << " " << it->second << " ";
-    std::cout << std::endl;
+    // std::cout << "meme types: ";
+    // for (std::map<std::string, std::string>::iterator it = this->_memeTypes.begin(); it != this->_memeTypes.end(); it++)
+    //     std::cout << it->first << " " << it->second << " ";
+    // std::cout << std::endl;
 	// // print locations
 	// std::map<std::string, location>::iterator it3 = this->_locations.begin();
 	// std::map<std::string, location>::iterator ite3 = this->_locations.end();
