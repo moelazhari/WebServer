@@ -74,7 +74,7 @@ void    response::cgi(ParseRequest& req){
 		// std::string tmp = this->_location.getRoot();
 		if (chdir(this->_location.getRoot().c_str()) < 0)
 			exit(1);
-		alarm(5);
+		alarm(TIMEOUT);
 		if (execve(cmd[0], cmd, env) == -1)
 			exit(1);
 	}
@@ -128,12 +128,19 @@ void   response::setCgiCmd(){
 void    response::parseCgiOutput(std::string output){
 	std::istringstream  tmp(output);
 	std::string         line;
+	std::string 		key;
 
 	while (std::getline(tmp, line)){
 		line += "\n";
-		if (line.find(":") != std::string::npos){
-			size_t pos = line.find(":");
-			this->setHeader(line.substr(0, pos), line.substr(pos + 1, line.find("\r\n") - pos - 1));
+
+		size_t pos = line.find(":");
+		if (pos != std::string::npos){
+			key = line.substr(0, pos);
+
+			if (key == "Set-Cookie")
+				this->_cookies.push_back(line.substr(pos + 1, line.find("\r\n") - pos - 1));
+			else
+				this->setHeader(key, line.substr(pos + 1, line.find("\r\n") - pos - 1));
 		}
 		else if (line.find("\r\n") != std::string::npos){
 			break;

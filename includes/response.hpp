@@ -19,6 +19,7 @@
 #include "ParseRequest.hpp"
 #include "utils.hpp"
 
+#define TIMEOUT 5
 
 class response
 {
@@ -26,7 +27,8 @@ class response
 		std::string							_status;
 		int									_code;
 		std::map<int, std::string>			_statusString;
-		std::map<std::string, std::string>	_header; // key, value
+		std::map<std::string, std::string>	_header;
+		std::vector<std::string>			_cookies;
 		std::string							_body;
 		location							_location;
 		std::string							_locationPath;
@@ -48,6 +50,7 @@ class response
 		bool		getIsLocation();
 		std::string	getLocationPath();
 		std::map<std::string, std::string>	&getHeaderMap();
+		std::vector<std::string>			&getCookies();
 		std::string							getFilePath();
 		bool								getUpload();
 		

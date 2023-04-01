@@ -129,6 +129,9 @@ std::string Client::generatHeader()
     r = this->_response.getStatus() + "\r\n";
     for (std::map<std::string, std::string>::iterator it = this->_response.getHeaderMap().begin(); it != this->_response.getHeaderMap().end(); it++)
         r += it->first + ": " + it->second + "\r\n";
+    for (std::vector<std::string>::iterator it = this->_response.getCookies().begin(); it != this->_response.getCookies().end(); it++)
+        r += "Set-Cookie: " + *it + "\r\n";
+
     r += "\r\n";
     this->_body = this->_response.getBody();
     return r;

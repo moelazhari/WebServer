@@ -101,6 +101,11 @@ std::string	response::getHeader(std::string key)
 	return this->_header[key];
 }
 
+std::vector<std::string>	&response::getCookies()
+{
+	return this->_cookies;
+}
+
 std::string	response::getBody()
 {
 	return this->_body;
@@ -130,6 +135,8 @@ bool	response::getUpload()
 {
 	return this->_upload;
 }
+
+
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
 
 void	response::fillResponse(server &serv, std::string path)
@@ -143,8 +150,8 @@ void	response::fillResponse(server &serv, std::string path)
 		this->setFilePath(path);
 
 	this->setHeader("Server", "Webserv/1.0");
-	if (this->_header.find("Content-Type") == this->_header.end())
-		this->setHeader("Content-Type", mime[ext]);
+	if (this->_header.find("Content-type") == this->_header.end())
+		this->setHeader("Content-type", mime[ext]);
 	if (this->getBody().empty())
 		this->setBody(readFileContent(this->getFilePath()));
 	if (this->_header.find("Content-Length") == this->_header.end())
