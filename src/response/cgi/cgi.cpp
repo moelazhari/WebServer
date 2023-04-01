@@ -15,6 +15,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string>
+#include <poll.h>
 
 void    response::cgi(ParseRequest& req){
 	std::string 	output;
@@ -45,12 +46,12 @@ void    response::cgi(ParseRequest& req){
 	int fd[2];
 
 	if (pipe(fd) < 0){
-		this->setStatus(500);
+		this->setStatus(502);
 		return ;
 	}
 	pid_t pid = fork();
 	if (pid < 0){
-		this->setStatus(500);
+		this->setStatus(502);
 		return ;
 	}
 
@@ -73,15 +74,18 @@ void    response::cgi(ParseRequest& req){
 		// std::string tmp = this->_location.getRoot();
 		if (chdir(this->_location.getRoot().c_str()) < 0)
 			exit(1);
+		alarm(5);
 		if (execve(cmd[0], cmd, env) == -1)
 			exit(1);
 	}
 	int status = 0;
 	waitpid(pid, &status, 0);
-	if (status != 0){
-		this->setStatus(500);
+
+	if (WIFSIGNALED(status) || status != 0) {
+			this->setStatus(502);
 		return ;
 	}
+
 	dup2(fd[0], 0);
 	close(fd[0]);
 	close(fd[1]);
@@ -139,7 +143,7 @@ void    response::parseCgiOutput(std::string output){
 	if (!this->_body.empty())
 		this->setStatus(200);
 	else
-		this->setStatus(500);
+		this->setStatus(502);
 }
 
 bool  response::isCgi(std::string file){
