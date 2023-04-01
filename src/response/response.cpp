@@ -107,6 +107,8 @@ std::string	response::getStatus()
 
 std::string	response::getHeader(std::string key)
 {
+	if (this->_header.find(key) == this->_header.end())
+		return "";
 	return this->_header[key];
 }
 
@@ -164,6 +166,7 @@ void	response::fillResponse(server &serv, std::string path)
 	else
 		this->setFilePath(path);
 
+	ext = getExtension(this->getFilePath());
 	this->setHeader("Server", "Webserv/1.0");
 	if (this->_header.find("Content-type") == this->_header.end())
 		this->setHeader("Content-type", mime[ext]);

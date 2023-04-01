@@ -75,6 +75,7 @@ void	response::Get(server& serv, ParseRequest& request)
 		if (this->isCgi(path))
 		{	
 			this->setFilePath(joinPaths(path, file));
+			//print headers
 			this->cgi(request);
 			this->fillResponse(serv, "");
 		}

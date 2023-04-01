@@ -64,14 +64,13 @@ void    response::cgi(ParseRequest& req){
 		
     	if (tmp) {
 			std::string str = req.getBody();
-        	std::fputs(str.c_str(), tmp);
+        	std::fprintf(tmp, "%s", str.c_str());
         	std::rewind(tmp);
     	}
 
 		dup2(fileno(tmp), 0);
-		close(fileno(tmp));
+		std::fclose(tmp);
 
-		// std::string tmp = this->_location.getRoot();
 		if (chdir(this->_location.getRoot().c_str()) < 0)
 			exit(1);
 		alarm(TIMEOUT);
@@ -108,7 +107,7 @@ void	response::setCgiEnv(ParseRequest& req){
 	this->_env.push_back("SERVER_PORT= " + req.getPort());
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
-	this->_env.push_back("CONTENT_LENGTH=35");
+	this->_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getBody().size()));
 	this->_env.push_back("QUERY_STRING=" + req.getQuery());
 	this->_env.push_back("REDIRECT_STATUS=200");
 	this->_env.push_back("DOCUMENT_ROOT=" + this->_location.getRoot());
