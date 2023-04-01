@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 05:51:01 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 21:07:05 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	if (this->getLocation().getReturn().second.size())
 	{
 		this->setStatus(this->getLocation().getReturn().first);
-		this->setHeader("Content-Type", "text/html");
+		this->setHeader("Content-type", "text/html");
 		//return link
 		this->setHeader("Location", this->getLocation().getReturn().second);
 	}

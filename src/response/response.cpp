@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 05:27:33 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/01 21:04:57 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,12 +157,13 @@ void	response::fillResponse(server &serv, std::string path)
 	else
 		this->setFilePath(path);
 	ext = getExtension(this->getFilePath());
-	if (this->_header.find("Content-Type") == this->_header.end())
-		this->setHeader("Content-Type", mime[ext]);
+	if (this->_header.find("Content-type") == this->_header.end())
+		this->setHeader("Content-type", mime[ext]);
 	if (this->getBody().empty())
 		this->setBody(readFileContent(this->getFilePath()));
 	if (this->_header.find("Content-Length") == this->_header.end())
 		this->setHeader("Content-Length", toStr(this->getBody().size()));
 	this->setHeader("Server", "Webserv/1.0");
+	//TODO change content type to t miniscule
 	// this->setHeader("Date", getDateTime());
 }
