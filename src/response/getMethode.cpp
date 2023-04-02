@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 19:48:31 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 01:09:15 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	response::Get(server& serv, ParseRequest& request)
 	std::vector<std::string>::iterator	it;
 	std::string							file;
 
-	std::cout<< "GET" << std::endl;
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 	

@@ -72,7 +72,7 @@ int Client::receiveRequest(std::vector<server> servers)
     if (this->status == READYTO_RES)
     {
         this->_response.generateResponse(this->_server, this->_request);
-        std::cout << this->_response.getHeader("Content-type") << std::endl;
+        // std::cout << this->_response.getHeader("Content-type") << std::endl;
         return (1);
     }
     else if (this->status == SEND_ERROR)
@@ -154,7 +154,7 @@ int Client::sendPacket()
     if (this->status != HEADER_DONE)
     {
         r = generatHeader();
-        std::cout << r << std::endl;
+        // std::cout << r << std::endl;
         this->status = HEADER_DONE;
     }
     else
