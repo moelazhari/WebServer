@@ -163,6 +163,5 @@ void	response::fillResponse(server &serv, std::string path)
 		this->setBody(readFileContent(this->getFilePath()));
 	if (this->_header.find("Content-Length") == this->_header.end())
 		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
-	std::cout << "Content-Length: " << this->getHeader("Content-Length") << std::endl;
 	this->setHeader("Server", "Webserv/1.0");
 }

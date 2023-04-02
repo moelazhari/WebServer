@@ -25,7 +25,7 @@ void Client::setFdClient(struct pollfd fdClient)
 void Client::defaultRes(int status)
 {
 
-   if(status == ERROR_400 || status == ERROR_501 )
+    if (status == ERROR_400 || status == ERROR_501)
     {
         this->status = READYTO_RES;
         _response.setStatus(status);
@@ -36,12 +36,7 @@ void Client::defaultRes(int status)
 /*----------------------req-------------------------------*/
 void Client::CheckReq(std::string r)
 {
-
-    if (this->status == REQ_HEADR_DONE)
-    {
-        this->recvBody(r);
-    }
-    else
+    if (this->status != REQ_HEADR_DONE)
     {
 
         this->_req += r;
@@ -52,6 +47,10 @@ void Client::CheckReq(std::string r)
             this->bodytype = this->_request.CheckHeader(this->status);
             this->defaultRes(bodytype);
         }
+    }
+    else if (this->status == REQ_HEADR_DONE)
+    {
+        this->recvBody(r);
     }
 }
 int Client::receiveRequest(std::vector<server> servers)
@@ -72,13 +71,10 @@ int Client::receiveRequest(std::vector<server> servers)
     this->CheckReq(r);
     if (this->status == READYTO_RES)
     {
-        std::cout << "ready to res" << std::endl;
         this->_response.generateResponse(this->_server, this->_request);
-        std::cout << this->_response.getHeader("Content-Type") << std::endl;
-        // exit(1);
         return (1);
     }
-    else if(this->status == SEND_ERROR)
+    else if (this->status == SEND_ERROR)
         return (1);
     else
         return (0);
@@ -91,14 +87,9 @@ void Client::recvBody(std::string r)
         if (toInt(this->_request.getHeaders()["Content-Length"]) <= (int)(this->_request.getBody().size() + r.size()))
         {
             this->_request.setBody(r);
-            //isUPloadFule
-            // std::ofstream myfile("favi.mp4");
-            // this->_request.parseFile();
-
-            // myfile << this->_request.parseFile();
             this->status = READYTO_RES;
         }
-        else
+        else 
         {
             this->_request.setBody(r);
         }
@@ -106,10 +97,10 @@ void Client::recvBody(std::string r)
     else if (this->bodytype == transfer_encoding)
     {
         this->_request.setBody(r);
-
         if (this->_request.getBody().find("\r\n0\r\n\r\n") != std::string::npos)
         {
-            parsechunked();
+           this->parsechunked();
+           std::cout << this->_request.getBody() << std::endl;
             this->status = READYTO_RES;
         }
     }
@@ -120,9 +111,9 @@ void Client::parsechunked()
     std::string input = this->_request.getBody();
     std::string output;
     std::string size;
-    while(input.size() > 0)
+    while (input.size() > 0)
     {
-         size_t pos = input.find("\r\n");
+        size_t pos = input.find("\r\n");
         if (pos == std::string::npos)
             break;
         size = input.substr(0, pos);
@@ -141,7 +132,7 @@ void Client::parsechunked()
     }
     this->_request.ClearBody();
     this->_request.setBody(output);
-    std::cout <<this->_request.getBody() << std::endl;
+    std::cout << this->_request.getBody() << std::endl;
 }
 
 /*-----------------for response-----------------------------*/
@@ -208,26 +199,3 @@ size_t hexToDec(std::string hex)
     ss >> std::hex >> decimal;
     return decimal;
 }
-
-void Client::is_UplodFile()
-{
-    if (this->_request.getMethod() == "POST")
-    {
-        if (this->_request.getHeaders().find("Content-Type") != this->_request.getHeaders().end())
-        {
-        }
-    }
-}
-
-
-
-// if (is upload);
-// generateResponse();
-// if res.getUploadAllowed() == true
-// upload;
-// if (error)
-// res.setStaus(500);
-// res.fillResponse(serv, "");
-// esle
-/// res.setStaus(201);
-// res.fillResponse(serv, "");

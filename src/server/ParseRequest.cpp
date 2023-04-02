@@ -1,6 +1,6 @@
 #include "ParseRequest.hpp"
 
-ParseRequest::ParseRequest() : method(""), path(""), httpVersion(""), body("")
+ParseRequest::ParseRequest() : method(""), path(""), httpVersion(""), body(""), file("")
 {
 }
 
@@ -47,6 +47,7 @@ std::string ParseRequest::parseRequest(const std::string &request)
         pos = end + 2;
     }
     this->setBody(request.substr(pos + 2, request.length() - pos));
+    // std::cout << 
     return (request.substr(pos, request.length() - pos));
 }
 
@@ -106,7 +107,7 @@ int ParseRequest::CheckHeader(int &status)
         if (header.find("Content-Length") != header.end() && header.find("Transfer-Encoding") != header.end())
         {
             std::cout << "400 Bad Request" << std::endl;
-            return (ERROR);
+            return (ERROR_400);
         }
         if (header.find("Content-Length") != header.end())
         {
@@ -170,14 +171,6 @@ std::map<std::string, std::string> ParseRequest::getHeaders()
 std::string ParseRequest::getHeadr(std::string key)
 {
     return (this->header[key]);
-}
-
-std::string ParseRequest::parseFile()
-{
-    std::cout << this->body.substr(0, this->body.find("\r\n\r\n"));
-    std::string s = this->body.substr(this->body.find("\r\n\r\n") + 4);
-    std::string d = s.substr(0, s.find("\r\n\r\n"));
-    return (d);
 }
 
 void ParseRequest::ClearBody()
