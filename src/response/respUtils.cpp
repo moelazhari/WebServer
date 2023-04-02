@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 21:09:10 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 23:39:32 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,51 +209,67 @@ bool	response::isUploadRequest(ParseRequest& req)
 	contype = req.getHeadr("Content-Type");
 	if (contype.size() == 0 || contype.find("multipart/form-data") == std::string::npos || contype.find("boundary=") == std::string::npos)
 		return false;
-	// boundary = contype.substr(contype.find("boundary=") + 9);
-	// if (boundary.size() == 0)
-		// return false;
 	return true;
 }
 
 void response::createUploadFiles()
 {
-	return;
-}
-
-void test(ParseRequest& req)
-{
-	std::ofstream file("uploadtest.txt");
 	std::map<std::string, std::string>::iterator it;
-	std::map<std::string, std::string> headers = req.getHeaders();
-	if (file.good())
+	int files = 0;
+
+	for (it = this->_uploadFiles.begin(); it != this->_uploadFiles.end(); it++)
 	{
-		//TODO map of filenemes and content
-		
-		file << req.getBody();
-		for(it = headers.begin(); it != headers.end(); it++)
+		if (it->first.size() == 0)
+			continue;
+		std::ofstream file(joinPaths(this->getLocation().getRoot(), it->first));
+		if (file.good())
 		{
-			std::cout << it->first << ": " << it->second << std::endl;
+			file << it->second;
+			file.close();
+			files++;
+		}
+		else
+		{
+			this->setStatus(500);
+			return ;
 		}
 	}
+	if (files == 0)
+		this->setStatus(400);
+	else
+		this->setStatus(201);
 }
 
 bool	response::checkUploadRequest(ParseRequest& req)
 {
-	// test(req);
 	std::string boundary;
 	std::string filename;
+	std::string	content;
 	std::string body;
 	std::string contentType;
+	size_t 		pos;
 
 	contentType = req.getHeadr("Content-Type");
-	boundary = contentType.substr(contentType.find("boundary=") + 9);
-	body = req.getBody();
+	pos = contentType.find("boundary=");
+	if (pos == std::string::npos)
+		return false;
+	boundary = contentType.substr(pos + 9);
 	if (boundary.size() == 0)
 		return false;
+	boundary = "--" + boundary;
+	body = req.getBody();
 	if (body.find(boundary + "--") == std::string::npos)
 		return false;
-	while(body.size() > (boundary + "--").size())
+	while(body.size() > (boundary.size() + 4))
 	{
-		filename = body.substr(body.find("filename=") + 10);
+		pos = body.find("filename=");
+		if (pos == std::string::npos)
+			return false;
+		filename = body.substr(pos + 10, body.find('"', pos + 10) - (pos + 10));
+		body.erase(0, body.find("\r\n\r\n") + 4);
+		content = body.substr(0, body.find(boundary));
+		body.erase(0, content.size());
+		this->_uploadFiles[filename] = content;
 	}
+	return true;
 }
