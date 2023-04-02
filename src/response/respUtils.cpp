@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 18:26:44 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 02:43:24 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,4 +199,23 @@ std::string toStr(int num)
 	std::stringstream ss;
 	ss << num;
 	return ss.str();
+}
+
+bool	response::checkUpload(ParseRequest& req)
+{
+	std::ofstream file("uploadtest.txt");
+	std::map<std::string, std::string>::iterator it;
+	std::map<std::string, std::string> headers = req.getHeaders();
+	if (file.good())
+	{
+		//TODO map of filenemes and content
+		
+		file << req.getBody();
+		for(it = headers.begin(); it != headers.end(); it++)
+		{
+			std::cout << it->first << ": " << it->second << std::endl;
+		}
+		
+	}
+	return true;
 }

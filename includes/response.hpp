@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 19:37:39 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 01:20:55 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ class response
 		std::string							_locationPath;
 		bool								_isLocation;
 		std::string							_filePath;
-		bool								_uploadAlowed;
-		std::string							_uploadPath;
+		// bool								_uploadAlowed;
+		// std::string							_uploadPath;
 		// cgi
 		std::vector<std::string>			_env;
 		std::vector<std::string>			_cmd;
@@ -49,8 +49,8 @@ class response
 		std::string							getLocationPath();
 		std::map<std::string, std::string>	&getHeaderMap();
 		std::string							getFilePath();
-		bool								getUploadAlowed();
-		std::string							getUploadPath();
+		// bool								getUploadAlowed();
+		// std::string							getUploadPath();
 		
 		void								setStatus(int code);
 		void								setHeader(std::string key, std::string value);
@@ -59,8 +59,8 @@ class response
 		void								setLocation(location &location);
 		void								setLocationPath(std::string path);
 		void								setFilePath(std::string file);
-		void								setUploadAlowed(bool value);
-		void								setUploadPath(std::string path);
+		// void								setUploadAlowed(bool value);
+		// void								setUploadPath(std::string path);
 
 		void								generateResponse(server& server, ParseRequest& request);
 		std::string							joinResponse();
@@ -79,6 +79,7 @@ class response
 		void		setCgiEnv(ParseRequest& req);
 		void		setCgiCmd();
 		void		parseCgiOutput(std::string output);
+		bool		checkUpload(ParseRequest& req);
 		
 };
 

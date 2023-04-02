@@ -3,7 +3,5 @@
 #include <unistd.h>
 
 int main() {
-    alarm(2);
-    while (true) {
-    }
+    std::cout << "test-Upload-executable" << std::endl;
 }

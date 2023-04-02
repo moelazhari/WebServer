@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 01:00:36 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 01:15:55 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ response::response()
 	this->_body = "";
 	this->_locationPath = "";
 	this->_isLocation = false;
-	this->_uploadAlowed = false;
 	this->_filePath = "";
-	this->_uploadPath = "";
 	this->_statusString[200] = "OK";
 	this->_statusString[201] = "Created";
 	this->_statusString[204] = "No Content";
@@ -85,15 +83,15 @@ void	response::setFilePath(std::string file)
 	this->_filePath = file;
 }
 
-void	response::setUploadAlowed(bool value)
-{
-	this->_uploadAlowed = value;
-}
+// void	response::setUploadAlowed(bool value)
+// {
+// 	this->_uploadAlowed = value;
+// }
 
-void	response::setUploadPath(std::string path)
-{
-	this->_uploadPath = path;
-}
+// void	response::setUploadPath(std::string path)
+// {
+// 	this->_uploadPath = path;
+// }
 // --------------------------------- GETTER --------------------------------- //
 bool	response::getIsLocation()
 {
@@ -135,15 +133,15 @@ std::string	response::getFilePath()
 	return this->_filePath;
 }
 
-bool	response::getUploadAlowed()
-{
-	return this->_uploadAlowed;
-}
+// bool	response::getUploadAlowed()
+// {
+// 	return this->_uploadAlowed;
+// }
 
-std::string	response::getUploadPath()
-{
-	return this->_uploadPath;
-}
+// std::string	response::getUploadPath()
+// {
+// 	return this->_uploadPath;
+// }
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
 
 void	response::fillResponse(server &serv, std::string path)
