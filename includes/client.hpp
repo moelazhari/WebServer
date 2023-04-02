@@ -34,7 +34,6 @@ public:
     void        checkHeader();
     void        recvBody(std::string r);
     void        parsechunked();
-    void        is_UplodFile();
     int         status;
     void		defaultRes(int status);
 };

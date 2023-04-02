@@ -33,7 +33,7 @@ void Connection::start()
 {
     while (true)
     {
-        // std::cout << "Waiting for incoming connections : " << clients.size()<< std::endl;
+        // std::cout << "Waiting for incoming connections : "<< std::endl;
 
         if ((poll(&fds[0], fds.size(), -1)) < 0)
         {
@@ -76,11 +76,6 @@ void Connection::start()
                     this->closeConnection(i);
                 }
             }
-        //    if (fds[i].revents & POLLHUP)
-        //     {
-        //         std::cout << "close connection\n";
-        //         this->closeConnection(i);
-        //     }
             
         }
     }

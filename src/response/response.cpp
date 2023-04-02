@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 21:04:57 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 01:00:36 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,5 +165,4 @@ void	response::fillResponse(server &serv, std::string path)
 		this->setHeader("Content-Length", toStr(this->getBody().size()));
 	this->setHeader("Server", "Webserv/1.0");
 	//TODO change content type to t miniscule
-	// this->setHeader("Date", getDateTime());
 }
