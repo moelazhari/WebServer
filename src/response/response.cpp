@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 01:15:55 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 20:29:52 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ response::response()
 {
 	this->_status = "";
 	this->_header = std::map<std::string, std::string>();
+	this->_uploadFiles = std::map<std::string, std::string>();
 	this->_body = "";
 	this->_locationPath = "";
 	this->_isLocation = false;
@@ -150,7 +151,7 @@ void	response::fillResponse(server &serv, std::string path)
 	std::map<std::string, std::string>	mime;
 	
 	mime = serv.getMemeTypes();
-	if (path.empty() && (_code != 200 || getHeader("Location").empty()))
+	if (path.empty() && (_code != 200 || _header.find("Location") == _header.end()))
 		this->setFilePath(serv.getErrorPages()[this->_code]);
 	else
 		this->setFilePath(path);

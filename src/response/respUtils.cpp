@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 02:43:24 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 21:09:10 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,26 @@ std::string toStr(int num)
 	return ss.str();
 }
 
-bool	response::checkUpload(ParseRequest& req)
+bool	response::isUploadRequest(ParseRequest& req)
+{
+	std::string contype;
+	std::string boundary;
+
+	contype = req.getHeadr("Content-Type");
+	if (contype.size() == 0 || contype.find("multipart/form-data") == std::string::npos || contype.find("boundary=") == std::string::npos)
+		return false;
+	// boundary = contype.substr(contype.find("boundary=") + 9);
+	// if (boundary.size() == 0)
+		// return false;
+	return true;
+}
+
+void response::createUploadFiles()
+{
+	return;
+}
+
+void test(ParseRequest& req)
 {
 	std::ofstream file("uploadtest.txt");
 	std::map<std::string, std::string>::iterator it;
@@ -215,7 +234,26 @@ bool	response::checkUpload(ParseRequest& req)
 		{
 			std::cout << it->first << ": " << it->second << std::endl;
 		}
-		
 	}
-	return true;
+}
+
+bool	response::checkUploadRequest(ParseRequest& req)
+{
+	// test(req);
+	std::string boundary;
+	std::string filename;
+	std::string body;
+	std::string contentType;
+
+	contentType = req.getHeadr("Content-Type");
+	boundary = contentType.substr(contentType.find("boundary=") + 9);
+	body = req.getBody();
+	if (boundary.size() == 0)
+		return false;
+	if (body.find(boundary + "--") == std::string::npos)
+		return false;
+	while(body.size() > (boundary + "--").size())
+	{
+		filename = body.substr(body.find("filename=") + 10);
+	}
 }

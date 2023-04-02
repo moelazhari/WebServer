@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 01:33:18 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 21:07:16 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,16 @@ void response::Post(server& serv, ParseRequest& request)
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 	
-	std::cout << "------------------post------------------" << std::endl;
-	this->checkUpload(request);
-	if (!is_file(path) && !is_dir(path))
+	// if (this->getLocation().getUpload() == "on" && this->isUploadRequest(request))
+	if (this->getLocationPath() == "/upload" && this->isUploadRequest(request))
+	{
+		if (checkUploadRequest(request))
+			createUploadFiles();
+		else
+			this->setStatus(400);
+		this->fillResponse(serv, "");
+	}
+	else if (!is_file(path) && !is_dir(path))
 	{
 		this->setStatus(404);
 		this->fillResponse(serv, "");
