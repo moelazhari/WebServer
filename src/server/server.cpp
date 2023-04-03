@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/04/01 19:54:48 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 01:57:30 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	server::setDefaultValues(){
 		this->_clientMaxBodySize = 10000;
 	if (this->_autoIndex == "")
 		this->_autoIndex = "off";
+	if (this->_upload == "")
+		this->_upload = "off";
 	if (this->_host == "")
 		this->_host = "web_pages";
 	if (this->_ports.size() == 0)

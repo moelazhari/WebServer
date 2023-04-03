@@ -19,29 +19,14 @@
 
 void    response::cgi(ParseRequest& req){
 	std::string 	output;
+	int				status = 0;
  
 	this->setCgiCmd();
 	this->setCgiEnv(req);
-	char        *env[this->_env.size() + 1];
-	char        *cmd[this->_env.size() + 1];
-	// string to char
-	int i = 0;
-	for (std::vector<std::string>::iterator it = this->_env.begin(); it != this->_env.end(); it++)
-	{
-		env[i] = (char *)(*it).c_str();
-		i++;
-	}
-	env[i] = NULL;
 
-	i = 0;
-	for (std::vector<std::string>::iterator it = this->_cmd.begin(); it != this->_cmd.end(); it++)
-	{
-		cmd[i] = (char *)(*it).c_str();
-		i++;
-	}
-	cmd[i] = NULL;
+	char        **env = stringToChar(this->_env);
+	char        **cmd = stringToChar(this->_cmd);
 
-	// exec cgi
 	int tmp = dup(0);
 	int fd[2];
 
@@ -64,21 +49,19 @@ void    response::cgi(ParseRequest& req){
 		
     	if (tmp) {
 			std::string str = req.getBody();
-        	std::fputs(str.c_str(), tmp);
+        	std::fprintf(tmp, "%s", str.c_str());
         	std::rewind(tmp);
     	}
 
 		dup2(fileno(tmp), 0);
-		close(fileno(tmp));
+		std::fclose(tmp);
 
-		// std::string tmp = this->_location.getRoot();
 		if (chdir(this->_location.getRoot().c_str()) < 0)
 			exit(1);
-		alarm(5);
+		alarm(TIMEOUT);
 		if (execve(cmd[0], cmd, env) == -1)
 			exit(1);
 	}
-	int status = 0;
 	waitpid(pid, &status, 0);
 
 	if (WIFSIGNALED(status) || status != 0) {
@@ -96,6 +79,9 @@ void    response::cgi(ParseRequest& req){
 
 	dup2(tmp, 0);
 	close(tmp);
+
+	delete [] env;
+	delete [] cmd;
 	this->parseCgiOutput(output);
 }
 
@@ -107,7 +93,7 @@ void	response::setCgiEnv(ParseRequest& req){
 	this->_env.push_back("SERVER_PORT= " + req.getPort());
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
-	this->_env.push_back("CONTENT_LENGTH=35");
+	this->_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getBody().size()));
 	this->_env.push_back("QUERY_STRING=" + req.getQuery());
 	this->_env.push_back("REDIRECT_STATUS=200");
 	this->_env.push_back("DOCUMENT_ROOT=" + this->_location.getRoot());
@@ -125,15 +111,32 @@ void   response::setCgiCmd(){
 	this->_cmd.push_back(file);
 }
 
+char **response::stringToChar(std::vector<std::string> &vec)
+{
+	int i = 0;
+	char **arry = new char *[vec.size() + 1];
+	for (std::vector<std::string>::iterator it = vec.begin(); it != vec.end(); it++)
+		arry[i++] = (char *)(*it).c_str();
+	arry[i] = NULL;
+	return (arry);
+}
+
 void    response::parseCgiOutput(std::string output){
 	std::istringstream  tmp(output);
 	std::string         line;
+	std::string 		key;
 
 	while (std::getline(tmp, line)){
 		line += "\n";
-		if (line.find(":") != std::string::npos){
-			size_t pos = line.find(":");
-			this->setHeader(line.substr(0, pos), line.substr(pos + 1, line.find("\r\n") - pos - 1));
+
+		size_t pos = line.find(":");
+		if (pos != std::string::npos){
+			key = line.substr(0, pos);
+
+			if (key == "Set-Cookie")
+				this->_cookies.push_back(line.substr(pos + 1, line.find("\r\n") - pos - 1));
+			else
+				this->setHeader(key, line.substr(pos + 1, line.find("\r\n") - pos - 1));
 		}
 		else if (line.find("\r\n") != std::string::npos){
 			break;

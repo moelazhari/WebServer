@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 20:39:15 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 01:54:02 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include "ParseRequest.hpp"
 #include "utils.hpp"
 
+#define TIMEOUT 5
 
 class response
 {
@@ -26,7 +27,8 @@ class response
 		std::string							_status;
 		int									_code;
 		std::map<int, std::string>			_statusString;
-		std::map<std::string, std::string>	_header; // key, value
+		std::map<std::string, std::string>	_header;
+		std::vector<std::string>			_cookies;
 		std::string							_body;
 		location							_location;
 		std::string							_locationPath;
@@ -47,6 +49,7 @@ class response
 		bool								getIsLocation();
 		std::string							getLocationPath();
 		std::map<std::string, std::string>	&getHeaderMap();
+		std::vector<std::string>			&getCookies();
 		std::string							getFilePath();
 		// bool								getUploadAlowed();
 		// std::string							getUploadPath();
@@ -77,6 +80,7 @@ class response
 		bool		isCgi(std::string file);
 		void		setCgiEnv(ParseRequest& req);
 		void		setCgiCmd();
+		char		**stringToChar(std::vector<std::string> &vec);
 		void		parseCgiOutput(std::string output);
 		bool		isUploadRequest(ParseRequest& req);
 		bool		checkUploadRequest(ParseRequest& req);
