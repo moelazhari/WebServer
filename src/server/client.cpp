@@ -40,6 +40,7 @@ void Client::CheckReq(std::string r)
     {
 
         this->_req += r;
+            std::cout << this->_req<< std::endl;
         if (this->_req.find("\r\n\r\n") != std::string::npos)
         {
             this->status = REQ_HEADR_DONE;
@@ -88,6 +89,7 @@ int Client::receiveRequest(std::vector<server> servers)
 
 void Client::recvBody(std::string r)
 {
+    std::cout << this->_request.getHeaders()["Content-Length"] << std::endl;
     if (this->bodytype == content_length)
     {
         // std::cout << this->_request.getHeaders()["Content-Length"] <<  "==" << this->_request.getBody().size() + r.size() << std::endl;
