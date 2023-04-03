@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 19:19:17 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/31 21:23:26 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 01:57:30 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	server::setDefaultValues(){
 		this->_clientMaxBodySize = 10000;
 	if (this->_autoIndex == "")
 		this->_autoIndex = "off";
+	if (this->_upload == "")
+		this->_upload = "off";
 	if (this->_host == "")
 		this->_host = "web_pages";
 	if (this->_ports.size() == 0)
@@ -91,6 +93,10 @@ void	server::setDefaultValues(){
 		this->_errorPages[500] = "./www/html/error_pages/500.html";
 	if (this->_errorPages.find(501) == this->_errorPages.end())
 		this->_errorPages[501] = "./www/html/error_pages/501.html";
+	if (this->_errorPages.find(502) == this->_errorPages.end())
+		this->_errorPages[502] = "./www/html/error_pages/502.html";
+	if (this->_errorPages.find(505) == this->_errorPages.end())
+		this->_errorPages[505] = "./www/html/error_pages/505.html";
 	
 	if (this->_allowMethods.size() == 0){
 		this->_allowMethods.push_back("GET");
@@ -167,10 +173,10 @@ void server::printValues(){
 		////std::cout << this->_indexs[i] << " ";
 	}
 	//print meme types
-    std::cout << "meme types: ";
-    for (std::map<std::string, std::string>::iterator it = this->_memeTypes.begin(); it != this->_memeTypes.end(); it++)
-        std::cout << it->first << " " << it->second << " ";
-    std::cout << std::endl;
+    // std::cout << "meme types: ";
+    // for (std::map<std::string, std::string>::iterator it = this->_memeTypes.begin(); it != this->_memeTypes.end(); it++)
+    //     std::cout << it->first << " " << it->second << " ";
+    // std::cout << std::endl;
 	// // print locations
 	// std::map<std::string, location>::iterator it3 = this->_locations.begin();
 	// std::map<std::string, location>::iterator ite3 = this->_locations.end();

@@ -1,7 +1,7 @@
 #pragma once
 
-#define MAX_REQUEST_SIZE 1024000
-#define BUFFER_SIZE 1024
+#define MAX_REQUEST_SIZE 102400
+#define BUFFER_SIZE 1300
 // #define REDYTOWRITE 1
 
 //request status
@@ -18,7 +18,8 @@
 #define transfer_encoding 6
 #define content_length 7
 #define ERROR 8
-#define NOT_ALLOWD_METHOD 9
+#define NOT_ALLOWD_METHOD 405
 //error page
 #define ERROR_400 400  //Bad Request
 #define ERROR_501 501  //Not Implemented
+//25306036

@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 22:24:48 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 01:23:35 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,8 +156,7 @@ void	response::fillLocaiton(server &serv)
 	if (this->getLocation().getIndexs().size() == 0 && serv.getIndexs().size() != 0)
 		this->getLocation().setIndexs(vecToStr(serv.getIndexs()));
 	if (this->getLocation().getClientMaxBodySize() == 0 && serv.getClientMaxBodySize() != 0)
-		this->getLocation().setClientMaxBodySize(std::to_string(serv.getClientMaxBodySize()));
-	// TODO remove to_string funtion
+		this->getLocation().setClientMaxBodySize(toStr(serv.getClientMaxBodySize()));
 }
 
 
@@ -167,38 +166,6 @@ bool	deleteFile(std::string path)
 		return true;
 	return false;
 }
-
-// bool	deleteAllFiles(std::string path)
-// {
-// 	DIR	*dir;
-// 	struct dirent *ent;
-// 	std::string file_path;
-
-// 	dir = opendir(path.c_str());
-// 	if (dir != NULL)
-// 	{
-// 		while ((ent = readdir(dir)) != NULL)
-// 		{
-// 			if (ent->d_name[0] != '.')
-// 			{
-// 				file_path = joinPaths(path, ent->d_name);
-// 				if (is_dir(file_path))
-// 					deleteAllFiles(file_path);
-// 				else if (is_file(file_path))
-// 					if(std::remove(file_path.c_str()) != 0)
-// 						return false;
-// 			}
-// 		}
-// 		// check if al files are deleted
-// 		if (readdir(dir) != NULL)
-// 		{
-// 			closedir(dir);
-// 			return false;
-// 		}
-// 		closedir(dir);
-// 	}
-// 	return true;
-// }
 
 std::string fixLink(std::string link)
 {
@@ -225,4 +192,84 @@ std::string fixLink(std::string link)
 			newLink += "/";
 	}
 	return newLink;
+}
+
+std::string toStr(int num)
+{
+	std::stringstream ss;
+	ss << num;
+	return ss.str();
+}
+
+bool	response::isUploadRequest(ParseRequest& req)
+{
+	std::string contype;
+	std::string boundary;
+
+	contype = req.getHeadr("Content-Type");
+	if (contype.size() == 0 || contype.find("multipart/form-data") == std::string::npos || contype.find("boundary=") == std::string::npos)
+		return false;
+	return true;
+}
+
+void response::createUploadFiles()
+{
+	std::map<std::string, std::string>::iterator it;
+	int files = 0;
+
+	for (it = this->_uploadFiles.begin(); it != this->_uploadFiles.end(); it++)
+	{
+		if (it->first.size() == 0)
+			continue;
+		std::ofstream file(joinPaths(this->getLocation().getRoot(), it->first));
+		if (file.good())
+		{
+			file << it->second;
+			file.close();
+			files++;
+		}
+		else
+		{
+			this->setStatus(500);
+			return ;
+		}
+	}
+	if (files == 0)
+		this->setStatus(400);
+	else
+		this->setStatus(201);
+}
+
+bool	response::checkUploadRequest(ParseRequest& req)
+{
+	std::string boundary;
+	std::string filename;
+	std::string	content;
+	std::string body;
+	std::string contentType;
+	size_t 		pos;
+
+	contentType = req.getHeadr("Content-Type");
+	pos = contentType.find("boundary=");
+	if (pos == std::string::npos)
+		return false;
+	boundary = contentType.substr(pos + 9);
+	if (boundary.size() == 0)
+		return false;
+	boundary = "--" + boundary;
+	body = req.getBody();
+	if (body.find(boundary + "--") == std::string::npos)
+		return false;
+	while(body.size() > (boundary.size() + 4))
+	{
+		pos = body.find("filename=");
+		if (pos == std::string::npos)
+			return false;
+		filename = body.substr(pos + 10, body.find('"', pos + 10) - (pos + 10));
+		body.erase(0, body.find("\r\n\r\n") + 4);
+		content = body.substr(0, body.find(boundary));
+		body.erase(0, content.size());
+		this->_uploadFiles[filename] = content;
+	}
+	return true;
 }

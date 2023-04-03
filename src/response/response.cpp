@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/01 03:08:43 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 01:54:27 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@ response::response()
 {
 	this->_status = "";
 	this->_header = std::map<std::string, std::string>();
+	this->_uploadFiles = std::map<std::string, std::string>();
 	this->_body = "";
 	this->_locationPath = "";
 	this->_isLocation = false;
-	this->_uploadAlowed = false;
 	this->_filePath = "";
-	this->_uploadPath = "";
 	this->_statusString[200] = "OK";
 	this->_statusString[201] = "Created";
 	this->_statusString[204] = "No Content";
@@ -51,7 +50,7 @@ response::~response()
 // --------------------------------- SETTER --------------------------------- //
 void	response::setStatus(int code)
 {
-	this->_status = "HTTP/1.1 " + std::to_string(code) + " " + this->_statusString[code];
+	this->_status = "HTTP/1.1 " + toStr(code) + " " + this->_statusString[code];
 	this->_code = code;
 }
 
@@ -85,15 +84,15 @@ void	response::setFilePath(std::string file)
 	this->_filePath = file;
 }
 
-void	response::setUploadAlowed(bool value)
-{
-	this->_uploadAlowed = value;
-}
+// void	response::setUploadAlowed(bool value)
+// {
+// 	this->_uploadAlowed = value;
+// }
 
-void	response::setUploadPath(std::string path)
-{
-	this->_uploadPath = path;
-}
+// void	response::setUploadPath(std::string path)
+// {
+// 	this->_uploadPath = path;
+// }
 // --------------------------------- GETTER --------------------------------- //
 bool	response::getIsLocation()
 {
@@ -107,7 +106,14 @@ std::string	response::getStatus()
 
 std::string	response::getHeader(std::string key)
 {
+	if (this->_header.find(key) == this->_header.end())
+		return "";
 	return this->_header[key];
+}
+
+std::vector<std::string>	&response::getCookies()
+{
+	return this->_cookies;
 }
 
 std::string	response::getBody()
@@ -135,15 +141,15 @@ std::string	response::getFilePath()
 	return this->_filePath;
 }
 
-bool	response::getUploadAlowed()
-{
-	return this->_uploadAlowed;
-}
+// bool	response::getUploadAlowed()
+// {
+// 	return this->_uploadAlowed;
+// }
 
-std::string	response::getUploadPath()
-{
-	return this->_uploadPath;
-}
+// std::string	response::getUploadPath()
+// {
+// 	return this->_uploadPath;
+// }
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
 
 void	response::fillResponse(server &serv, std::string path)
@@ -152,16 +158,18 @@ void	response::fillResponse(server &serv, std::string path)
 	std::map<std::string, std::string>	mime;
 	
 	mime = serv.getMemeTypes();
-	if (path.empty())
+	if (path.empty() && (_code != 200 || _header.find("Location") == _header.end()))
 		this->setFilePath(serv.getErrorPages()[this->_code]);
 	else
 		this->setFilePath(path);
+
 	ext = getExtension(this->getFilePath());
-	if (this->_header.find("Content-Type") == this->_header.end())
-		this->setHeader("Content-Type", mime[ext]);
+	if (this->_header.find("Content-type") == this->_header.end())
+		this->setHeader("Content-type", mime[ext]);
 	if (this->getBody().empty())
 		this->setBody(readFileContent(this->getFilePath()));
 	if (this->_header.find("Content-Length") == this->_header.end())
-		this->setHeader("Content-Length", std::to_string(this->getBody().size()));
+		this->setHeader("Content-Length", toStr(this->getBody().size()));
 	this->setHeader("Server", "Webserv/1.0");
+	//TODO change content type to t miniscule
 }

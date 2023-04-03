@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 02:53:18 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 01:09:15 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	response::Get(server& serv, ParseRequest& request)
 				if (this->isCgi(file))
 				{
 					this->setFilePath(joinPaths(path, file));
-					this->cgi(serv, request);
+					this->cgi(request);
 					this->fillResponse(serv, "");
 				}
 				else
@@ -47,7 +47,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			}
 			else
 			{
-				this->setStatus(403);
+				this->setStatus(404);
 				this->fillResponse(serv, "");
 			}
 		}
@@ -65,7 +65,7 @@ void	response::Get(server& serv, ParseRequest& request)
 		}
 		else
 		{
-			this->setStatus(403);
+			this->setStatus(404);
 			this->fillResponse(serv, "");
 		}
 	}
@@ -73,8 +73,10 @@ void	response::Get(server& serv, ParseRequest& request)
 	{
 		if (this->isCgi(path))
 		{	
-			this->setFilePath(path);
-			this->cgi(serv, request);
+			this->setFilePath(joinPaths(path, file));
+			//print headers
+			this->cgi(request);
+			this->fillResponse(serv, "");
 		}
 		else
 		{

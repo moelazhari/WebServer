@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 03:02:38 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 01:03:21 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,15 @@ void response::Post(server& serv, ParseRequest& request)
 	
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
-	
-	// if (request.getIsUpload())
-	// {
-	// 	if (this->getLocation().getUpload() == "on")
-	// 	{
-	// 		this->setUploadAlowed(true);
-	// 		this->setUploadPath(path);
-	// 		// TODO add status after uploading the file 201 or 500
-	// 	}
-	// }
-	if (!is_file(path) && !is_dir(path))
+	if (this->getLocation().getUpload() == "on" && this->isUploadRequest(request))
+	{
+		if (checkUploadRequest(request))
+			createUploadFiles();
+		else
+			this->setStatus(400);
+		this->fillResponse(serv, "");
+	}
+	else if (!is_file(path) && !is_dir(path))
 	{
 		this->setStatus(404);
 		this->fillResponse(serv, "");
@@ -56,9 +54,8 @@ void response::Post(server& serv, ParseRequest& request)
 			else
 			{
 				this->setFilePath(joinPaths(path, file));
-				this->cgi(serv, request);
-				// this->setStatus(200);
-				// this->setHeader("Content-Length", std::to_string(this->_body.size()));
+				this->cgi(request);
+				this->fillResponse(serv, "");
 			}
 		}
 	}
@@ -67,10 +64,8 @@ void response::Post(server& serv, ParseRequest& request)
 		if (this->isCgi(path))
 		{
 			this->setFilePath(path);
-			this->cgi(serv, request);
-			//TODO why setting the status after cgi
-			// this->setStatus(200);
-			// this->setHeader("Content-Length", std::to_string(this->_body.size()));
+			this->cgi(request);
+			this->fillResponse(serv, "");
 		}
 		else
 		{

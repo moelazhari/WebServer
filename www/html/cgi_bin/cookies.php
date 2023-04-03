@@ -1,5 +1,6 @@
 <?php
 $cookies = array(
+<<<<<<< HEAD
     "youness" => "l3zii",
     "USER" => "ADMIN"
 );
@@ -7,6 +8,14 @@ foreach ($cookies as $name => $value) {
     setcookie($name, $value, time() + (86400 * 30), "/");
 }
 
+=======
+	"USER" => "ADMIN",
+    "leng" => "en"
+);
+foreach ($cookies as $name => $value) {
+    setcookie($name, $value, time() + (86400 * 30), "/", "", "", true);
+}
+>>>>>>> origin/master
 ?>
 
 <html>

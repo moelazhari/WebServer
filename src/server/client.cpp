@@ -25,7 +25,7 @@ void Client::setFdClient(struct pollfd fdClient)
 void Client::defaultRes(int status)
 {
 
-    if (status == ERROR_400 || status == ERROR_501)
+    if (status == ERROR_400 || status == ERROR_501 ||status == 405 )
     {
         this->status = READYTO_RES;
         _response.setStatus(status);
@@ -40,17 +40,20 @@ void Client::CheckReq(std::string r)
     {
 
         this->_req += r;
+            std::cout << this->_req<< std::endl;
         if (this->_req.find("\r\n\r\n") != std::string::npos)
         {
             this->status = REQ_HEADR_DONE;
             this->_request.parseRequest(this->_req).size();
             this->bodytype = this->_request.CheckHeader(this->status);
-            if (this->bodytype == transfer_encoding && this->_request.getBody().find("\r\n0\r\n") != std::string::npos)
+            if (this->bodytype == transfer_encoding && this->_request.getBody().find("0\r\n\r\n") != std::string::npos)
             {
                 this->parsechunked();
-                this->status = READYTO_RES;
+                this->defaultRes(405);
+                // this->status = READYTO_RES;
             }
-            this->defaultRes(bodytype);
+            else
+                this->defaultRes(bodytype);
         }
     }
     else
@@ -77,6 +80,7 @@ int Client::receiveRequest(std::vector<server> servers)
     if (this->status == READYTO_RES)
     {
         this->_response.generateResponse(this->_server, this->_request);
+        // std::cout << this->_response.getHeader("Content-type") << std::endl;
         return (1);
     }
     else if (this->status == SEND_ERROR)
@@ -87,9 +91,10 @@ int Client::receiveRequest(std::vector<server> servers)
 
 void Client::recvBody(std::string r)
 {
+    std::cout << this->_request.getHeaders()["Content-Length"] << std::endl;
     if (this->bodytype == content_length)
     {
-        std::cout << this->_request.getHeaders()["Content-Length"] <<  "==" << this->_request.getBody().size() + r.size() << std::endl;
+        // std::cout << this->_request.getHeaders()["Content-Length"] <<  "==" << this->_request.getBody().size() + r.size() << std::endl;
         if (toInt(this->_request.getHeaders()["Content-Length"]) <= (int)(this->_request.getBody().size() + r.size()))
         {
             this->_request.setBody(r);
@@ -159,6 +164,9 @@ std::string Client::generatHeader()
     r = this->_response.getStatus() + "\r\n";
     for (std::map<std::string, std::string>::iterator it = this->_response.getHeaderMap().begin(); it != this->_response.getHeaderMap().end(); it++)
         r += it->first + ": " + it->second + "\r\n";
+    for (std::vector<std::string>::iterator it = this->_response.getCookies().begin(); it != this->_response.getCookies().end(); it++)
+        r += "Set-Cookie: " + *it + "\r\n";
+
     r += "\r\n";
     this->_body = this->_response.getBody();
     return r;
@@ -170,6 +178,7 @@ int Client::sendPacket()
     if (this->status != HEADER_DONE)
     {
         r = generatHeader();
+        std::cout << r << std::endl;
         this->status = HEADER_DONE;
     }
     else

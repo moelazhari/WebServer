@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/03/31 03:30:37 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/02 01:05:25 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	response::checkForLocation(server& serv, ParseRequest& request)
 
 void	response::generateResponse(server& serv, ParseRequest& request)
 {
-	
+	std::cout << "---------------------------------------------" << std::endl;	
 	void (response::*f[3])(server& serv, ParseRequest& request) = {&response::Get, &response::Post, &response::Delete};
 	std::string methods[] = {"GET", "POST", "DELETE"};
 	
@@ -65,7 +65,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	if (this->getLocation().getReturn().second.size())
 	{
 		this->setStatus(this->getLocation().getReturn().first);
-		this->setHeader("Content-Type", "text/html");
+		this->setHeader("Content-type", "text/html");
 		//return link
 		this->setHeader("Location", this->getLocation().getReturn().second);
 	}
@@ -79,7 +79,6 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	else
 	{
 		//check which method to call
-		// std::cout << "---------------------method:-------------- " << request.getMethod() << std::endl;
 		for (int i = 0; i < 3; i++)
 		{
 			if (request.getMethod() == methods[i]){

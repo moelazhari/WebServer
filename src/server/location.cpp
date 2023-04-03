@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   location.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mazhari <mazhari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 19:05:47 by mazhari           #+#    #+#             */
-/*   Updated: 2023/03/29 00:46:14 by mazhari          ###   ########.fr       */
+/*   Updated: 2023/04/03 01:02:52 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ location::location (std::string &content): _cgiPaths(std::map<std::string, std::
 }
 
 void    location::setValues(std::string &key, std::string &value){
-    std::string values[10] = {"client_max_body_size",  "autoindex", "host", "root", "upload", "error_page", "allow_methods", "index", "path_info", "return"};
+    std::string values[9] = {"client_max_body_size",  "autoindex", "root", "upload", "error_page", "allow_methods", "index", "path_info", "return"};
   
-    void (location::*f[10])(std::string value) = {&location::setClientMaxBodySize, &location::setAutoIndex, &location::setHost,\
+    void (location::*f[9])(std::string value) = {&location::setClientMaxBodySize, &location::setAutoIndex, \
     &location::setRoot, &location::setUpload, &location::setErrorPages, &location::setAllowMethods, &location::setIndexs, &location::setCgiPaths, &location::setReturn};
     
-    for (int i = 0; i < 10; i++){
+    for (int i = 0; i < 9; i++){
         if (key == values[i]){
             (this->*f[i])(value);
             return ;
@@ -54,6 +54,7 @@ void    location::setValues(std::string &key, std::string &value){
 
 void  location::setCgiPaths(std::string value){
     std::vector<std::string>    tmp = split(value, " ");
+    std::ifstream               file;
 
     if (tmp.size() != 2)
         PrintExit("Error config file: cgiPath: " + value + " invalid value");
@@ -84,30 +85,6 @@ std::pair<int, std::string> location::getReturn(){
     return this->_return;
 }
 
-void location::printValues(){
-    //std::cout << "client_max_body_size: " << this->_clientMaxBodySize << std::endl;
-    //std::cout << "autoindex: " << this->_autoIndex << std::endl;
-    //std::cout << "host: " << this->_host << std::endl;
-    //std::cout << "root: " << this->_root << std::endl;
-    //prtint error pages
-    //std::cout << "allow_methods: ";
-    for (size_t i = 0; i < this->_allowMethods.size(); i++)
-        //std::cout << this->_allowMethods[i] << " ";
-    //std::cout << std::endl;
-    //print indexs
-    //std::cout << "index: ";
-    for (size_t i = 0; i < this->_indexs.size(); i++)
-        //std::cout << this->_indexs[i] << " ";
-    //std::cout << std::endl;
-    //print cgi path
-    //std::cout << "cgi path: ";
-    for (std::map<std::string, std::string>::iterator it = this->_cgiPaths.begin(); it != this->_cgiPaths.end(); it++)
-        std::cout << it->first << " " << it->second << " ";
-    std::cout << std::endl;
-    //print return
-    std::cout << "return: " << this->_return.first << " " << this->_return.second << std::endl;
-}
-
 location::~location(){
 
 }
@@ -117,6 +94,7 @@ location &location::operator=(location &rhs){
     this->_autoIndex = rhs.getAutoIndex();
     this->_host = rhs.getHost();
     this->_root = rhs.getRoot();
+    this->_upload = rhs.getUpload();
     this->_serverName = rhs.getServerName();
     this->_ports = rhs.getPorts();
     this->_errorPages = rhs.getErrorPages();

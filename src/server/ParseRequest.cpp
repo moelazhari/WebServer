@@ -89,16 +89,16 @@ std::string ParseRequest::getBody()
 
 int ParseRequest::CheckHeader(int &status)
 {
-    if (!method.compare("DELETE"))
-    {
-        this->affiche();
-    }
     std::string method = getMethod();
     std::map<std::string, std::string> header = getHeaders();
-
-    if (method.compare("GET") == 0)
+    if (!method.compare("DELETE"))
+    {
+        // this->affiche();
+    }
+    else if (method.compare("GET") == 0)
     {
         status = READYTO_RES;
+        return(1000);
     }
     else if (!method.compare("POST") || !method.compare("DELETE"))
     {
@@ -109,6 +109,10 @@ int ParseRequest::CheckHeader(int &status)
         }
         if (header.find("Content-Length") != header.end())
         {
+            if(header["Content-Length"].compare("0") == 0){
+                exit(0);
+                return (ERROR_400);
+            }
             if (toInt(header["Content-Length"]) <= (int)this->body.size())
                 status = READYTO_RES;
             return (content_length);
