@@ -19,29 +19,14 @@
 
 void    response::cgi(ParseRequest& req){
 	std::string 	output;
+	int				status = 0;
  
 	this->setCgiCmd();
 	this->setCgiEnv(req);
-	char        *env[this->_env.size() + 1];
-	char        *cmd[this->_env.size() + 1];
-	// string to char
-	int i = 0;
-	for (std::vector<std::string>::iterator it = this->_env.begin(); it != this->_env.end(); it++)
-	{
-		env[i] = (char *)(*it).c_str();
-		i++;
-	}
-	env[i] = NULL;
 
-	i = 0;
-	for (std::vector<std::string>::iterator it = this->_cmd.begin(); it != this->_cmd.end(); it++)
-	{
-		cmd[i] = (char *)(*it).c_str();
-		i++;
-	}
-	cmd[i] = NULL;
+	char        **env = stringToChar(this->_env);
+	char        **cmd = stringToChar(this->_cmd);
 
-	// exec cgi
 	int tmp = dup(0);
 	int fd[2];
 
@@ -77,7 +62,6 @@ void    response::cgi(ParseRequest& req){
 		if (execve(cmd[0], cmd, env) == -1)
 			exit(1);
 	}
-	int status = 0;
 	waitpid(pid, &status, 0);
 
 	if (WIFSIGNALED(status) || status != 0) {
@@ -95,7 +79,9 @@ void    response::cgi(ParseRequest& req){
 
 	dup2(tmp, 0);
 	close(tmp);
-	std::cout << "output: " << output << std::endl;
+
+	delete [] env;
+	delete [] cmd;
 	this->parseCgiOutput(output);
 }
 
@@ -123,6 +109,16 @@ void   response::setCgiCmd(){
 
 	this->_cmd.push_back(cgiPath);
 	this->_cmd.push_back(file);
+}
+
+char **response::stringToChar(std::vector<std::string> &vec)
+{
+	int i = 0;
+	char **arry = new char *[vec.size() + 1];
+	for (std::vector<std::string>::iterator it = vec.begin(); it != vec.end(); it++)
+		arry[i++] = (char *)(*it).c_str();
+	arry[i] = NULL;
+	return (arry);
 }
 
 void    response::parseCgiOutput(std::string output){

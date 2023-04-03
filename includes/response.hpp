@@ -81,8 +81,8 @@ class response
 		bool		isCgi(std::string file);
 		void		setCgiEnv(ParseRequest& req);
 		void		setCgiCmd();
+		char		**stringToChar(std::vector<std::string> &vec);
 		void		parseCgiOutput(std::string output);
-		
 };
 
 bool		is_dir(std::string path);

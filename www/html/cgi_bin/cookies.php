@@ -1,14 +1,11 @@
 <?php
 $cookies = array(
 	"USER" => "ADMIN",
-    "youness" => "l3zii"
+    "leng" => "en"
 );
 foreach ($cookies as $name => $value) {
-    setcookie($name, $value, time() + (86400 * 30), "/");
+    setcookie($name, $value, time() + (86400 * 30), "/", "", "", true);
 }
-
-setcookie("ddaaa", "ggg", time() + (86400 * 30), "/");
-
 ?>
 
 <html>
