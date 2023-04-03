@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_REQUEST_SIZE 1024
+#define MAX_REQUEST_SIZE 1024000
 #define BUFFER_SIZE 1024
 // #define REDYTOWRITE 1
 

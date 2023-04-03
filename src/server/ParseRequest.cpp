@@ -28,11 +28,10 @@ std::string ParseRequest::parseRequest(const std::string &request)
     // std::cout << "url" << this->url << std::endl;
 
     size_t pos = endOfLine + 2;
-    while (pos < request.length())
+    size_t end1 = request.find("\r\n\r\n", pos);
+    while (pos < end1)
     {
-        size_t end1 = request.find("\r\n\r\n", pos);
-        if (end1 == std::string::npos)
-            break;
+        
         size_t end = request.find("\r\n", pos);
         if (end == std::string::npos)
             break;
@@ -46,8 +45,7 @@ std::string ParseRequest::parseRequest(const std::string &request)
         }
         pos = end + 2;
     }
-    this->setBody(request.substr(pos + 2, request.length() - pos));
-    // std::cout << 
+    this->setBody(request.substr(end1 + 4));
     return (request.substr(pos, request.length() - pos));
 }
 
@@ -67,8 +65,8 @@ void ParseRequest::affiche()
     {
         std::cout << it->first << ": " << it->second << std::endl;
     }
-    std::cout << "-------------------body------------------------" << std::endl;
-    std::cout << this->body << std::endl;
+    // std::cout << "-------------------body------------------------" << std::endl;
+    // std::cout << this->body << std::endl;
 }
 
 std::string ParseRequest::getMethod()

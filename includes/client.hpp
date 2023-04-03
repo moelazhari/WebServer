@@ -38,4 +38,4 @@ public:
     void		defaultRes(int status);
 };
 
-size_t hexToDec(std::string hex);
+int hexToDec(std::string hex);
