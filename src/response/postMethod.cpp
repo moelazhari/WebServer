@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 21:07:16 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 01:03:21 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ void response::Post(server& serv, ParseRequest& request)
 	
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
-	
-	// if (this->getLocation().getUpload() == "on" && this->isUploadRequest(request))
-	if (this->getLocationPath() == "/upload" && this->isUploadRequest(request))
+	if (this->getLocation().getUpload() == "on" && this->isUploadRequest(request))
 	{
 		if (checkUploadRequest(request))
 			createUploadFiles();
