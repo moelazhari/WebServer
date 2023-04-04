@@ -92,11 +92,9 @@ location::~location(){
 location &location::operator=(location &rhs){
     this->_clientMaxBodySize = rhs.getClientMaxBodySize();
     this->_autoIndex = rhs.getAutoIndex();
-    this->_host = rhs.getHost();
     this->_root = rhs.getRoot();
     this->_upload = rhs.getUpload();
     this->_serverName = rhs.getServerName();
-    this->_ports = rhs.getPorts();
     this->_errorPages = rhs.getErrorPages();
     this->_allowMethods = rhs.getAllowMethods();
     this->_indexs = rhs.getIndexs();

@@ -83,7 +83,7 @@ void Values::setUpload(std::string value){
 
 void Values::setPorts(std::string value){
 	if (!isAllNumber(value))
-			PrintExit("Error config file: port:" + value + " must be a number");
+			PrintExit("Error config file: port :" + value + " must be a number");
 	if (toInt(value) > 65535 || toInt(value) < 0)
 			PrintExit("Error config file in key: port: " + value + " out of range");
 	this->_ports.push_back(toInt(value));
@@ -108,7 +108,7 @@ void	Values::setAllowMethods(std::string value){
             PrintExit("Error config file: allowMethods:" + value + " invalid value");
         for (size_t i = 0; i < tmp.size(); i++){
             if (tmp[i] != "GET" && tmp[i] != "POST" && tmp[i] != "DELETE")
-                PrintExit("Error config file: allowMethods: " + value + " invalid value");
+                PrintExit("Error config file: allowMethods: this " + tmp[i] + " not supported");
             this->_allowMethods.push_back(tmp[i]);
         }
 }
@@ -123,7 +123,7 @@ void	Values::setIndexs(std::string value){
 	}
 }
 
-int	Values::getClientMaxBodySize(){
+size_t	Values::getClientMaxBodySize(){
 	return this->_clientMaxBodySize;
 }
 

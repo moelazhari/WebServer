@@ -30,13 +30,11 @@ class location : public Values
 
 		void    setValues(std::string &key, std::string &value);
 		
-		void setCgiPaths(std::string value);
-		void setReturn(std::string value);
+		void	setCgiPaths(std::string value);
+		void 	setReturn(std::string value);
 
 		std::map<std::string, std::string>	getCgiPaths();
 		std::pair<int, std::string>			getReturn();
-
-		void printValues();
 };
 
 #endif

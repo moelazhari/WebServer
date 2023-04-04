@@ -27,8 +27,8 @@ class server: public Values
 		server();
 		~server();
 		
-		void setValues(std::string &key, std::string &value);
-		void setDefaultValues();
+		void 	setValues(std::string &key, std::string &value);
+		void 	setDefaultValues();
 		
 		void	parsMemeTypes(std::string path);
 		void	setMemeTypes(std::string value, std::string key);
@@ -38,8 +38,6 @@ class server: public Values
 		std::vector<int>					getPorts();
 		std::map<std::string, location>		&getLocations();
 		std::map<std::string, std::string>	&getMemeTypes();
-		
-		void printValues();
 };
 
 #endif

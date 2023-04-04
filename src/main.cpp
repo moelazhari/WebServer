@@ -17,11 +17,7 @@
 int main (int ac, char **av)
 {
 	if (ac != 2)
-	{
-		////std::cout << "Error: Wrong number of arguments" << std::endl;
-		////std::cout << "Usage: ./configFileParser <config_file>" << std::endl;
-		return (1);
-	}
+		av[1] = (char *)"configs/config.conf";
 	
 	std::vector<parsConfig>					config;
 	std::vector<server>						servers;

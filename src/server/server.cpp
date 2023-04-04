@@ -140,55 +140,6 @@ void	server::setMemeTypes(std::string key, std::string value){
 	}
 }
 
-void server::printValues(){
-	////std::cout << "client_max_body_size: " << this->_clientMaxBodySize << std::endl;
-	////std::cout << "autoindex: " << this->_autoIndex << std::endl;
-	////std::cout << "host: " << this->_host << std::endl;
-	////std::cout << "root: " << this->_root << std::endl;
-	////std::cout << "server_name: " << this->_serverName << std::endl;
-	// print ports
-	////std::cout << "ports: ";
-	for (size_t i = 0; i < this->_ports.size(); i++){
-		////std::cout << this->_ports[i] << " ";
-	}
-	////std::cout << std::endl;
-	// print error pages
-	////std::cout << "error_pages: ";
-	std::map<int, std::string>::iterator it = this->_errorPages.begin();
-	std::map<int, std::string>::iterator ite = this->_errorPages.end();
-	while (it != ite){
-		////std::cout << it->first << " : " << it->second << " ";
-		it++;
-	}
-	////std::cout << std::endl;
-	// print allow methods
-	////std::cout << "allow_methods: ";
-	for (size_t i = 0; i < this->_allowMethods.size(); i++){
-		////std::cout << this->_allowMethods[i] << " ";
-	}
-	////std::cout << std::endl;
-	// print indexs
-	////std::cout << "indexs: ";
-	for (size_t i = 0; i < this->_indexs.size(); i++){
-		////std::cout << this->_indexs[i] << " ";
-	}
-	//print meme types
-    // std::cout << "meme types: ";
-    // for (std::map<std::string, std::string>::iterator it = this->_memeTypes.begin(); it != this->_memeTypes.end(); it++)
-    //     std::cout << it->first << " " << it->second << " ";
-    // std::cout << std::endl;
-	// // print locations
-	// std::map<std::string, location>::iterator it3 = this->_locations.begin();
-	// std::map<std::string, location>::iterator ite3 = this->_locations.end();
-
-	////std::cout << "locations:" << std::endl;	
-
-	// while (it3 != ite3){
-	// 	std::cout << it3->first << " : " << std::endl;
-	// 	it3->second.printValues();
-	// 	it3++;
-	// }
-}
 
 std::string server::getHost(){
 	return (this->_host);
