@@ -1,1 +1,0 @@
-print("delete/tocgi.py file is running");

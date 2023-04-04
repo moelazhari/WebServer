@@ -89,30 +89,27 @@ std::string ParseRequest::getBody()
 
 int ParseRequest::CheckHeader(int &status)
 {
-    if (!method.compare("DELETE"))
-    {
-        // this->affiche();
-    }
     std::string method = getMethod();
+    std::string url = getLink();
     std::map<std::string, std::string> header = getHeaders();
-
+    if(url.size() > 100)
+    {
+        status = READYTO_RES;
+        return (ERROR_414);
+    }
     if (method.compare("GET") == 0)
     {
         status = READYTO_RES;
+        return (OTHER_STATUS);
     }
     else if (!method.compare("POST") || !method.compare("DELETE"))
     {
         if (header.find("Content-Length") != header.end() && header.find("Transfer-Encoding") != header.end())
-        {
-            std::cout << "400 Bad Request" << std::endl;
             return (ERROR_400);
-        }
         if (header.find("Content-Length") != header.end())
         {
-            if(header["Content-Length"].compare("0") == 0){
-                exit(0);
-                return (ERROR_400);
-            }
+            if(header["Content-Length"].compare("0") == 0)
+                return (ERROR_405);
             if (toInt(header["Content-Length"]) <= (int)this->body.size())
                 status = READYTO_RES;
             return (content_length);
@@ -120,10 +117,7 @@ int ParseRequest::CheckHeader(int &status)
         else if (header.find("Transfer-Encoding") != header.end())
         {
             if (header["Transfer-Encoding"].compare("chunked") != 0)
-            {
-                std::cout << "501 Not Implemented" << std::endl;
                 return (ERROR_501);
-            }
             else
                 return (transfer_encoding);
         }
@@ -131,13 +125,11 @@ int ParseRequest::CheckHeader(int &status)
         {
             if (!method.compare("POST"))
                 return (ERROR_400);
-            else
-            {
-                status = READYTO_RES;
-            }
+            status = READYTO_RES;
+            return (OTHER_STATUS);
         }
     }
-    return (NOT_ALLOWD_METHOD);
+    return (ERROR_405);
 }
 
 std::string ParseRequest::getPort()

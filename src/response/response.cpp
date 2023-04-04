@@ -16,6 +16,7 @@ response::response()
 {
 	this->_status = "";
 	this->_header = std::map<std::string, std::string>();
+	this->_cookies = std::vector<std::string>();
 	this->_uploadFiles = std::map<std::string, std::string>();
 	this->_body = "";
 	this->_locationPath = "";
@@ -27,8 +28,8 @@ response::response()
 	this->_statusString[400] = "Bad Request";
 	this->_statusString[403] = "Forbidden";
 	this->_statusString[404] = "Not Found";
-	this->_statusString[405] = "Method Not Allowed";
-	this->_statusString[413] = "Content Too Large";
+	this->_statusString[405] = "Not Allowed";
+	this->_statusString[413] = "Request Entity Too Large";
 	this->_statusString[414] = "URI Too Long";
 	this->_statusString[500] = "Internal Server Error";
 	this->_statusString[501] = "Not Implemented";

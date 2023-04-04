@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/04/01 21:10:30 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 21:19:28 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void    response::cgi(ParseRequest& req){
 	}
 	waitpid(pid, &status, 0);
 
-	if (WIFSIGNALED(status) || status != 0) {
-			this->setStatus(502);
-		return ;
-	}
+	// if (WIFSIGNALED(status) || status != 0) {
+	// 		this->setStatus(502);
+	// 	return ;
+	// }
 
 	dup2(fd[0], 0);
 	close(fd[0]);
@@ -82,6 +82,7 @@ void    response::cgi(ParseRequest& req){
 
 	delete [] env;
 	delete [] cmd;
+	std::cout << "output:" << output << std::endl;
 	this->parseCgiOutput(output);
 }
 
@@ -91,6 +92,9 @@ void	response::setCgiEnv(ParseRequest& req){
 	this->_env.push_back("GATEWAY_INTERFACE=CGI/1.1");
 	this->_env.push_back("SERVER_PROTOCOL=HTTP/1.1");
 	this->_env.push_back("SERVER_PORT= " + req.getPort());
+	// if (req.getMethod() == "DELETE")
+	// 	this->_env.push_back("REQUEST_METHOD=POST");
+	// else
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
 	this->_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getBody().size()));
@@ -150,6 +154,7 @@ void    response::parseCgiOutput(std::string output){
 }
 
 bool  response::isCgi(std::string file){
+	std::cout << "-------file-----:" << file << std::endl;
 	std::map<std::string, std::string> 	extensions = this->_location.getCgiPaths();
 	std::string							extension = "." + getExtension(file);
 	

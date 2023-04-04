@@ -27,7 +27,6 @@ public:
     void        setFdClient(struct pollfd fdClient);
     int         receiveRequest(std::vector<server>     servers);
     int         sendResponse();
-    int         sendPacket();
    std::string  readbuffer();
     std::string generatHeader();
     void        CheckReq(std::string r);

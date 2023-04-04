@@ -62,11 +62,11 @@ void		getServers(std::string &content, std::vector<parsConfig> &config){
 	size_t      serverE;
 	std::string tmp;
 
-	parsConfig server;
 
 	pos = content.find("server");
 	while (pos != std::string::npos)
 	{
+		parsConfig server;
 		// ckecking if there is {
 		serverB = content.find("{", pos);
 		if (serverB == std::string::npos)

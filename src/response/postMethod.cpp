@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:38:20 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/03 01:03:21 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 21:43:34 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void response::Post(server& serv, ParseRequest& request)
 {
 	std::string 						path;
 	std::vector<std::string>::iterator	it;
-	std::string							file;
+	std::vector<std::string>			indexs;
 	
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
@@ -35,25 +35,25 @@ void response::Post(server& serv, ParseRequest& request)
 	}
 	else if (is_dir(path))
 	{
-		if (this->getLocation().getIndexs().empty())
+		indexs = this->getLocation().getIndexs();
+		if (indexs.empty())
 		{
 			this->setStatus(403);
 			this->fillResponse(serv, "");
 		}
 		else
 		{
-			it = this->getLocation().getIndexs().begin();
-			while(it < this->getLocation().getIndexs().end() && !is_file(joinPaths(path, *it)))
+			it = indexs.begin();
+			while(it != indexs.end() && !is_file(joinPaths(path, *it)))
 				it++;
-			file = *it;
-			if (it == this->getLocation().getIndexs().end() || !this->isCgi(file))
+			if (it == indexs.end() || !this->isCgi(joinPaths(path, *it)))
 			{
 				this->setStatus(403);
 				this->fillResponse(serv, "");
 			}
 			else
 			{
-				this->setFilePath(joinPaths(path, file));
+				this->setFilePath(joinPaths(path, *it));
 				this->cgi(request);
 				this->fillResponse(serv, "");
 			}

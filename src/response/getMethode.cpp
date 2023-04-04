@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:05:27 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 01:09:15 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/03 21:25:00 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	response::Get(server& serv, ParseRequest& request)
 {
 	std::string							path;
 	std::vector<std::string>::iterator	it;
-	std::string							file;
+	std::vector<std::string>			indexs;
 
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
@@ -24,30 +24,30 @@ void	response::Get(server& serv, ParseRequest& request)
 	// TODO make this a funcion to work with it inside the dir loop
 	if (is_dir(path))
 	{
-		if (!this->getLocation().getIndexs().empty())
+		indexs = this->getLocation().getIndexs();
+		if (!indexs.empty())
 		{
 			// loop on indexs and check if file exist
-			it = this->getLocation().getIndexs().begin();
-			while(it < this->getLocation().getIndexs().end() && !is_file(joinPaths(path, *it)))
+			it = indexs.begin();
+			while(it < indexs.end() && is_file(joinPaths(path, *it)) == false)
 				it++;
-			file = *it;
-			if (it < this->getLocation().getIndexs().end() && is_file(joinPaths(path, file)))
+			if (it != indexs.end() && is_file(joinPaths(path, *it)))
 			{
-				if (this->isCgi(file))
+				if (this->isCgi(joinPaths(path, *it)))
 				{
-					this->setFilePath(joinPaths(path, file));
+					this->setFilePath(joinPaths(path, *it));
 					this->cgi(request);
 					this->fillResponse(serv, "");
 				}
 				else
 				{
 					this->setStatus(200);
-					this->fillResponse(serv, joinPaths(path, file));
+					this->fillResponse(serv, joinPaths(path, *it));
 				}
 			}
 			else
 			{
-				this->setStatus(403);
+				this->setStatus(404);
 				this->fillResponse(serv, "");
 			}
 		}
@@ -65,7 +65,7 @@ void	response::Get(server& serv, ParseRequest& request)
 		}
 		else
 		{
-			this->setStatus(403);
+			this->setStatus(404);
 			this->fillResponse(serv, "");
 		}
 	}
@@ -73,7 +73,7 @@ void	response::Get(server& serv, ParseRequest& request)
 	{
 		if (this->isCgi(path))
 		{	
-			this->setFilePath(joinPaths(path, file));
+			this->setFilePath(path);
 			//print headers
 			this->cgi(request);
 			this->fillResponse(serv, "");
