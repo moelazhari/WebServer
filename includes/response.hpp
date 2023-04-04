@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/03 01:54:02 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/04 18:18:49 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ class response
 		void								Get(server& server, ParseRequest& request);
 		void								Post(server& server, ParseRequest& request);
 		void								Delete(server& server, ParseRequest& request);
-		//TODO std::string send_error(int status);
 
 		//cgi
 		void		cgi(ParseRequest& request);
