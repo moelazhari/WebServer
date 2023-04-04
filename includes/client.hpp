@@ -13,28 +13,28 @@ class Client
 private:
     response        _response;
     server          _server;
-    std::string     _requestString;
     struct pollfd   _fdClient;
     ParseRequest    _request;
     std::string     _req;
     std::string     _body;
     int             bodytype;
+
 public:
     Client();
+    response        &getResponse();
+    pollfd          &getFdClient();
+    void            setFdClient(struct pollfd fdClient);
+    int             receiveRequest(std::vector<server> servers);
+    int             sendResponse();
+    std::string     readbuffer();
+    std::string     generatHeader();
+    void            CheckReq(std::string r);
+    void            checkHeader();
+    void            recvBody(std::string r);
+    void            parsechunked();
+    int             status;
+    void            defaultRes(int status);
     ~Client();
-    response    &getResponse();
-    pollfd      &getFdClient();
-    void        setFdClient(struct pollfd fdClient);
-    int         receiveRequest(std::vector<server>     servers);
-    int         sendResponse();
-   std::string  readbuffer();
-    std::string generatHeader();
-    void        CheckReq(std::string r);
-    void        checkHeader();
-    void        recvBody(std::string r);
-    void        parsechunked();
-    int         status;
-    void		defaultRes(int status);
 };
 
 int hexToDec(std::string hex);
