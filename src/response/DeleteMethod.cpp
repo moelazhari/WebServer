@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/04 02:17:22 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/04 03:15:47 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	response::Delete(server& serv, ParseRequest& request)
 	std::vector<std::string>::iterator	it;
 	std::vector<std::string>			indexs;
 	
-	std::cout << "DELETE" << std::endl;
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 
@@ -49,12 +48,15 @@ void	response::Delete(server& serv, ParseRequest& request)
 			// check if index is a cgi
 			else if (isCgi(joinPaths(path, *it)))
 			{
+				std::cout << "cgi" << std::endl;
 				this->setFilePath(joinPaths(path, *it));
 				this->cgi(request);
+				this->fillResponse(serv, "");
 			}
 			// delete index
 			else
 			{
+				std::cout << "delete index" << std::endl;
 				if (deleteFile(joinPaths(path, *it)) == false)
 				{
 					this->setStatus(500);
@@ -73,11 +75,14 @@ void	response::Delete(server& serv, ParseRequest& request)
 	{
 		if (this->isCgi(path))
 		{
+			std::cout << "cgi" << std::endl;
 			this->setFilePath(path);
 			this->cgi(request);
+			this->fillResponse(serv, "");
 		}
 		else
 		{
+			std::cout << "delete file" << std::endl;
 			if (deleteFile(path) == false)
 			{
 				this->setStatus(500);
