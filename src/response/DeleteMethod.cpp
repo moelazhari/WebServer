@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/03 21:22:28 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/04 02:17:22 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	response::Delete(server& serv, ParseRequest& request)
 	std::vector<std::string>::iterator	it;
 	std::vector<std::string>			indexs;
 	
+	std::cout << "DELETE" << std::endl;
 	path = this->getLocation().getRoot();
 	path = joinPaths(path, fixLink(request.getLink().substr(this->getLocationPath().size())));
 
