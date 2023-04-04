@@ -13,11 +13,12 @@
 #include "configFileParser.hpp"
 #include "server.hpp"
 #include "connection.hpp"
+#include "define.hpp"
 
 int main (int ac, char **av)
 {
 	if (ac != 2)
-		av[1] = (char *)"configs/config.conf";
+		av[1] = (char *)CONFIG;
 	
 	std::vector<parsConfig>					config;
 	std::vector<server>						servers;

@@ -19,8 +19,6 @@
 #include "ParseRequest.hpp"
 #include "utils.hpp"
 
-#define TIMEOUT 5
-
 class response
 {
 	private:

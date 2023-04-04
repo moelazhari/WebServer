@@ -15,7 +15,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string>
-#include <poll.h>
+#include "define.hpp"
 
 void    response::cgi(ParseRequest& req){
 	std::string 	output;
@@ -58,7 +58,7 @@ void    response::cgi(ParseRequest& req){
 
 		if (chdir(this->_location.getRoot().c_str()) < 0)
 			exit(1);
-		alarm(TIMEOUT);
+		alarm(CGI_TIMEOUT);
 		if (execve(cmd[0], cmd, env) == -1)
 			exit(1);
 	}
