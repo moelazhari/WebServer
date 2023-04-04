@@ -47,7 +47,7 @@ void	response::Get(server& serv, ParseRequest& request)
 			}
 			else
 			{
-				this->setStatus(403);
+				this->setStatus(404);
 				this->fillResponse(serv, "");
 			}
 		}

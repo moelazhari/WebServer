@@ -18,8 +18,10 @@
 #define transfer_encoding 6
 #define content_length 7
 #define ERROR 8
-#define NOT_ALLOWD_METHOD 405
 //error page
+#define ERROR_405 405
 #define ERROR_400 400  //Bad Request
 #define ERROR_501 501  //Not Implemented
-//25306036
+#define ERROR_413 413  //Request Entity Too Large
+#define ERROR_414 414  //Request-URI Too Long
+#define OTHER_STATUS  -1
