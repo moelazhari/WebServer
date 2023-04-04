@@ -24,10 +24,43 @@ Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<ser
         serverSocketList.push_back(createsocket(it->second));
         std::cout << "port => " << it->second << std::endl;
         struct pollfd fd = {serverSocketList[i], POLLIN, 0};
-        i++;
         fds.push_back(fd);
+        i++;
     }
     start();
+}
+
+int Connection::createsocket(int port)
+{
+
+    serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    int opt = 1;
+    if (serverSocket == -1)
+    {
+        std::cerr << "Failed to create server socket" << std::endl;
+        exit(1);
+    }
+    if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
+    {
+        perror("setsockopt");
+        exit(EXIT_FAILURE);
+    }
+    memset(&serverAddr, 0, sizeof(serverAddr));
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port = htons(port);
+    if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
+    {
+        std::cerr << "Failed to bind server socket to port " << port << std::endl;
+        exit(1);
+    }
+
+    if (listen(serverSocket, 5) == -1)
+    {
+        std::cerr << "Failed to listen for incoming connections" << std::endl;
+        exit(1);
+    }
+    return serverSocket;
 }
 void Connection::start()
 {
@@ -81,39 +114,6 @@ void Connection::start()
     }
 }
 
-int Connection::createsocket(int port)
-{
-
-    serverSocket = socket(AF_INET, SOCK_STREAM, 0);
-    int opt = 1;
-    if (serverSocket == -1)
-    {
-        std::cerr << "Failed to create server socket" << std::endl;
-        exit(1);
-    }
-    if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
-    {
-        perror("setsockopt");
-        exit(EXIT_FAILURE);
-    }
-    // bind socket to port
-    memset(&serverAddr, 0, sizeof(serverAddr));
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_port = htons(port);
-    if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
-    {
-        std::cerr << "Failed to bind server socket to port " << port << std::endl;
-        exit(1);
-    }
-
-    if (listen(serverSocket, 5) == -1)
-    {
-        std::cerr << "Failed to listen for incoming connections" << std::endl;
-        exit(1);
-    }
-    return serverSocket;
-}
 
 void Connection::closeConnection(int index)
 {

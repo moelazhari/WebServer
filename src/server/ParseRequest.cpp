@@ -1,6 +1,6 @@
 #include "ParseRequest.hpp"
 
-ParseRequest::ParseRequest() : method(""), path(""), httpVersion(""), body(""), file("")
+ParseRequest::ParseRequest() : method(""), path(""), httpVersion(""), body("")
 {
 }
 
@@ -16,7 +16,6 @@ std::string ParseRequest::parseRequest(const std::string &request)
     this->path = firstLine.substr(endOfMethod + 1, endOfUrl - endOfMethod - 1);
     this->httpVersion = firstLine.substr(endOfUrl + 1, firstLine.size() - endOfUrl - 1);
 
-    // std::cout << "path" << this->path << std::endl;
     size_t p = this->path.find("?");
     if (p != std::string::npos)
     {
@@ -25,8 +24,6 @@ std::string ParseRequest::parseRequest(const std::string &request)
     }
     else
         this->query = "";
-    // std::cout << "url" << this->url << std::endl;
-
     size_t pos = endOfLine + 2;
     size_t end1 = request.find("\r\n\r\n", pos);
     while (pos < end1)
@@ -65,8 +62,8 @@ void ParseRequest::affiche()
     {
         std::cout << it->first << ": " << it->second << std::endl;
     }
-    // std::cout << "-------------------body------------------------" << std::endl;
-    // std::cout << this->body << std::endl;
+    std::cout << "-------------------body------------------------" << std::endl;
+    std::cout << this->body << std::endl;
 }
 
 std::string ParseRequest::getMethod()
@@ -116,6 +113,7 @@ int ParseRequest::CheckHeader(int &status)
         }
         else if (header.find("Transfer-Encoding") != header.end())
         {
+            std::cout << "chunked" << std::endl;
             if (header["Transfer-Encoding"].compare("chunked") != 0)
                 return (ERROR_501);
             else

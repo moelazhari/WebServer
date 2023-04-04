@@ -10,13 +10,12 @@
 class ParseRequest
 {
 private:
-	std::string method;
-	std::string path;
-	std::string query;
-	std::string			httpVersion;
+	std::string 						method;
+	std::string 						path;
+	std::string 						query;
+	std::string							httpVersion;
     std::string                         body;
 	std::map<std::string, std::string> header;
-	std::string file;
 public:
 	ParseRequest();
 	std::string							parseRequest(const std::string& request);
@@ -31,7 +30,7 @@ public:
     int                                 CheckHeader(int& status);
     std::string                         getBody();
     void                                setBody(std::string body);
-	std::string							parseFile();
 	void            					ClearBody();
 };
 
+ 
