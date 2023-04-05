@@ -22,7 +22,7 @@ Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<ser
     {
         int serverSocket = createsocket(it->second, it->first);
         if(serverSocket == -1)
-            continue;
+            continue ;
         else
         {
             serverSocketList.push_back(serverSocket);
@@ -45,8 +45,7 @@ int Connection::createsocket(int port, std::string host)
         std::cerr << "Failed to create server socket" << std::endl;
         return -1;
     }
-    // int flags = fcntl(serverSocket, F_GETFL, 0);
-    // fcntl(serverSocket, F_SETFL, flags | O_NONBLOCK);
+
     if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
         return -1;
     memset(&serverAddr, 0, sizeof(serverAddr));
@@ -60,7 +59,7 @@ int Connection::createsocket(int port, std::string host)
         return -1;
     }
 
-    if (listen(serverSocket, 10000) == -1)
+    if (listen(serverSocket, 1000000) == -1)
     {
         std::cerr << "Failed to listen for incoming connections" << std::endl;
         return -1;
@@ -71,7 +70,7 @@ void Connection::start()
 {
     while (true)
     {
-        std::cout << "Waiting for incoming connections : "<< std::endl;
+        // std::cout << "Waiting for incoming connections : "<< std::endl;
 
         if ((poll(&fds[0], fds.size(), -1)) < 0)
         {

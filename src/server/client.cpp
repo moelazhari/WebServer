@@ -159,7 +159,7 @@ int Client::receiveRequest(std::vector<server> servers)
 	this->CheckReq(r, servers);
 	if (this->status == READYTO_RES)
 	{
-		this->_request.affiche();
+		// this->_request.affiche();
 		this->_response.generateResponse(this->_server, this->_request);
 		return (1);
 	}

@@ -30,7 +30,7 @@
 #include "client.hpp"
 #include "connection.hpp"
 
-#define MAX_REQUEST_SIZE 10240
+#define MAX_REQUEST_SIZE 1024
 #define BUFFER_SIZE 1024
 // default config file
 #define CONFIG "./configs/config.conf"
