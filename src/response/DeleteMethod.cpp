@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 15:37:47 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/04 03:15:47 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/05 00:37:02 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	response::Delete(server& serv, ParseRequest& request)
 					this->fillResponse(serv, "");
 				}
 			}
-			
 		}
 	}	
 	else if (is_file(path))

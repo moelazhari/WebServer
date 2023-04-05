@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 16:58:09 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/04 18:18:58 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/05 01:21:06 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,6 @@ void	response::setFilePath(std::string file)
 	this->_filePath = file;
 }
 
-// void	response::setUploadAlowed(bool value)
-// {
-// 	this->_uploadAlowed = value;
-// }
-
-// void	response::setUploadPath(std::string path)
-// {
-// 	this->_uploadPath = path;
-// }
 // --------------------------------- GETTER --------------------------------- //
 bool	response::getIsLocation()
 {
@@ -142,15 +133,6 @@ std::string	response::getFilePath()
 	return this->_filePath;
 }
 
-// bool	response::getUploadAlowed()
-// {
-// 	return this->_uploadAlowed;
-// }
-
-// std::string	response::getUploadPath()
-// {
-// 	return this->_uploadPath;
-// }
 // --------------------------------- GENERATE RESPONSE --------------------------------- //	
 
 void	response::fillResponse(server &serv, std::string path)

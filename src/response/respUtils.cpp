@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 18:23:29 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/03 01:23:35 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/05 01:35:38 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 bool	checkForElement(std::string method, std::vector<std::string> methods)
 {
 	std::vector<std::string>::iterator it;
-	
+	if (method != "GET" && method != "POST" && method != "DELETE")
+		return false;
 	it = std::find(methods.begin(), methods.end(), method);
 	if (it != methods.end())
 		return true;

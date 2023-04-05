@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/04 18:22:26 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/05 01:24:56 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	response::checkForLocation(server& serv, ParseRequest& request)
 		this->setLocationPath(it->first);
 		this->fillLocaiton(serv);
 		this->setIsLocation(true);
-		return ;
 	}
 }
 
@@ -67,6 +66,7 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 		this->setHeader("Content-type", "text/html");
 		//return link
 		this->setHeader("Location", this->getLocation().getReturn().second);
+		this->fillResponse(serv, "");
 	}
 	
 	//check if method allowed
