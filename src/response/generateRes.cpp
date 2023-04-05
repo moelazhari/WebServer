@@ -53,6 +53,12 @@ void	response::generateResponse(server& serv, ParseRequest& request)
 	void (response::*f[3])(server& serv, ParseRequest& request) = {&response::Get, &response::Post, &response::Delete};
 	std::string methods[] = {"GET", "POST", "DELETE"};
 	
+	if (request.getHttpVersion() != "HTTP/1.1")
+	{
+		this->setStatus(505);
+		this->fillResponse(serv, "");
+		return ;
+	}
 	this->checkForLocation(serv, request);
 	if (!this->getIsLocation())
 	{
