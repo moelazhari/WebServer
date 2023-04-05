@@ -51,7 +51,7 @@ void	response::checkForLocation(server& serv, ParseRequest& request)
 
 void	response::generateResponse(server& serv, ParseRequest& request)
 {
-	std::cout << "---------------------------------------------" << std::endl;	
+	// std::cout << "---------------------------------------------" << std::endl;	
 	void (response::*f[3])(server& serv, ParseRequest& request) = {&response::Get, &response::Post, &response::Delete};
 	std::string methods[] = {"GET", "POST", "DELETE"};
 	

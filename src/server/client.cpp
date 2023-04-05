@@ -22,6 +22,17 @@ void Client::setFdClient(struct pollfd fdClient)
 {
 	_fdClient = fdClient;
 }
+
+void  Client::setServer(std::vector<server> servers)
+{
+	// for (std::vector<server>::iterator it = servers.begin(); it != servers.end(); it++)
+	// {
+	// 	if ()
+	// }
+	(void)servers;
+	this->_request.affiche();
+}
+
 /*----------------------req-------------------------------*/
 
 void Client::parsechunked()
@@ -99,6 +110,7 @@ void Client::recvBody(std::string r)
 	this->_request.setBody(r);
 	if (this->bodytype == content_length)
 	{
+		std::cout << this->_request.getHeaders()["Content-Length"] << "==" << this->_request.getBody().size() << std::endl;
 		if (toInt(this->_request.getHeaders()["Content-Length"]) <= (int)(this->_request.getBody().size()))
 			this->status = READYTO_RES;
 	}
@@ -114,7 +126,6 @@ void Client::recvBody(std::string r)
 
 int Client::receiveRequest(std::vector<server> servers)
 {
-	this->_server = servers[0];
 	char request[MAX_REQUEST_SIZE];
 	int numBytes = recv(_fdClient.fd, request, MAX_REQUEST_SIZE, 0);
 	if (numBytes == -1)
@@ -128,6 +139,7 @@ int Client::receiveRequest(std::vector<server> servers)
 	this->CheckReq(r);
 	if (this->status == READYTO_RES)
 	{
+		this->setServer(servers);
 		this->_response.generateResponse(this->_server, this->_request);
 		return (1);
 	}
@@ -136,7 +148,7 @@ int Client::receiveRequest(std::vector<server> servers)
 	return (0);
 }
 
-/*-------------------------Res-----------------------------*/
+/*------------------------------------Res----------------------------------------*/
 void Client::defaultRes(int status)
 {
 
@@ -201,7 +213,7 @@ int hexToDec(std::string hex)
 	std::string hexa = "0123456789abcdef";
 	for (size_t i = 0; i < hex.size(); i++)
 	{
-		if (hexa.find(hex[i]) == std::string::npos)
+		if (hexa.find(tolower(hex[i])) == std::string::npos)
 			return -1;
 	}
 	ss << hex;

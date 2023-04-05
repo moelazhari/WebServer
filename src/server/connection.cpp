@@ -1,4 +1,5 @@
 #include "connection.hpp"
+#include <fcntl.h>
 
 int Connection::acceptConnection(int index)
 {
@@ -18,47 +19,52 @@ int Connection::acceptConnection(int index)
 Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers) : servers(servers)
 {
     std::multimap<std::string, int>::iterator it;
-    int i = 0;
     for (it = hostPort.begin(); it != hostPort.end(); it++)
     {
-        serverSocketList.push_back(createsocket(it->second));
-        std::cout << "port => " << it->second << std::endl;
-        struct pollfd fd = {serverSocketList[i], POLLIN, 0};
-        fds.push_back(fd);
-        i++;
+        int serverSocket = createsocket(it->second, it->first);
+        if(serverSocket == -1)
+            continue;
+        else
+        {
+            serverSocketList.push_back(serverSocket);
+            std::cout << "port => " << it->second << std::endl;
+            struct pollfd fd = {serverSocket, POLLIN, 0};
+            fds.push_back(fd);
+        }
     }
-    start();
+    if(serverSocketList.size() != 0)
+        start();
 }
 
-int Connection::createsocket(int port)
+int Connection::createsocket(int port, std::string host)
 {
 
-    serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+   int  serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     int opt = 1;
     if (serverSocket == -1)
     {
         std::cerr << "Failed to create server socket" << std::endl;
-        exit(1);
+        return -1;
     }
+    // int flags = fcntl(serverSocket, F_GETFL, 0);
+    // fcntl(serverSocket, F_SETFL, flags | O_NONBLOCK);
     if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
-    {
-        perror("setsockopt");
-        exit(EXIT_FAILURE);
-    }
+        return -1;
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_addr.s_addr = inet_addr(host.c_str());
+    // serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
     serverAddr.sin_port = htons(port);
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
     {
-        std::cerr << "Failed to bind server socket to port " << port << std::endl;
-        exit(1);
+       std::cerr << "Failed to create server socket with host: " << host << " and port: " << port << std::endl;
+        return -1;
     }
 
-    if (listen(serverSocket, 5) == -1)
+    if (listen(serverSocket, 10000) == -1)
     {
         std::cerr << "Failed to listen for incoming connections" << std::endl;
-        exit(1);
+        return -1;
     }
     return serverSocket;
 }
@@ -66,18 +72,18 @@ void Connection::start()
 {
     while (true)
     {
-        // std::cout << "Waiting for incoming connections : "<< std::endl;
+        std::cout << "Waiting for incoming connections : "<< std::endl;
 
         if ((poll(&fds[0], fds.size(), -1)) < 0)
         {
             std::cerr << "Failed to poll" << std::endl;
-            exit(1);
+            continue;
         }
         for (size_t i = 0; i < fds.size(); i++)
         {
             if (fds[i].revents & POLLHUP)
             {
-                std::cout << "close connection\n";
+                // std::cout << "close connection\n";
                 this->closeConnection(i);
             }
             else if (fds[i].revents & POLLIN)
@@ -90,7 +96,7 @@ void Connection::start()
                       break;
                     }
                 }
-                else if (clients.find(fds[i].fd) != clients.end())
+                else 
                 {
                     if (clients.find(fds[i].fd)->second.receiveRequest(this->servers))
                     {
@@ -105,7 +111,7 @@ void Connection::start()
                     continue;
                 if (clients.find(fds[i].fd)->second.status == BODY_DONE)
                 {
-                    std::cout << "close connection\n";
+                    // std::cout << "close connection\n";
                     this->closeConnection(i);
                 }
             }

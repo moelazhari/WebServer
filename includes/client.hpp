@@ -34,6 +34,7 @@ public:
     void            parsechunked();
     int             status;
     void            defaultRes(int status);
+    void            setServer(std::vector<server> servers);
     ~Client();
 };
 

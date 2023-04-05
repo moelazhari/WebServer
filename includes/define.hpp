@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_REQUEST_SIZE 1024
+#define MAX_REQUEST_SIZE 102400
 #define BUFFER_SIZE 1024
 
 // request status

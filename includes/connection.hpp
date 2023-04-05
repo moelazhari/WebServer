@@ -21,7 +21,6 @@ private:
         std::vector<server>             servers;
         std::vector<int>                serverSocketList;
         std::map<int, Client>           clients;
-        int                             serverSocket;
         ParseRequest                    _request;
         struct sockaddr_in              serverAddr;
         std::vector<struct pollfd>      fds;
@@ -30,7 +29,7 @@ private:
 
 public:
         Connection(std::multimap<std::string, int> hostPort, std::vector<server> servers);
-        int     createsocket(int port);
+        int     createsocket(int port, std::string host);
         // server getServer(std::vector servers);
         void    handelRequest(std::vector<server> servers);
         void    generate_respoonse(server &serv);

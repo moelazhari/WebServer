@@ -150,7 +150,7 @@ void    response::parseCgiOutput(std::string output){
 }
 
 bool  response::isCgi(std::string file){
-	std::cout << "-------file-----:" << file << std::endl;
+	// std::cout << "-------file-----:" << file << std::endl;
 	std::map<std::string, std::string> 	extensions = this->_location.getCgiPaths();
 	std::string							extension = "." + getExtension(file);
 	
