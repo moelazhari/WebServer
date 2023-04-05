@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 19:11:58 by mazhari           #+#    #+#             */
-/*   Updated: 2023/04/03 21:19:28 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/05 19:52:36 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	response::setCgiEnv(ParseRequest& req){
 	this->_env.push_back("SERVER_PORT= " + req.getPort());
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
-	this->_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getBody().size()));
+	this->_env.push_back("CONTENT_LENGTH=" + toStr(req.getBody().size()));
 	this->_env.push_back("QUERY_STRING=" + req.getQuery());
 	this->_env.push_back("REDIRECT_STATUS=200");
 	this->_env.push_back("DOCUMENT_ROOT=" + this->_location.getRoot());

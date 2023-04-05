@@ -6,7 +6,7 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 15:45:40 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/03 01:54:02 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/05 19:50:22 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ class response
 		std::map<std::string, std::string>	&getHeaderMap();
 		std::vector<std::string>			&getCookies();
 		std::string							getFilePath();
-		// bool								getUploadAlowed();
-		// std::string							getUploadPath();
 		
 		void								setStatus(int code);
 		void								setHeader(std::string key, std::string value);
@@ -54,8 +52,6 @@ class response
 		void								setLocation(location &location);
 		void								setLocationPath(std::string path);
 		void								setFilePath(std::string file);
-		// void								setUploadAlowed(bool value);
-		// void								setUploadPath(std::string path);
 
 		void								generateResponse(server& server, ParseRequest& request);
 		std::string							joinResponse();
@@ -66,7 +62,6 @@ class response
 		void								Get(server& server, ParseRequest& request);
 		void								Post(server& server, ParseRequest& request);
 		void								Delete(server& server, ParseRequest& request);
-		//TODO std::string send_error(int status);
 
 		//cgi
 		void		cgi(ParseRequest& request);
@@ -88,8 +83,6 @@ std::string	readFileContent(std::string path);
 bool		checkForElement(std::string method, std::vector<std::string> methods);
 void		autoIndex(std::string path, std::string link);
 bool		isSlash(std::string path);
-// bool		deleteAllFiles(std::string path);
 bool		deleteFile(std::string path);
 std::string	fixLink(std::string link);
-// std::string	getDateTime();
 std::string	toStr(int num);
