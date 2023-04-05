@@ -119,6 +119,8 @@ void getLocations(std::string &content, std::map <std::string, std::string> &loc
 			tmp = tmp.substr(tmp.find("location") + 8, tmp.length() - 1);
 		if (tmp[tmp.length() - 1] == '/')
 			tmp = tmp.substr(0, tmp.length() - 1);
+		if (tmp[0] != '/')
+			tmp = "/" + tmp;
 		// ckecking if there is }
 		locationE = content.find("}", pos);
 		if (locationE == std::string::npos)

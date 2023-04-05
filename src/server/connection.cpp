@@ -39,19 +39,18 @@ int Connection::createsocket(int port, std::string host)
 {
 
    int  serverSocket = socket(AF_INET, SOCK_STREAM, 0);
-    // int opt = 1;
+    int opt = 1;
     if (serverSocket == -1)
     {
         std::cerr << "Failed to create server socket" << std::endl;
         return -1;
     }
 
-    // if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
-    //     return -1;
+    if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
+        return -1;
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = inet_addr(host.c_str());
-    // serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(port);
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
     {
@@ -105,7 +104,6 @@ void Connection::start()
                     this->closeConnection(i);
                 }
             }
-            
         }
     }
 }

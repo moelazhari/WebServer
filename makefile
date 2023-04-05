@@ -15,7 +15,7 @@ GREEN=$'\x1b[32m
 PURPLE=$'\x1b[35m
 
 CC= c++
-FLAGS = -Wall -Werror -Wextra -fsanitize=address
+FLAGS = -Wall -Werror -Wextra
 NAME= webserver
 
 INCLUDES= ./includes
