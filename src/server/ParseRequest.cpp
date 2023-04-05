@@ -169,3 +169,8 @@ void ParseRequest::ClearBody()
 {
     this->body.clear();
 }
+
+std::string ParseRequest::getHttpVersion()
+{
+    return (this->httpVersion);
+}

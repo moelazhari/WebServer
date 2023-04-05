@@ -22,7 +22,7 @@ Connection::Connection(std::multimap<std::string, int> hostPort, std::vector<ser
     {
         int serverSocket = createsocket(it->second, it->first);
         if(serverSocket == -1)
-            continue;
+            continue ;
         else
         {
             serverSocketList.push_back(serverSocket);
@@ -45,14 +45,12 @@ int Connection::createsocket(int port, std::string host)
         std::cerr << "Failed to create server socket" << std::endl;
         return -1;
     }
-    // int flags = fcntl(serverSocket, F_GETFL, 0);
-    // fcntl(serverSocket, F_SETFL, flags | O_NONBLOCK);
+
     if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) < 0)
         return -1;
     memset(&serverAddr, 0, sizeof(serverAddr));
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = inet_addr(host.c_str());
-    // serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
     serverAddr.sin_port = htons(port);
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) < 0)
     {
@@ -60,7 +58,7 @@ int Connection::createsocket(int port, std::string host)
         return -1;
     }
 
-    if (listen(serverSocket, 10000) == -1)
+    if (listen(serverSocket, 1000000) == -1)
     {
         std::cerr << "Failed to listen for incoming connections" << std::endl;
         return -1;
@@ -71,8 +69,6 @@ void Connection::start()
 {
     while (true)
     {
-        std::cout << "Waiting for incoming connections : "<< std::endl;
-
         if ((poll(&fds[0], fds.size(), -1)) < 0)
         {
             std::cerr << "Failed to poll" << std::endl;
@@ -81,10 +77,7 @@ void Connection::start()
         for (size_t i = 0; i < fds.size(); i++)
         {
             if (fds[i].revents & POLLHUP)
-            {
-                // std::cout << "close connection\n";
                 this->closeConnection(i);
-            }
             else if (fds[i].revents & POLLIN)
             {
                 if (i < serverSocketList.size() && fds[i].fd == serverSocketList[i])
@@ -107,11 +100,10 @@ void Connection::start()
                     continue;
                 if (clients.find(fds[i].fd)->second.status == BODY_DONE)
                 {
-                    // std::cout << "close connection\n";
+                    std::cout << "close connection\n";
                     this->closeConnection(i);
                 }
             }
-            
         }
     }
 }

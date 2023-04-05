@@ -130,7 +130,6 @@ void Client::recvBody(std::string r)
 	this->_request.setBody(r);
 	if (this->bodytype == content_length)
 	{
-		std::cout << this->_request.getHeaders()["Content-Length"] << "==" << this->_request.getBody().size() << std::endl;
 		if (toInt(this->_request.getHeaders()["Content-Length"]) <= (int)(this->_request.getBody().size()))
 			this->status = READYTO_RES;
 	}
@@ -159,7 +158,7 @@ int Client::receiveRequest(std::vector<server> servers)
 	this->CheckReq(r, servers);
 	if (this->status == READYTO_RES)
 	{
-		this->_request.affiche();
+		// this->_request.affiche();
 		this->_response.generateResponse(this->_server, this->_request);
 		return (1);
 	}

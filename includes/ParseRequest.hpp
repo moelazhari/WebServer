@@ -16,6 +16,7 @@ public:
 	std::string							parseRequest(const std::string& request);
 	std::string                         getLink();
 	std::string                         getMethod();
+	std::string						 	getHttpVersion();
 	std::string                         getHeadr(std::string key);
 	std::map<std::string, std::string>  getHeaders();
 	std::string                         getPort();
