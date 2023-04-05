@@ -10,15 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_HPP
-# define UTILS_HPP
+#pragma once
 
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <vector>
-#include <map>
+#include "define.hpp"
 
 bool						isAllWhiteSpace(std::string &str);
 void						removeWhiteSpace(std::string &str);
@@ -27,8 +21,9 @@ void						PrintExit(std::string str);
 std::vector<std::string>	split(std::string str, std::string dlem);
 void                        replaceChar(std::string &str, char c1, char c2);
 int							toInt(std::string str);
+int 					   	hexToDec(std::string hex);
+std::string					toStr(int num);
 void						parsLine(std::string &str, std::string &key, std::string &value);
 void						removeHostPortDuplicates(std::multimap<std::string, int> &hostPort);
 std::string					getExtension(std::string str);
-
-#endif
+bool                        isHost(std::string str);

@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "response.hpp"
-#include <unistd.h>
-#include <errno.h>
-#include <fcntl.h>
-#include <string>
-#include <poll.h>
+#include "define.hpp"
 
 void    response::cgi(ParseRequest& req){
 	std::string 	output;
@@ -58,7 +53,7 @@ void    response::cgi(ParseRequest& req){
 
 		if (chdir(this->_location.getRoot().c_str()) < 0)
 			exit(1);
-		alarm(TIMEOUT);
+		alarm(CGI_TIMEOUT);
 		if (execve(cmd[0], cmd, env) == -1)
 			exit(1);
 	}
@@ -150,7 +145,6 @@ void    response::parseCgiOutput(std::string output){
 }
 
 bool  response::isCgi(std::string file){
-	// std::cout << "-------file-----:" << file << std::endl;
 	std::map<std::string, std::string> 	extensions = this->_location.getCgiPaths();
 	std::string							extension = "." + getExtension(file);
 	

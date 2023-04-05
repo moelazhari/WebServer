@@ -1,18 +1,6 @@
 #pragma once
 
-#include <cstring>
-#include <cstdlib>
-#include <cstdio>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <poll.h>
-#include "server.hpp"
-#include "ParseRequest.hpp"
-#include "response.hpp"
-#include "client.hpp"
+#include "define.hpp"
 
 
 class Connection

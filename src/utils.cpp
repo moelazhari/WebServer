@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.hpp"
+#include "define.hpp"
 
 bool	isAllNumber(std::string &str){
 	for (size_t i = 0; i < str.length(); i++){
@@ -73,6 +73,28 @@ int toInt(std::string str){
     return num;
 }
 
+int hexToDec(std::string hex)
+{
+	int decimal;
+	std::stringstream ss;
+	std::string hexa = "0123456789abcdef";
+	for (size_t i = 0; i < hex.size(); i++)
+	{
+		if (hexa.find(tolower(hex[i])) == std::string::npos)
+			return -1;
+	}
+	ss << hex;
+	ss >> std::hex >> decimal;
+	return decimal;
+}
+
+std::string toStr(int num)
+{
+	std::stringstream ss;
+	ss << num;
+	return ss.str();
+}
+
 void    parsLine(std::string &str, std::string &key, std::string &value){
     size_t      pos;
 
@@ -110,4 +132,16 @@ std::string getExtension(std::string str){
 	if (pos == std::string::npos)
 		return ("html");
 	return (str.substr(pos + 1, str.length() - 1));
+}
+
+bool isHost(std::string value)
+{
+	std::vector<std::string>    tmp = split(value, ".");
+	if (tmp.size() != 4)
+		return false;
+	for (size_t i = 0; i < tmp.size(); i++){
+		if (!isAllNumber(tmp[i]) || toInt(tmp[i]) > 255)
+			return false;
+	}
+	return true;
 }

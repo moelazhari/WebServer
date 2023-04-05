@@ -11,8 +11,7 @@
 /* ************************************************************************** */
 
 #pragma once
-
-#include "utils.hpp"
+#include "define.hpp"
 
 struct parsConfig{
     std::string                         content;

@@ -1,4 +1,4 @@
-#include "ParseRequest.hpp"
+#include "define.hpp"
 
 ParseRequest::ParseRequest() : method(""), path(""), httpVersion(""), body("")
 {

@@ -12,14 +12,7 @@
 
 #pragma once
 
-#include <iostream>
-#include <dirent.h>
-#include <unistd.h>
-#include "server.hpp"
-#include "ParseRequest.hpp"
-#include "utils.hpp"
-
-#define TIMEOUT 5
+#include "define.hpp"
 
 class response
 {

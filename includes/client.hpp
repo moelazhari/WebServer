@@ -1,11 +1,5 @@
 #pragma once
 
-#include "ParseRequest.hpp"
-#include "response.hpp"
-#include <poll.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <server.hpp>
 #include "define.hpp"
 
 class Client
@@ -28,7 +22,7 @@ public:
     int             sendResponse();
     std::string     readbuffer();
     std::string     generatHeader();
-    void            CheckReq(std::string r);
+    void            CheckReq(std::string r, std::vector<server> servers);
     void            checkHeader();
     void            recvBody(std::string r);
     void            parsechunked();
@@ -37,5 +31,3 @@ public:
     void            setServer(std::vector<server> servers);
     ~Client();
 };
-
-int hexToDec(std::string hex);

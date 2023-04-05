@@ -22,13 +22,13 @@ INCLUDES= ./includes
 
 B_DIR = ./build
 
-PARSING= $(addprefix parsing/, configFileParser utils)
+PARSING= $(addprefix parsing/, configFileParser)
 CGI= $(addprefix cgi/, cgi)
 RESPONSE= $(addprefix response/, response generateRes getMethode DeleteMethod postMethod respUtils ${CGI})
 SERVER= $(addprefix server/, server location Values connection ParseRequest client)
 
 
-FILES= $(addprefix src/, main $(PARSING) $(SERVER) $(RESPONSE))
+FILES= $(addprefix src/, main utils $(PARSING) $(SERVER) $(RESPONSE))
 OBJS= $(addprefix $(B_DIR)/, $(FILES:=.o))
 
 all: $(NAME)

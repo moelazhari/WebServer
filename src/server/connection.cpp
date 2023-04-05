@@ -1,5 +1,4 @@
-#include "connection.hpp"
-#include <fcntl.h>
+#include "define.hpp"
 
 int Connection::acceptConnection(int index)
 {
@@ -99,10 +98,7 @@ void Connection::start()
                 else 
                 {
                     if (clients.find(fds[i].fd)->second.receiveRequest(this->servers))
-                    {
                         fds[i].events = POLLOUT;
-                        std::cout << clients.size() << std::endl;
-                    }
                 }
             }
             else if (fds[i].revents & POLLOUT)

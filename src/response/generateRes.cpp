@@ -6,11 +6,11 @@
 /*   By: aboudoun <aboudoun@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 19:28:36 by aboudoun          #+#    #+#             */
-/*   Updated: 2023/04/02 01:05:25 by aboudoun         ###   ########.fr       */
+/*   Updated: 2023/04/04 03:56:31 by aboudoun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"response.hpp"
+#include "define.hpp"
 
 void	response::checkForLocation(server& serv, ParseRequest& request)
 {

@@ -1,4 +1,4 @@
-#include "client.hpp"
+#include "define.hpp"
 
 /*----------------------client-------------------------------*/
 Client::Client() : _req(""), status(NOTREADY)
@@ -25,12 +25,31 @@ void Client::setFdClient(struct pollfd fdClient)
 
 void  Client::setServer(std::vector<server> servers)
 {
-	// for (std::vector<server>::iterator it = servers.begin(); it != servers.end(); it++)
-	// {
-	// 	if ()
-	// }
-	(void)servers;
-	this->_request.affiche();
+	int port = toInt(this->_request.getPort());
+	std::string host = this->_request.getHost();
+	bool found = false;
+
+	for (std::vector<server>::iterator it = servers.begin(); it != servers.end(); it++)
+	{
+		std::vector<int> ports = it->getPorts();
+		if(std::find(ports.begin(), ports.end(), port) != ports.end() && !found)
+		{
+			this->_server = *it;
+			found = true;
+		}
+		if (std::find(ports.begin(), ports.end(), port) != ports.end() && isHost(host) && host == it->getHost())
+		{
+			this->_server = *it;
+				return ;
+		}
+		else if (std::find(ports.begin(), ports.end(), port) != ports.end() && host == it->getServerName())
+		{
+			this->_server = *it;
+			return ;
+		}
+	}
+	if (!found)
+		this->_server = servers[0];
 }
 
 /*----------------------req-------------------------------*/
@@ -72,7 +91,7 @@ void Client::parsechunked()
 	this->_request.setBody(output);
 }
 
-void Client::CheckReq(std::string r)
+void Client::CheckReq(std::string r, std::vector<server> servers)
 {
 	if (this->status != REQ_HEADR_DONE)
 	{
@@ -82,6 +101,7 @@ void Client::CheckReq(std::string r)
 		{
 			this->status = REQ_HEADR_DONE;
 			this->_request.parseRequest(this->_req).size();
+			setServer(servers);
 			this->bodytype = this->_request.CheckHeader(this->status);
 			if (bodytype != transfer_encoding && bodytype != content_length && bodytype != OTHER_STATUS)
 				this->defaultRes(bodytype);
@@ -98,7 +118,7 @@ void Client::CheckReq(std::string r)
 	{
 		if (this->_request.getBody().empty())
 			this->defaultRes(ERROR_405);
-		else if ((int)this->_request.getBody().size() > _server.getClientMaxBodySize())
+		else if (this->_request.getBody().size() > _server.getClientMaxBodySize())
 			this->defaultRes(ERROR_413);
 		else if (bodytype == ERROR_400)
 			this->defaultRes(ERROR_400);
@@ -136,10 +156,10 @@ int Client::receiveRequest(std::vector<server> servers)
 	std::string r;
 	for (int i = 0; i < numBytes; i++)
 		r.push_back(request[i]);
-	this->CheckReq(r);
+	this->CheckReq(r, servers);
 	if (this->status == READYTO_RES)
 	{
-		this->setServer(servers);
+		this->_request.affiche();
 		this->_response.generateResponse(this->_server, this->_request);
 		return (1);
 	}
@@ -204,19 +224,4 @@ std::string Client::readbuffer()
 	this->status = BODY_DONE;
 
 	return this->_body;
-}
-
-int hexToDec(std::string hex)
-{
-	int decimal;
-	std::stringstream ss;
-	std::string hexa = "0123456789abcdef";
-	for (size_t i = 0; i < hex.size(); i++)
-	{
-		if (hexa.find(tolower(hex[i])) == std::string::npos)
-			return -1;
-	}
-	ss << hex;
-	ss >> std::hex >> decimal;
-	return decimal;
 }

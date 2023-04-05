@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "response.hpp"
+#include "define.hpp"
 
 void	response::Get(server& serv, ParseRequest& request)
 {

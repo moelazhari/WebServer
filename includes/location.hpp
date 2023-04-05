@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOCATIONS_HPP
-# define LOCATIONS_HPP
+#pragma once
 
-#include "configFileParser.hpp"
-#include "Values.hpp"
+#include "define.hpp"
 
 class location : public Values
 {
@@ -30,13 +28,9 @@ class location : public Values
 
 		void    setValues(std::string &key, std::string &value);
 		
-		void setCgiPaths(std::string value);
-		void setReturn(std::string value);
+		void	setCgiPaths(std::string value);
+		void 	setReturn(std::string value);
 
 		std::map<std::string, std::string>	getCgiPaths();
 		std::pair<int, std::string>			getReturn();
-
-		void printValues();
 };
-
-#endif

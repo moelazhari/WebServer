@@ -1,11 +1,10 @@
 #!/usr/bin/python
 # Import modules for CGI handling
-import cgi
+import cgi, os
 # Create instance of FieldStorage
 form = cgi.FieldStorage()
-
-first_name = form.getvalue('first_name')
-last_name  = form.getvalue('last_name')
+# Get data from fields
+filename = form.getvalue('filename')
 
 print ("Content-type:text/html\r\n")
 print ("\r\n")
@@ -14,6 +13,13 @@ print ("<head>")
 print ("<title>Hello py cgi</title>")
 print ("</head>")
 print ("<body>")
-print ("<h1>Hello %s %s</h1>" % (first_name, last_name))
+if filename:
+    try:
+        os.remove(filename)
+        print ("<h1>File %s deleted.</h1>" % filename)
+    except:
+        print ("<h1>Sorry, file %s not found.</h1>" % filename)
+else:
+    print("<h1>No file specified.</h1>")
 print ("</body>")
 print ("</html>")

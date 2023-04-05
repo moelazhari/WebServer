@@ -10,18 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "configFileParser.hpp"
-#include "server.hpp"
-#include "connection.hpp"
+#include "define.hpp"
 
 int main (int ac, char **av)
 {
 	if (ac != 2)
-	{
-		////std::cout << "Error: Wrong number of arguments" << std::endl;
-		////std::cout << "Usage: ./configFileParser <config_file>" << std::endl;
-		return (1);
-	}
+		av[1] = (char *)CONFIG;
 	
 	std::vector<parsConfig>					config;
 	std::vector<server>						servers;
@@ -39,24 +33,5 @@ int main (int ac, char **av)
 	removeHostPortDuplicates(hostPort);
 	Connection connection(hostPort, servers);
 	
-
-	// connection.createsocket();
-	
-	//print hostPort
-	// std::multimap<std::string, int>::iterator it;
-	//  for (it = hostPort.begin(); it != hostPort.end(); it++){
-	// 	////std::cout << "      " << it->first << ":" << it->second << std::endl;
-	// }
-
-	// print Servers
-	// for (size_t i = 0; i < servers.size(); i++){
-	// 	////std::cout << "      Server " << i << ": " << std::endl;
-	// 	servers[i].printValues();
-	// }
-	// print meme types
-	// std::map<std::string, std::string>::iterator it;
-	// for (it = servers[0].getMemeTypes().begin(); it != servers[0].getMemeTypes().end(); it++){
-	// 	std::cout << "      " << it->first << " : " << it->second << std::endl;
-	// }
     return (0);
 }

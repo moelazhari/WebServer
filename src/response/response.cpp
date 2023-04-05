@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "response.hpp"
+#include "define.hpp"
 
 response::response()
 {

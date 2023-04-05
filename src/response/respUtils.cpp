@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "response.hpp"
+#include "define.hpp"
 
 bool	checkForElement(std::string method, std::vector<std::string> methods)
 {
@@ -192,13 +192,6 @@ std::string fixLink(std::string link)
 			newLink += "/";
 	}
 	return newLink;
-}
-
-std::string toStr(int num)
-{
-	std::stringstream ss;
-	ss << num;
-	return ss.str();
 }
 
 bool	response::isUploadRequest(ParseRequest& req)
