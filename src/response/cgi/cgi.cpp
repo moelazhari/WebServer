@@ -82,7 +82,6 @@ void    response::cgi(ParseRequest& req){
 
 	delete [] env;
 	delete [] cmd;
-	std::cout << "output:" << output << std::endl;
 	this->parseCgiOutput(output);
 }
 
@@ -92,9 +91,6 @@ void	response::setCgiEnv(ParseRequest& req){
 	this->_env.push_back("GATEWAY_INTERFACE=CGI/1.1");
 	this->_env.push_back("SERVER_PROTOCOL=HTTP/1.1");
 	this->_env.push_back("SERVER_PORT= " + req.getPort());
-	// if (req.getMethod() == "DELETE")
-	// 	this->_env.push_back("REQUEST_METHOD=POST");
-	// else
 	this->_env.push_back("REQUEST_METHOD=" + req.getMethod());
 	this->_env.push_back("CONTENT_TYPE=" + req.getHeadr("Content-Type"));
 	this->_env.push_back("CONTENT_LENGTH=" + std::to_string(req.getBody().size()));
@@ -154,7 +150,6 @@ void    response::parseCgiOutput(std::string output){
 }
 
 bool  response::isCgi(std::string file){
-	std::cout << "-------file-----:" << file << std::endl;
 	std::map<std::string, std::string> 	extensions = this->_location.getCgiPaths();
 	std::string							extension = "." + getExtension(file);
 	

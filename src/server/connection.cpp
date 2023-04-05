@@ -60,10 +60,7 @@ void Connection::start()
                 else if (clients.find(fds[i].fd) != clients.end())
                 {
                     if (clients.find(fds[i].fd)->second.receiveRequest(this->servers))
-                    {
                         fds[i].events = POLLOUT;
-                        std::cout << clients.size() << std::endl;
-                    }
                 }
             }
             else if (fds[i].revents & POLLOUT)
@@ -72,7 +69,7 @@ void Connection::start()
                     continue;
                 if (clients.find(fds[i].fd)->second.status == BODY_DONE)
                 {
-                    std::cout << "close connection\n";
+                    // std::cout << "close connection\n";
                     this->closeConnection(i);
                 }
             }
@@ -107,7 +104,7 @@ int Connection::createsocket(int port)
         exit(1);
     }
 
-    if (listen(serverSocket, 5) == -1)
+    if (listen(serverSocket, 10000) == -1)
     {
         std::cerr << "Failed to listen for incoming connections" << std::endl;
         exit(1);
