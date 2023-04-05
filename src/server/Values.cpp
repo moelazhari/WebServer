@@ -86,6 +86,8 @@ void Values::setPorts(std::string value){
 			PrintExit("Error config file: port :" + value + " must be a number");
 	if (toInt(value) > 65535 || toInt(value) < 0)
 			PrintExit("Error config file in key: port: " + value + " out of range");
+	if (std::find(this->_ports.begin(), this->_ports.end(), toInt(value)) != this->_ports.end())
+		PrintExit("Error config file: port: " + value + " is already set");
 	this->_ports.push_back(toInt(value));
 }
 
