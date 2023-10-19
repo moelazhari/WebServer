@@ -19,7 +19,7 @@ Developed and tested in this environment.
 To compile , run the lines below.
 
 ```shell
-$ git clone https://github.com/moelazhari/inception.git
+$ git clone https://github.com/moelazhari/WebServer.git
 $ cd inception
 $ make
 ```
